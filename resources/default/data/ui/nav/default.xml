@@ -1,4 +1,4 @@
 <nav color="#171d21">
-        <view name="visualizations"/>
         <view default="true" name="timelapse"/>
+        <view name="visualizations"/>
 </nav>

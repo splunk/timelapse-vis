@@ -4,3 +4,25 @@ export = system
 owner = nobody
 version = 8.1.1
 modtime = 1612148856.213208000
+
+
+[macros/timelapse_cap%281%29]
+access = read : [ * ], write : [ * ]
+export = system
+owner = nobody
+version = 8.1.1
+modtime = 1587097248.607249000
+
+[macros/timelapse_select%281%29]
+access = read : [ * ], write : [ * ]
+export = system
+owner = nobody
+version = 8.1.1
+modtime = 1587096726.164120000
+
+[macros/timelapse_null_after%281%29]
+access = read : [ * ], write : [ * ]
+export = system
+owner = nobody
+version = 8.1.1
+modtime = 1587097242.850670000
