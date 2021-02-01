@@ -20,7 +20,8 @@ const theme = {
 
 layout(
     <>
-<div>
+<div style={{height: 125}}>
+
 <TimelapseControls definition={definition} />
 </div>
 <div>
