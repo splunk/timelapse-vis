@@ -26,13 +26,13 @@
         "chart.js": "^2.8.0",
         "d3": "^5.12.0",
         "d3-array": "^2.11.0",
+        "fast-text-encoding": "^1.0.3",
         "react": "^16.9.0",
         "react-chartjs-2": "^2.8.0",
         "react-compound-slider": "^3.3.1",
         "react-d3-library": "^1.1.8",
         "react-dom": "^16.9.0",
         "react-dynamic-time-slider": "^1.0.1",
-        "react-rangeslider": "^2.2.0",
         "react-time-range-slider": "^1.1.2",
         "styled-components": "^4.3.2",
         "symbol-observable": "^3.0.0",
@@ -40,9 +40,11 @@
     },
     "devDependencies": {
         "@babel/core": "^7.6.0",
+        "@babel/plugin-proposal-class-properties": "^7.6.0",
         "@babel/preset-env": "^7.6.0",
         "@babel/preset-react": "^7.0.0",
         "babel-loader": "^8.0.6",
+        "babel-plugin-transform-class-properties": "^6.24.1",
         "cross-env": "^5.2.1",
         "eslint": "6.1.0",
         "eslint-config-airbnb": "18.0.1",
@@ -57,5 +59,31 @@
         "prettier": "^1.18.2",
         "webpack": "^4.39.3",
         "webpack-cli": "^3.3.8"
-    }
+    },
+    "timesliders": [
+        {
+            "dashboard_id": "timelapse2",
+            "start": "2021-01-01 00:00:00",
+            "end": "2021-01-30 00:00:00",
+            "style": "DaysBetween"
+        },
+        {
+            "dashboard_id": "timelapse2",
+            "start": "2020-11-01 00:00:00",
+            "end": "",
+            "style": "DaysSince"
+        },
+        {
+            "dashboard_id": "timelapse2",
+            "start": "2020-11-01 00:00:00",
+            "end": "2020-11-07 05:00:00",
+            "style": "HoursBetween"
+        },
+        {
+            "dashboard_id": "timelapse",
+            "start": "2021-01-20 00:00:00",
+            "end": "",
+            "style": "HoursSince"
+        }
+    ]
 }

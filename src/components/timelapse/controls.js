@@ -8,6 +8,67 @@ import Slider from './slider';
 import { globalTime, useTimeList, useCurrentTime, usePlaybackStatus, usePlaybackSpeed } from './timecontext';
 import { useState } from 'react';
 
+import packageJson from '../../../package.json';
+
+
+const dashboard_id = window.location.pathname.split("/").pop()
+
+const internals = []
+
+var start = new Date()
+var end = new Date()
+
+
+function getHoursBetween(start, end) {
+    var startDate = new Date(start)
+    var endDate = new Date(end)
+    for(var arr=[],dt=startDate; dt<=endDate; dt.setHours(dt.getHours()+1)){
+        arr.push(new Date(dt));
+    }
+    return arr;
+};
+
+function getDaysBetween(start, end) {
+    var startDate = new Date(start)
+    var endDate = new Date(end)
+    for(var arr=[],dt=startDate; dt<=endDate; dt.setDate(dt.getDate()+1)){
+        arr.push(new Date(dt));
+    }
+    return arr;    
+};
+
+
+function getHoursSince(start) {
+    var hourlist = getHoursBetween(new Date(start),new Date());
+    hourlist.map((v)=>v.toISOString().slice(0,10)).join("")
+    return hourlist;
+};
+
+
+function getDaysSince(start) {
+    
+    var daylist = getDaysBetween(new Date(start),new Date());
+    daylist.map((v)=>v.toISOString().slice(0,10)).join("")
+    return daylist;
+};
+
+for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; timelapse_index++)
+{
+    if (packageJson.timesliders[timelapse_index].dashboard_id === dashboard_id){
+        if (packageJson.timesliders[timelapse_index].style === "DaysBetween"){
+            var timesArray = getDaysBetween(packageJson.timesliders[timelapse_index].start, packageJson.timesliders[0].end)
+        }
+        if (packageJson.timesliders[timelapse_index].style === "DaysSince"){
+            var timesArray = getDaysSince(packageJson.timesliders[timelapse_index].start)
+        }
+        if (packageJson.timesliders[timelapse_index].style === "HoursBetween"){
+            var timesArray = getHoursBetween(packageJson.timesliders[timelapse_index].start,packageJson.timesliders[timelapse_index].end)
+        }
+	if (packageJson.timesliders[timelapse_index].style === "HoursSince"){
+            var timesArray = getHoursSince(packageJson.timesliders[timelapse_index].start)
+        }
+    }
+}
 const Wrapper = styled.div`
     position: fixed;
     tops: 0;
@@ -124,7 +185,7 @@ export default function TimelapseControls({ definition }) {
     useEffect(() => {
         let active = true;
         (async () => {
-            const data = ["2020-10-01T08:00:00.000", "2020-10-01T20:00:00.000", "2020-10-02T08:00:00.000", "2020-10-02T20:00:00.000", "2020-10-03T08:00:00.000", "2020-10-03T20:00:00.000", "2020-10-04T08:00:00.000", "2020-10-04T20:00:00.000", "2020-10-05T08:00:00.000", "2020-10-05T20:00:00.000", "2020-10-06T08:00:00.000", "2020-10-06T20:00:00.000", "2020-10-07T08:00:00.000", "2020-10-07T20:00:00.000", "2020-10-08T08:00:00.000", "2020-10-08T20:00:00.000", "2020-10-09T08:00:00.000", "2020-10-09T20:00:00.000", "2020-10-10T08:00:00.000", "2020-10-10T20:00:00.000", "2020-10-11T08:00:00.000", "2020-10-11T20:00:00.000", "2020-10-12T08:00:00.000", "2020-10-12T20:00:00.000", "2020-10-13T08:00:00.000", "2020-10-13T20:00:00.000", "2020-10-14T08:00:00.000", "2020-10-14T20:00:00.000", "2020-10-15T08:00:00.000", "2020-10-15T20:00:00.000", "2020-10-16T08:00:00.000", "2020-10-16T20:00:00.000", "2020-10-17T08:00:00.000", "2020-10-17T20:00:00.000", "2020-10-18T08:00:00.000", "2020-10-18T20:00:00.000", "2020-10-19T08:00:00.000", "2020-10-19T20:00:00.000", "2020-10-20T08:00:00.000", "2020-10-20T20:00:00.000", "2020-10-21T08:00:00.000", "2020-10-21T20:00:00.000", "2020-10-22T08:00:00.000", "2020-10-22T20:00:00.000", "2020-10-23T08:00:00.000", "2020-10-23T20:00:00.000", "2020-10-24T08:00:00.000", "2020-10-24T20:00:00.000", "2020-10-25T08:00:00.000", "2020-10-25T20:00:00.000", "2020-10-26T08:00:00.000", "2020-10-26T20:00:00.000", "2020-10-27T08:00:00.000", "2020-10-27T20:00:00.000", "2020-10-28T08:00:00.000", "2020-10-28T20:00:00.000", "2020-10-29T08:00:00.000", "2020-10-29T20:00:00.000", "2020-10-30T08:00:00.000", "2020-10-30T20:00:00.000", "2020-10-31T08:00:00.000", "2020-10-31T20:00:00.000", "2020-11-01T07:00:00.000", "2020-11-01T19:00:00.000", "2020-11-02T07:00:00.000", "2020-11-02T19:00:00.000", "2020-11-03T07:00:00.000"] 
+	    const data = timesArray
             if (active) {
                 const times = data
 

@@ -12,7 +12,7 @@
 		"ds_FtRF4MzI": {
 			"type": "ds.search",
 			"options": {
-				"query": "| makeresults count=100 | eval t=60\n| streamstats sum(t) as t\n| eval _time=_time-t"
+				"query": "| makeresults count=100 | eval t=60\n| streamstats sum(t) as t\n| eval _time=_time-t `null_after`"
 			},
 			"name": "Confirmed Cases"
 		}

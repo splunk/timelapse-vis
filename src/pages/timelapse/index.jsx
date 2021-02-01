@@ -5,9 +5,11 @@ import { themes as reactUIThemes } from '@splunk/react-ui/themes';
 import DashboardCore, { themes as dashboardCoreThemes } from '@splunk/dashboard-core';
 import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-presets/EnterprisePreset';
 import definition from './definition.json';
+const TimelapseDashboard = lazy(() => import('../../components/timelapse/index.js'));
 
 //Additions for timeslider
 import TimelapseControls from '../../components/timelapse/controls.js';
+import Loading from '../../components/loading';
 
 
 const themeKey = 'enterpriseDark';
@@ -22,7 +24,9 @@ layout(
     <>
 <div style={{height: 125}}>
 <TimelapseControls definition={definition} />
+                <Suspense fallback={<Loading />}>
 
+</Suspense>
 </div>
 <div>
 <ThemeProvider theme={theme}>

@@ -2,6 +2,12 @@ import DataSource from '@splunk/datasources/DataSource';
 import DataSet from '@splunk/datasource-utils/DataSet';
 import { globalTime } from './timecontext';
 
+import packageJson from '../../../package.json';
+
+
+const internals = []
+
+
 function capAt(fields, columns, timeColIdx, untilRow) {
     return DataSet.fromJSONCols(
         fields,
