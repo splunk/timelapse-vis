@@ -25,9 +25,14 @@ class App extends React.Component {
       <div className="container">
         <div className="info">
           <span>Selected Interval: </span>
-          {selectedInterval.map((d, i) => (
-            <span key={i}>{format(d, "dd MMM, HH:mm")}</span>
-          ))}
+          {selectedInterval.map((d, i) => {
+	  if (i == 0){
+		return <span id={i} key={i}>{format(d, "MM/dd/yyyy HH:mm")} through </span>
+	  }
+          if (i==1){
+	      return <span id={i} key={i}>{format(d, "MM/dd/yyyy HH:mm")}</span>
+	    }          
+	})}
         </div>
 
         <TimeRange
