@@ -6,14 +6,14 @@ Unofficial Timelapse Visualization app. Not Splunk supported.
 
 In order to generate a timeslider for your dashboard, you'll want to create a section in "timesliders" inside of package.json. Currently there are four timesliders supported:
 
-Time Sliders that are broken down by Hours between two dates
-Time Sliders that are broken down by Days between two dates
+* Time Sliders that are broken down by Hours between two dates
+* Time Sliders that are broken down by Days between two dates
 
-In order to create these, create a dashboard. Using the dashboard_id, define inside of package.json the type of slider you want. Examples are below:
+In order to create these, create a dashboard. Using the dashboard_id, define inside of package.json the type of slider you want. The example below would use a different timeslider for four different dashboards, with ids timelapse1, timelapse2, timelapse3, timelapse4. 
 ```
 "timesliders": [
         {
-            "dashboard_id": "timelapse2",
+            "dashboard_id": "timelapse1",
             "start": "2021-01-01 00:00:00",
             "end": "2021-01-30 00:00:00",
             "style": "DaysBetween"
@@ -25,13 +25,13 @@ In order to create these, create a dashboard. Using the dashboard_id, define ins
             "style": "DaysSince"
         },
         {
-            "dashboard_id": "timelapse2",
+            "dashboard_id": "timelapse3",
             "start": "2020-11-01 00:00:00",
             "end": "2020-11-07 05:00:00",
             "style": "HoursBetween"
         },
         {
-            "dashboard_id": "timelapse",
+            "dashboard_id": "timelapse4",
             "start": "2021-01-20 00:00:00",
             "end": "",
             "style": "HoursSince"
