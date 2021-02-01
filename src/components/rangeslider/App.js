@@ -1,15 +1,33 @@
 import React from "react";
 import { format } from "date-fns";
 import TimeRange from "react-timeline-range-slider";
-
-import {
-  selectedInterval,
-  disabledIntervals,
-  timelineInterval
-} from "./datesSource.js";
+import packageJson from '../../../package.json';
 
 
-class App extends React.Component {
+const dashboard_id = window.location.pathname.split("/").pop()
+
+var selectedInterval = []
+var disabledIntervals = []
+var timelineInterval = []
+
+for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; timelapse_index++)
+{
+    if (packageJson.timesliders[timelapse_index].dashboard_id === dashboard_id){
+    	selectedInterval = packageJson.timesliders[timelapse_index].selectedInterval
+
+        selectedInterval.forEach(function(part, index, theArray) {
+            theArray[index] = new Date(theArray[index]);
+        });
+        disabledIntervals = packageJson.timesliders[timelapse_index].disabledIntervals
+        
+        timelineInterval= packageJson.timesliders[timelapse_index].timelineInterval
+        timelineInterval.forEach(function(part, index, theArray) {
+            theArray[index] = new Date(theArray[index]);
+        }); 
+  }
+}
+
+class SplunkTimeRangeSlider extends React.Component {
   state = {
     error: false,
     selectedInterval
@@ -49,5 +67,5 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default SplunkTimeRangeSlider;
 
