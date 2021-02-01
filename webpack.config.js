@@ -27,6 +27,10 @@ module.exports = {
                 exclude: /node_modules/,
                 use: ['babel-loader'],
             },
+	    {
+		test: /\.css?$/,
+		use: ['css-loader'], // translates CSS into CommonJS
+          },
             {
                 test: /\.txt$/,
                 use: ['raw-loader'],
