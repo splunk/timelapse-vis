@@ -2,6 +2,43 @@
 
 Unofficial Timelapse Visualization app. Not Splunk supported. 
 
+## Using the app
+
+In order to generate a timeslider for your dashboard, you'll want to create a section in "timesliders" inside of package.json. Currently there are four timesliders supported:
+
+Time Sliders that are broken down by Hours between two dates
+Time Sliders that are broken down by Days between two dates
+
+In order to create these, create a dashboard. Using the dashboard_id, define inside of package.json the type of slider you want. Examples are below:
+```
+"timesliders": [
+        {
+            "dashboard_id": "timelapse2",
+            "start": "2021-01-01 00:00:00",
+            "end": "2021-01-30 00:00:00",
+            "style": "DaysBetween"
+        },
+        {
+            "dashboard_id": "timelapse2",
+            "start": "2020-11-01 00:00:00",
+            "end": "",
+            "style": "DaysSince"
+        },
+        {
+            "dashboard_id": "timelapse2",
+            "start": "2020-11-01 00:00:00",
+            "end": "2020-11-07 05:00:00",
+            "style": "HoursBetween"
+        },
+        {
+            "dashboard_id": "timelapse",
+            "start": "2021-01-20 00:00:00",
+            "end": "",
+            "style": "HoursSince"
+        }
+    ]
+```
+
 ## Prerequisite 
 * Install [nodejs](https://nodejs.org/en/) 10.x.
 * Install Splunk Enterprise locally and have $SPLUNK_HOME env variable setup.
