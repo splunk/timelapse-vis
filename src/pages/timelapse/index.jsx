@@ -7,7 +7,6 @@ import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-pres
 import definition from './definition.json';
 //Additions for timeslider
 import TimelapseControls from '../../components/timelapse/controls.js';
-
 import App from '../../components/rangeslider/App.js';
 
 const themeKey = 'enterpriseDark';
@@ -20,11 +19,14 @@ const theme = {
 
 layout(
     <>
-<div id="neatrange"><App /></div>
-<div style={{height: 125}}>
-
-<TimelapseControls definition={definition} />
+<div id="neatrange">
+	<App />
 </div>
+
+<div style={{height: 125}}>
+	<TimelapseControls definition={definition} />
+</div>
+
 <div>
 <ThemeProvider theme={theme}>
         <DashboardCore
