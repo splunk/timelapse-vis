@@ -33,7 +33,7 @@ class App extends React.Component {
         <TimeRange
           error={error}
           ticksNumber={36}
-          selectedInterval={selectedInterval}
+          selectedInterval={timelineInterval}
           timelineInterval={timelineInterval}
           onUpdateCallback={this.errorHandler}
           onChangeCallback={this.onChangeCallback}

@@ -1,6 +1,9 @@
 import { set } from "date-fns";
 
 const now = new Date();
+const startDate = new Date("2021-01-01 00:00:00")
+
+
 
 const getTodayAtSpecificHour = (hour = 12) =>
   set(now, { hours: hour, minutes: 0, seconds: 0, milliseconds: 0 });
@@ -11,13 +14,11 @@ export const selectedInterval = [
 ];
 
 export const timelineInterval = [
-  getTodayAtSpecificHour(7),
-  getTodayAtSpecificHour(24)
+   startDate,
+   now
+
 ];
 
 export const disabledIntervals = [
-  { start: getTodayAtSpecificHour(16), end: getTodayAtSpecificHour(17) },
-  { start: getTodayAtSpecificHour(7), end: getTodayAtSpecificHour(12) },
-  { start: getTodayAtSpecificHour(20), end: getTodayAtSpecificHour(24) }
 ];
 
