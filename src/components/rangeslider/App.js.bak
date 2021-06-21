@@ -31,25 +31,12 @@ for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; 
         selectedInterval.forEach(function(part, index, theArray) {
             theArray[index] = new Date(theArray[index]);
         });
-        //disabledIntervals = packageJson.timesliders[timelapse_index].disabledIntervals
+        disabledIntervals = packageJson.timesliders[timelapse_index].disabledIntervals
         
-        //timelineInterval= packageJson.timesliders[timelapse_index].timelineInterval
-        
-	disabledIntervals = []
-        var today = new Date();
-        //var todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        //var todayTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //var todayDateTime = todayDate+' '+todayTime;
-
-        var thirtyDaysAgo = today - 1000 * 60 * 60 * 24 * 30;
-        //var thirtyDaysAgoDate = thirtyDaysAgo.getFullYear()+'-'+(thirtyDaysAgo.getMonth()+1)+'-'+thirtyDaysAgo.getDate();
-        //var thirtyDaysAgoTime = thirtyDaysAgo.getHours() + ":" + thirtyDaysAgo.getMinutes() + ":" + thirtyDaysAgo.getSeconds();
-        //var thirtyDaysAgoDateTime = thirtyDaysAgoDate+' '+thirtyDaysAgoTime
-        timelineInterval=[thirtyDaysAgo, today]
-        selectedInterval = timelineInterval	
-        //timelineInterval.forEach(function(part, index, theArray) {
-        //    theArray[index] = new Date(theArray[index]);
-        // }); 
+        timelineInterval= packageJson.timesliders[timelapse_index].timelineInterval
+        timelineInterval.forEach(function(part, index, theArray) {
+            theArray[index] = new Date(theArray[index]);
+        }); 
   }
 }
 
@@ -59,43 +46,20 @@ class SplunkTimeRangeSlider extends React.Component {
     selectedInterval,
     def: this.props.dash.props.definition
   };
-  
-  dash = <DashboardCore
-            width="100%"
-            height="calc(100vh - 78px)"
-            definition={this.state.def}
-            preset={EnterprisePreset} />
-
-  start_range = 0 
-  end_range =  Math.round(Date.now() / 1000)
   errorHandler = ({ error }) => this.setState({ error });
   onChangeCallback = (selectedInterval) => {
-
- selectedInterval.map((d, i) => {
-          if (i == 0){
-          this.start_range = d.getTime() / 1000;
-          }
-          if (i==1){
-            
-	  this.end_range = d.getTime() / 1000;
-}
-        })
-   
-console.log(this.start_range)
-console.log(this.end_range)
 
 this.setState({ selectedInterval })
 for(var v in this.state.def.dataSources)
 {
-this.state.def.dataSources[v].options.query = "| makeresults count=100 | eval t=86400 | streamstats sum(t) as t | eval _time=_time-t | eval time=_time | where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString()+" | fields - time"
+this.state.def.dataSources[v].options.query = "| makeresults count=10 | eval t=86400 | streamstats sum(t) as t | eval t = (random() % 100000) + 1"
 }
 
 this.setState({
         def: this.state.def
+
 }
 )
-console.log(this.dash)
-//this.dash.updateDefinition(this.state.def)
 };
 
   render() {
@@ -123,14 +87,23 @@ console.log(this.dash)
           onChangeCallback={this.onChangeCallback}
           disabledIntervals={disabledIntervals}
         />
+<p>
+{JSON.stringify(this.state.def.dataSources)}
+</p>
+</div>
 
 <div>
 <ThemeProvider theme={theme}>
 
-{this.dash}
+<DashboardCore
+            width="100%"
+            height="calc(100vh - 78px)"
+            definition={this.state.def}
+            preset={EnterprisePreset}
+        />
+
 
 </ThemeProvider>
-</div>
 </div>
     );
   }

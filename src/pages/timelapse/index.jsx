@@ -17,27 +17,23 @@ const theme = {
 };
 // use DashboardCore to render a simple dashboard
 
-layout(
-    <>
-<div id="neatrange">
-	<SplunkTimeRangeSlider />
-</div>
 
-<div style={{height: 125}}>
-	<TimelapseControls definition={definition} />
-</div>
-
-<div>
-<ThemeProvider theme={theme}>
-        <DashboardCore
+var dash = <DashboardCore
             width="100%"
             height="calc(100vh - 78px)"
             definition={definition}
             preset={EnterprisePreset}
         />
-    </ThemeProvider>
-</div>
 
+
+layout(
+    <>
+<div id="neatrange">
+	<SplunkTimeRangeSlider dash={dash} />
+</div>
+<div style={{height: 125}}>
+	<TimelapseControls definition={definition} />
+</div>
 </>,
     {
         pageTitle: 'Timelapse',

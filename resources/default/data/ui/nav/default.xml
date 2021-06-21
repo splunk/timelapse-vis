@@ -1,4 +1,5 @@
 <nav color="#171d21">
         <view default="true" name="timelapse"/>
-        <view name="visualizations"/>
+        <view name="heatmap" />
+	<view name="visualizations"/>
 </nav>
