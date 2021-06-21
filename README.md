@@ -10,7 +10,7 @@ Unofficial Timelapse Visualization app. Not Splunk supported.
 ## Development
 * `npm install` - install dependencies.
 * `npm run dev` - start the project in dev mode. This command will symlink the project into your Splunk instance. 
-* Restart your Splunk instance if it's the first time you setup this project. `Dashboard Examples .Conf 2019` application should shows up in app bar.
+* Restart your Splunk instance if it's the first time you setup this project. `Timelapse Visualization` application should shows up in app bar.
 
 
 ## How to create a new page
