@@ -6,7 +6,6 @@ import { ThemeProvider } from 'styled-components';
 import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-presets/EnterprisePreset';
 import DashboardCore, { themes as dashboardCoreThemes } from '@splunk/dashboard-core';
 import { themes as reactUIThemes } from '@splunk/react-ui/themes';
-import definition from '../../pages/timelapse/definition.json';
 
 
 const dashboard_id = window.location.pathname.split("/").pop()
@@ -31,25 +30,15 @@ for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; 
         selectedInterval.forEach(function(part, index, theArray) {
             theArray[index] = new Date(theArray[index]);
         });
-        //disabledIntervals = packageJson.timesliders[timelapse_index].disabledIntervals
-        
-        //timelineInterval= packageJson.timesliders[timelapse_index].timelineInterval
         
 	disabledIntervals = []
         var today = new Date();
-        //var todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        //var todayTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //var todayDateTime = todayDate+' '+todayTime;
 
         var thirtyDaysAgo = today - 1000 * 60 * 60 * 24 * 30;
-        //var thirtyDaysAgoDate = thirtyDaysAgo.getFullYear()+'-'+(thirtyDaysAgo.getMonth()+1)+'-'+thirtyDaysAgo.getDate();
-        //var thirtyDaysAgoTime = thirtyDaysAgo.getHours() + ":" + thirtyDaysAgo.getMinutes() + ":" + thirtyDaysAgo.getSeconds();
-        //var thirtyDaysAgoDateTime = thirtyDaysAgoDate+' '+thirtyDaysAgoTime
+        console.log(today)
+	console.log(thirtyDaysAgo)
         timelineInterval=[thirtyDaysAgo, today]
         selectedInterval = timelineInterval	
-        //timelineInterval.forEach(function(part, index, theArray) {
-        //    theArray[index] = new Date(theArray[index]);
-        // }); 
   }
 }
 
@@ -94,7 +83,6 @@ this.setState({
         def: this.state.def
 }
 )
-console.log(this.dash)
 //this.dash.updateDefinition(this.state.def)
 };
 
