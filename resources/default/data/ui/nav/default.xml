@@ -1,5 +1,3 @@
 <nav color="#171d21">
-        <view default="true" name="timelapse"/>
-        <view name="heatmap" />
-	<view name="visualizations"/>
+        <view default="true" name="rangeslider"/>
 </nav>
