@@ -20,7 +20,7 @@ owner = nobody
 version = 8.1.1
 modtime = 1587096726.164120000
 
-[macros/timelapse_null_after%281%29]
+[macros]
 access = read : [ * ], write : [ * ]
 export = system
 owner = nobody

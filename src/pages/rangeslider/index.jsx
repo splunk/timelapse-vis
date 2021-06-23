@@ -6,7 +6,6 @@ import DashboardCore, { themes as dashboardCoreThemes } from '@splunk/dashboard-
 import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-presets/EnterprisePreset';
 import definition from './definition.json';
 //Additions for timeslider
-//import TimelapseControls from '../../components/timelapse/controls.js';
 import SplunkTimeRangeSlider from '../../components/rangeslider/App.js';
 
 const themeKey = 'enterpriseDark';

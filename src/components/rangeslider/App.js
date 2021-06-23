@@ -58,12 +58,12 @@ class SplunkTimeRangeSlider extends React.Component {
   };
   
   //Create DashboardCore using the passed definition
-  dash = <DashboardCore
-            width="100%"
-            height="calc(100vh - 78px)"
-            definition={this.state.def}
-            onDefinitionChange={console.log("Changed!")}
-            preset={EnterprisePreset} />
+  //dash = <DashboardCore
+  //          width="100%"
+  //          height="calc(100vh - 78px)"
+  //          definition={this.state.def}
+  //          onDefinitionChange={console.log("Changed!")}
+  //          preset={EnterprisePreset} />
 
   //Create start_range as 0
   start_range = 0 
@@ -74,7 +74,7 @@ class SplunkTimeRangeSlider extends React.Component {
   errorHandler = ({ error }) => this.setState({ error });
   
   //Function for handling range slider changes
-  onChangeCallback = (selectedInterval) => {
+  onChangeCallback = async (selectedInterval) => {
 
 
   //Update the selectedInterval variable with the new start and end times
@@ -92,18 +92,25 @@ class SplunkTimeRangeSlider extends React.Component {
   this.setState({ selectedInterval })
 
   //For each dataSource in the dashboard, append a where clause to limit the start/end time
-  var definition_new = this.state.def
+  var definition_new = JSON.parse(JSON.stringify(this.state.def))
+  var definition_old = this.state.def
   for(var v in definition_new.dataSources)
   {
 
   //Need to update this later, currently just replacing the entire search with a new range based on the rangeslider selected start and end
-  definition_new.dataSources[v].options.query = "| makeresults count=100 | eval t=86400 | streamstats sum(t) as t | eval _time=_time-t | eval time=_time | where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString()+" | fields - time"
+  //definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString()+" | fields - time"
+   definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query.substring(0, definition_new.dataSources[v].options.query.indexOf('| noop')) + "| noop" + "| eval time=_time | where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString()+" | fields - time"
+
   }
 
   //Set the state with the new definition
-  this.setState({def: definition_new}, function() {
-  console.log("Updated")
-  });
+  //this.setState({def: definition_new}, function() {
+  //console.log("Updated")
+  //});
+
+  await this.setState((definition_old, props) => ({
+  def: definition_new
+  }));
 
   //this.DashboardCoreApi.updateDefinition(this.state.def)
   console.log(this.dash);
@@ -138,7 +145,13 @@ class SplunkTimeRangeSlider extends React.Component {
         <div>
           <ThemeProvider theme={theme}>
           <DashboardContextProvider geoRegistry={geoRegistry}>
-          {this.dash}
+            <DashboardCore
+            width="100%"
+            height="calc(100vh - 78px)"
+            definition={this.state.def}
+            onDefinitionChange={console.log("Changed!")}
+            preset={EnterprisePreset} />
+
           </DashboardContextProvider>
 
           </ThemeProvider>
