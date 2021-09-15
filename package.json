@@ -14,15 +14,19 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.6.0",
-        "@splunk/dashboard-context": "^8.0.3",
-        "@splunk/dashboard-core": "^8.0.3",
-        "@splunk/dashboard-presets": "^8.0.3",
-        "@splunk/dashboard-visualizations": "^9.2.1",
-        "@splunk/datasource-utils": "^8.0.3",
-        "@splunk/datasources": "^8.0.3",
-        "@splunk/react-page": "^2.1.1",
-        "@splunk/react-ui": "^2.13.1",
+        "@splunk/dashboard-context": "^23.1.0",
+        "@splunk/dashboard": "^23.1.0",
+        "@splunk/dashboard-core": "^23.1.0",
+        "@splunk/dashboard-presets": "^23.1.0",
+        "@splunk/dashboard-visualizations": "^23.3.0",
+        "@splunk/dashboard-ui": "^23.1.0",
+        "@splunk/dashboard-layouts": "^23.1.0",
+        "@splunk/datasource-utils": "^23.1.0",
+        "@splunk/datasources": "^23.1.0",
+        "@splunk/react-page": "^5.1.0",
+        "@splunk/react-ui": "^4.3.0",
         "@splunk/splunk-utils": "^1.2.2",
+        "@splunk/themes": "^0.8.0",
         "apexcharts": "^3.24.0",
         "chart.js": "^2.8.0",
         "css-loader": "^5.0.1",
@@ -83,7 +87,7 @@
                 "2021-01-30 00:00:00"
             ]
         },
- {
+        {
             "dashboard_id": "timelapse",
             "type": "timelapse",
             "start": "2021-01-20 00:00:00",
@@ -99,6 +103,5 @@
                 "2021-01-30 00:00:00"
             ]
         }
-
     ]
 }
