@@ -1,10 +1,10 @@
 {
 	"visualizations": {
 		"viz_I5bQgzIU": {
-			"type": "viz.area",
+			"type": "splunk.area",
 			"options": {
-				"legend.placement": "none",
-				"chart.showDataLabels": "all"
+				"legendDisplay": "off",
+				"dataValuesDisplay": "all"
 			},
 			"dataSources": {
 				"primary": "ds_xoP2l2iL"
@@ -12,13 +12,13 @@
 			"title": "Widgets Made Area"
 		},
 		"viz_PLtU8qzG": {
-			"type": "viz.column",
+			"type": "splunk.column",
 			"dataSources": {
 				"primary": "ds_mo0IT5jO_ds_xoP2l2iL"
 			},
 			"title": "Widgets Made Column",
 			"options": {
-				"chart.showDataLabels": "all"
+				"dataValuesDisplay": "all"
 			}
 		},
 		"viz_7PynnFix": {
