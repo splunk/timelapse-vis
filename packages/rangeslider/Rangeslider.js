@@ -88,9 +88,9 @@ module.exports =
 /******/ ({
 
 /***/ "../../package.json":
-/*!**************************************************************************************!*\
-  !*** /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/package.json ***!
-  \**************************************************************************************/
+/*!****************************************************************************!*\
+  !*** /Users/roconnor/Downloads/splunk/etc/apps/timelapse-vis/package.json ***!
+  \****************************************************************************/
 /*! exports provided: name, license, private, scripts, devDependencies, workspaces, engines, timesliders, default */
 /***/ (function(module) {
 
