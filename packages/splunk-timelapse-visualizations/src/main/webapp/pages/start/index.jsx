@@ -13,7 +13,7 @@ const themeProviderSettings = getThemeOptions(defaultTheme() || 'enterprise');
 layout(
     <SplunkThemeProvider {...themeProviderSettings}>
         <StyledContainer>
-            <StyledGreeting>Welcone to the Rangeslider and Timelapse Visualizations. </StyledGreeting>
+            <StyledGreeting>Welcome to the Rangeslider and Timelapse Visualizations. </StyledGreeting>
             <div>Below you'll find a list of all Dashboard Studio Dashboards. Next To Do: Add ability to load this dashboard JSON dynamically with a timepicker </div>
             <ListDashboards />
         </StyledContainer>
