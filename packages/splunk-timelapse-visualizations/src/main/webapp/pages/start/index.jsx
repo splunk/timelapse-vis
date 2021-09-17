@@ -14,7 +14,7 @@ layout(
     <SplunkThemeProvider {...themeProviderSettings}>
         <StyledContainer>
             <StyledGreeting>Welcone to the Rangeslider and Timelapse Visualizations. </StyledGreeting>
-            <div>To Do: Add dashboard selector here. </div>
+            <div>Below you'll find a list of all Dashboard Studio Dashboards. Next To Do: Add ability to load this dashboard JSON dynamically with a timepicker </div>
             <ListDashboards />
         </StyledContainer>
     </SplunkThemeProvider>
