@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<view template="splunk-timelapse-visualizations:/templates/timelapse.html" type="html">
+    <label>Timelapse</label>
+</view>

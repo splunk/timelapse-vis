@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<view template="splunk-timelapse-visualizations:/templates/rangeslider.html" type="html">
+    <label>Rangeslider</label>
+</view>

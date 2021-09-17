@@ -1,0 +1,5 @@
+<nav>
+    <view name="start" default="true"/>
+            <view name="rangeslider"/>
+        <view name="timelapse"/>
+</nav>
