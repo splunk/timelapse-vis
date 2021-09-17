@@ -1,7 +1,7 @@
 {
 	"visualizations": {
 		"viz_TUg2KOpr": {
-			"type": "viz.line",
+			"type": "splunk.line",
 			"options": {},
 			"dataSources": {
 				"primary": "ds_FtRF4MzI"
