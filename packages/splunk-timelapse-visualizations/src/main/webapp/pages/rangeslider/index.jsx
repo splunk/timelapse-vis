@@ -8,6 +8,7 @@ import definition from './definition.json';
 import SplunkTimeRangeSliderInput from '@splunk/rangesliderinput';
 
 
+
 var dash = <DashboardCore
     width="100%"
     height="calc(100vh - 78px)"
@@ -18,7 +19,7 @@ var dash = <DashboardCore
 layout(
     <>
         <div id="neatrange">
-            <SplunkTimeRangeSliderInput  dash={dash} />
+            <SplunkTimeRangeSliderInput  dash={dash}  />
         </div>
     </>,
     {

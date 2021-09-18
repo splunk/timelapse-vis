@@ -7,6 +7,7 @@ import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
 import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
 import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
+import XMLParser from 'react-xml-parser';
 
 
 //Get the current dashboard ID
@@ -22,6 +23,7 @@ const geoRegistry = GeoRegistry.create();
 geoRegistry.addDefaultProvider(new GeoJsonProvider());
 
 
+
 //Look through packageJson to find if there is a matching dashboard_id that needs a rangeslider
 for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; timelapse_index++) {
   if (packageJson.timesliders[timelapse_index].dashboard_id === dashboard_id) {
@@ -35,6 +37,31 @@ for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; 
 
 //SplunkTimeRangeSlider Class
 class SplunkTimeRangeSliderInput extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.fetchDefinition();
+  }
+
+  fetchDefinition() {
+    var search = window.location.search
+    const params = new URLSearchParams(search);
+    const dashboardid = params.get('dashboardid');
+
+    fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
+        const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
+        console.log(def)
+        this.setState({ def });
+
+      }
+      )
+      .catch(e => {
+        console.error('Error during definition retrieval/parsing', e);
+      });
+  }
 
   //Initialize State
   state = {
@@ -139,9 +166,9 @@ class SplunkTimeRangeSliderInput extends React.Component {
               height="calc(100vh - 78px)"
               definition={this.state.def}
               onDefinitionChange={console.log("Changed!")}
-              preset={EnterprisePreset} 
+              preset={EnterprisePreset}
               initialMode="view"
-              />
+            />
           </DashboardContextProvider>
 
 

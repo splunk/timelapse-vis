@@ -14,14 +14,14 @@ export default class ListDashboards extends Component {
         this.setState({ indexes });
     };
 
-    
+
 
     fetchIndexes() {
 
         const qs = obj =>
-    Object.entries(obj)
-        .map(([name, value]) => `${encodeURIComponent(name)}=${encodeURIComponent(value)}`)
-        .join('&');
+            Object.entries(obj)
+                .map(([name, value]) => `${encodeURIComponent(name)}=${encodeURIComponent(value)}`)
+                .join('&');
 
         fetch(`/splunkd/services/data/ui/views?${qs({
             output_mode: 'json',
@@ -50,26 +50,16 @@ export default class ListDashboards extends Component {
 
         for (let item of indexes) {
             const row = (
-              <tr key={item.id}>
-                <td key={1}>{item.id}</td>
-                <td key={2}>{item.title}</td>
-              </tr>
+                <option value={item.title}>{item.title}</option>
             );
             itemRows.push(row);
-          }
+        }
         console.log(indexes)
         return (
-            <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Dashboard ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {itemRows}
-            </tbody>
-          </table>
+            <select onChange={this.props.changehandler} id="dashboardid">
+
+                {itemRows}
+                </select>
         );
     }
 }

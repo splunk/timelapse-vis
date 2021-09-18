@@ -125,6 +125,8 @@ var _package_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpac
 /* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @splunk/dashboard-context/GeoJsonProvider */ "@splunk/dashboard-context/GeoJsonProvider");
 /* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_xml_parser__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-xml-parser */ "react-xml-parser");
+/* harmony import */ var react_xml_parser__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_xml_parser__WEBPACK_IMPORTED_MODULE_9__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -161,6 +163,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
  //Get the current dashboard ID
 
 var dashboard_id = window.location.pathname.split("/").pop(); //Initialize Variables as empty
@@ -188,16 +191,12 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(SplunkTimeRangeSliderInput);
 
-  function SplunkTimeRangeSliderInput() {
+  function SplunkTimeRangeSliderInput(props) {
     var _this;
 
     _classCallCheck(this, SplunkTimeRangeSliderInput);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _super.call.apply(_super, [this].concat(args));
+    _this = _super.call(this, props);
 
     _defineProperty(_assertThisInitialized(_this), "state", {
       error: false,
@@ -276,10 +275,37 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
       };
     }());
 
+    _this.fetchDefinition();
+
     return _this;
   }
 
   _createClass(SplunkTimeRangeSliderInput, [{
+    key: "fetchDefinition",
+    value: function fetchDefinition() {
+      var _this2 = this;
+
+      var search = window.location.search;
+      var params = new URLSearchParams(search);
+      var dashboardid = params.get('dashboardid');
+      fetch("/splunkd/services/data/ui/views/".concat(dashboardid, "?output_mode=json"), {
+        credentials: 'include'
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
+        var def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
+        console.log(def);
+
+        _this2.setState({
+          def: def
+        });
+      })["catch"](function (e) {
+        console.error('Error during definition retrieval/parsing', e);
+      });
+    } //Initialize State
+
+  }, {
     key: "render",
     value: function render() {
       var styles = {
@@ -421,6 +447,17 @@ module.exports = require("react");
 /***/ (function(module, exports) {
 
 module.exports = require("react-timeline-range-slider");
+
+/***/ }),
+
+/***/ "react-xml-parser":
+/*!***********************************!*\
+  !*** external "react-xml-parser" ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("react-xml-parser");
 
 /***/ })
 
