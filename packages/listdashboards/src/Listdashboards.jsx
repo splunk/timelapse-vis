@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Select from '@splunk/react-ui/Select';
 
 export default class ListDashboards extends Component {
     constructor(props) {
@@ -50,16 +51,16 @@ export default class ListDashboards extends Component {
 
         for (let item of indexes) {
             const row = (
-                <option value={item.title}>{item.title}</option>
+                <Select.Option value={item.title} label={item.title} />
             );
             itemRows.push(row);
         }
         console.log(indexes)
         return (
-            <select onChange={this.props.changehandler} id="dashboardid">
+            <Select onChange={this.props.changehandler} id="dashboardid">
 
                 {itemRows}
-                </select>
+                </Select>
         );
     }
 }

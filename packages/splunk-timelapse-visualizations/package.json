@@ -14,7 +14,10 @@
     "stylelint": "stylelint \"src/**/*.{js,jsx}\" --config stylelint.config.js"
   },
   "dependencies": {
+    "css-loader": "5.2.7",
+    "react-datetime": "^3.1.1",
     "react-xml-parser": "^1.1.8",
+    "style-loader": "2.0.0",
     "xmldoc": "^1.1.2"
   },
   "devDependencies": {
