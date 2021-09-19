@@ -87,17 +87,6 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ "../../package.json":
-/*!****************************************************************************!*\
-  !*** /Users/roconnor/Downloads/splunk/etc/apps/timelapse-vis/package.json ***!
-  \****************************************************************************/
-/*! exports provided: name, license, private, scripts, devDependencies, workspaces, engines, timesliders, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"name\":\"@splunk/timelapsevis\",\"license\":\"UNLICENSED\",\"private\":true,\"scripts\":{\"build\":\"lerna run build\",\"format\":\"git ls-files | grep -E \\\"\\\\.(jsx?|css)$\\\" | xargs prettier --write\",\"format:verify\":\"git ls-files | grep -E \\\"\\\\.(jsx?|css)$\\\" | xargs prettier --list-different\",\"lint\":\"lerna run lint --no-sort\",\"setup\":\"yarn && lerna run build\",\"start\":\"lerna run start --stream --no-sort --concurrency 100\",\"test\":\"lerna run test --stream --no-sort\"},\"devDependencies\":{\"lerna\":\"^2.9.0\",\"prettier\":\"^2.0.5\"},\"workspaces\":[\"packages/*\"],\"engines\":{\"node\":\">=8\"},\"timesliders\":[{\"dashboard_id\":\"rangeslider\",\"type\":\"rangeslider\",\"start\":\"2021-01-20 00:00:00\",\"end\":\"\",\"style\":\"HoursSince\",\"selectedInterval\":[\"2021-01-01 00:00:00\",\"2021-01-30 00:00:00\"],\"disabledIntervals\":[],\"timelineInterval\":[\"2021-01-01 00:00:00\",\"2021-01-30 00:00:00\"]},{\"dashboard_id\":\"timelapse\",\"type\":\"timelapse\",\"start\":\"2021-01-20 00:00:00\",\"end\":\"\",\"style\":\"HoursSince\",\"selectedInterval\":[\"2021-01-01 00:00:00\",\"2021-01-30 00:00:00\"],\"disabledIntervals\":[],\"timelineInterval\":[\"2021-01-01 00:00:00\",\"2021-01-30 00:00:00\"]}]}");
-
-/***/ }),
-
 /***/ "./src/Rangeslider.jsx":
 /*!*****************************!*\
   !*** ./src/Rangeslider.jsx ***!
@@ -113,20 +102,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(date_fns__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-timeline-range-slider */ "react-timeline-range-slider");
 /* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../package.json */ "../../package.json");
-var _package_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../../package.json */ "../../package.json", 1);
-/* harmony import */ var _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @splunk/dashboard-presets/EnterprisePreset */ "@splunk/dashboard-presets/EnterprisePreset");
-/* harmony import */ var _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @splunk/dashboard-core */ "@splunk/dashboard-core");
-/* harmony import */ var _splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @splunk/dashboard-context */ "@splunk/dashboard-context");
-/* harmony import */ var _splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @splunk/dashboard-context/GeoRegistry */ "@splunk/dashboard-context/GeoRegistry");
-/* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @splunk/dashboard-context/GeoJsonProvider */ "@splunk/dashboard-context/GeoJsonProvider");
-/* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react_xml_parser__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-xml-parser */ "react-xml-parser");
-/* harmony import */ var react_xml_parser__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_xml_parser__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @splunk/dashboard-presets/EnterprisePreset */ "@splunk/dashboard-presets/EnterprisePreset");
+/* harmony import */ var _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @splunk/dashboard-core */ "@splunk/dashboard-core");
+/* harmony import */ var _splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @splunk/dashboard-context */ "@splunk/dashboard-context");
+/* harmony import */ var _splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @splunk/dashboard-context/GeoRegistry */ "@splunk/dashboard-context/GeoRegistry");
+/* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @splunk/dashboard-context/GeoJsonProvider */ "@splunk/dashboard-context/GeoJsonProvider");
+/* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -162,8 +147,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
-
  //Get the current dashboard ID
 
 var dashboard_id = window.location.pathname.split("/").pop(); //Initialize Variables as empty
@@ -172,19 +155,17 @@ var selectedInterval = [];
 var disabledIntervals = [];
 var timelineInterval = [];
 var def = {};
-var geoRegistry = _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_7___default.a.create();
-geoRegistry.addDefaultProvider(new _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_8___default.a()); //Look through packageJson to find if there is a matching dashboard_id that needs a rangeslider
-
-for (var timelapse_index = 0; timelapse_index < _package_json__WEBPACK_IMPORTED_MODULE_3__.timesliders.length; timelapse_index++) {
-  if (_package_json__WEBPACK_IMPORTED_MODULE_3__.timesliders[timelapse_index].dashboard_id === dashboard_id) {
-    //Setup the selectedInterval and timelineInterval as the last 30 days
-    var today = new Date();
-    var thirtyDaysAgo = today - 1000 * 60 * 60 * 24 * 30;
-    timelineInterval = [thirtyDaysAgo, today];
-    selectedInterval = timelineInterval;
-  }
-} //SplunkTimeRangeSlider Class
-
+var geoRegistry = _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_6___default.a.create();
+geoRegistry.addDefaultProvider(new _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7___default.a());
+var search = window.location.search;
+var params = new URLSearchParams(search);
+var rangeStart = params.get('rangeStart');
+var rangeEnd = params.get('rangeEnd');
+console.log(params);
+console.log(rangeStart);
+console.log(rangeEnd);
+timelineInterval = [Date.parse(rangeStart), Date.parse(rangeEnd)];
+selectedInterval = timelineInterval; //SplunkTimeRangeSlider Class
 
 var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
   _inherits(SplunkTimeRangeSliderInput, _React$Component);
@@ -259,10 +240,6 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                 });
 
               case 7:
-                //this.DashboardCoreApi.updateDefinition(this.state.def)
-                console.log(_this.dash);
-
-              case 8:
               case "end":
                 return _context.stop();
             }
@@ -295,7 +272,6 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
       }).then(function (data) {
         var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
         var def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
-        console.log(def);
 
         _this2.setState({
           def: def
@@ -342,14 +318,14 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         onUpdateCallback: this.errorHandler,
         onChangeCallback: this.onChangeCallback,
         disabledIntervals: disabledIntervals
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_6__["DashboardContextProvider"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_5__["DashboardContextProvider"], {
         geoRegistry: geoRegistry
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_5___default.a, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_4___default.a, {
         width: "100%",
         height: "calc(100vh - 78px)",
         definition: this.state.def,
         onDefinitionChange: console.log("Changed!"),
-        preset: _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4___default.a,
+        preset: _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_3___default.a,
         initialMode: "view"
       }))));
     }
@@ -447,17 +423,6 @@ module.exports = require("react");
 /***/ (function(module, exports) {
 
 module.exports = require("react-timeline-range-slider");
-
-/***/ }),
-
-/***/ "react-xml-parser":
-/*!***********************************!*\
-  !*** external "react-xml-parser" ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("react-xml-parser");
 
 /***/ })
 

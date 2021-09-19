@@ -1,13 +1,11 @@
 import React from "react";
 import { format } from "date-fns";
 import TimeRange from "react-timeline-range-slider";
-import packageJson from '../../../package.json';
 import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
 import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
 import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
-import XMLParser from 'react-xml-parser';
 
 
 //Get the current dashboard ID
@@ -24,16 +22,17 @@ geoRegistry.addDefaultProvider(new GeoJsonProvider());
 
 
 
-//Look through packageJson to find if there is a matching dashboard_id that needs a rangeslider
-for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; timelapse_index++) {
-  if (packageJson.timesliders[timelapse_index].dashboard_id === dashboard_id) {
-    //Setup the selectedInterval and timelineInterval as the last 30 days
-    var today = new Date();
-    var thirtyDaysAgo = today - 1000 * 60 * 60 * 24 * 30;
-    timelineInterval = [thirtyDaysAgo, today]
-    selectedInterval = timelineInterval
-  }
-}
+var search = window.location.search
+const params = new URLSearchParams(search);
+const rangeStart = params.get('rangeStart');
+const rangeEnd = params.get('rangeEnd');
+
+console.log(params)
+console.log(rangeStart)
+console.log(rangeEnd)
+
+timelineInterval = [Date.parse(rangeStart), Date.parse(rangeEnd)]
+selectedInterval = timelineInterval
 
 //SplunkTimeRangeSlider Class
 class SplunkTimeRangeSliderInput extends React.Component {
@@ -53,7 +52,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
       .then(data => {
         var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
         const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
-        console.log(def)
         this.setState({ def });
 
       }
@@ -125,7 +123,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
     }));
 
     //this.DashboardCoreApi.updateDefinition(this.state.def)
-    console.log(this.dash);
+    //console.log(this.dash);
   };
 
   render() {
