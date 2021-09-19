@@ -11,7 +11,7 @@ class DashboardSelector extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { pickertype: "rangeslider", dashboardid: "", rangeStart: "", rangeEnd: "" };
+        this.state = { pickertype: "rangeslider", dashboardid: "", rangeStart: "", rangeEnd: "", timeinterval: ""};
         this.handleChangePickerType = this.handleChangePickerType.bind(this);
         this.handleDashboardIdChange = this.handleDashboardIdChange.bind(this);
         this.startChange = this.startChange.bind(this);
@@ -49,10 +49,9 @@ class DashboardSelector extends Component {
         });
     };
 
-
     render() {
 
-        var url = window.location.href.replace(/[^\/]+$/, '') + this.state.pickertype + "?dashboardid=" + encodeURIComponent(this.state.dashboardid) + "&rangeStart=" + encodeURIComponent(this.state.rangeStart) + "&rangeEnd=" + encodeURIComponent(this.state.rangeEnd)
+        var url = window.location.href.replace(/[^\/]+$/, '') + this.state.pickertype + "?dashboardid=" + encodeURIComponent(this.state.dashboardid) + "&rangeStart=" + encodeURIComponent(this.state.rangeStart) + "&rangeEnd=" + encodeURIComponent(this.state.rangeEnd) + "&timeinterval=" + encodeURIComponent(this.state.timeinterval)
         var startPicker = <Datetime onChange={this.startChange} />
         var endPicker = <Datetime onChange={this.endChange} />
 
