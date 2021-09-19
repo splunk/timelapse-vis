@@ -1,0 +1,14 @@
+.react_time_range__track {
+background-color: black !important; /* Set main track color */
+border-left: black !important; /* Set left accent track color */
+border-right: black !important; /* Set right accent track color */
+}
+
+.react_time_range__handle_marker {
+    background-color: black !important; /* Set track color of the middle of the rectangles that are dragged */
+}
+
+.neatrange
+{
+    background-color: white !important;
+}

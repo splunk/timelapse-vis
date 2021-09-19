@@ -2,7 +2,7 @@ import React,  {lazy, Suspense, useEffect, useState } from 'react';
 import layout from '@splunk/react-page';
 import DashboardCore, { themes as dashboardCoreThemes } from '@splunk/dashboard-core';
 import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-presets/EnterprisePreset';
-import definition from './definition.json';
+//import definition from './definition.json';
 //Additions for timeslider
 
 import TimelapseControls from '@splunk/timelapseinput';
@@ -18,21 +18,13 @@ const themeKey = 'enterpriseDark';
 // use DashboardCore to render a simple dashboard
 
 
-var dash = <DashboardCore
-            width="100%"
-            height="calc(100vh - 78px)"
-            definition={definition}
-            preset={EnterprisePreset}
-        />
-
-
 layout(
     <>
+
 <div style={{height: 125}}>
-	<TimelapseControls dash={dash} definition={dash}/>
+	<TimelapseControls />
 </div>
 
-{dash}
 </>,
     {
         pageTitle: 'Timelapse',

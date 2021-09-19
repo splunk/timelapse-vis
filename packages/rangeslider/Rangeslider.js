@@ -112,6 +112,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @splunk/dashboard-context/GeoJsonProvider */ "@splunk/dashboard-context/GeoJsonProvider");
 /* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @splunk/react-ui/ColumnLayout */ "@splunk/react-ui/ColumnLayout");
+/* harmony import */ var _splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -147,6 +149,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
  //Get the current dashboard ID
 
 var dashboard_id = window.location.pathname.split("/").pop(); //Initialize Variables as empty
@@ -154,16 +157,14 @@ var dashboard_id = window.location.pathname.split("/").pop(); //Initialize Varia
 var selectedInterval = [];
 var disabledIntervals = [];
 var timelineInterval = [];
-var def = {};
 var geoRegistry = _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_6___default.a.create();
-geoRegistry.addDefaultProvider(new _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7___default.a());
+geoRegistry.addDefaultProvider(new _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7___default.a()); //Get the Time Ranges from the URL Params
+
 var search = window.location.search;
 var params = new URLSearchParams(search);
 var rangeStart = params.get('rangeStart');
 var rangeEnd = params.get('rangeEnd');
-console.log(params);
-console.log(rangeStart);
-console.log(rangeEnd);
+var definition = "";
 timelineInterval = [Date.parse(rangeStart), Date.parse(rangeEnd)];
 selectedInterval = timelineInterval; //SplunkTimeRangeSlider Class
 
@@ -219,18 +220,13 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                 }); //For each dataSource in the dashboard, append a where clause to limit the start/end time
 
 
-                definition_new = JSON.parse(JSON.stringify(_this.state.def));
-                definition_old = _this.state.def;
+                definition_new = JSON.parse(JSON.stringify(definition));
+                definition_old = definition;
 
                 for (v in definition_new.dataSources) {
-                  //Need to update this later, currently just replacing the entire search with a new range based on the rangeslider selected start and end
-                  //definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString()+" | fields - time"
-                  definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query.substring(0, definition_new.dataSources[v].options.query.indexOf('| noop')) + "| noop" + "| eval time=_time | where time<=" + _this.end_range.toString() + " AND time>=" + _this.start_range.toString() + " | fields - time";
-                } //Set the state with the new definition
-                //this.setState({def: definition_new}, function() {
-                //console.log("Updated")
-                //});
-
+                  //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
+                  definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + _this.end_range.toString() + " AND time>=" + _this.start_range.toString() + " | fields - time";
+                }
 
                 _context.next = 7;
                 return _this.setState(function (definition_old, props) {
@@ -276,6 +272,8 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         _this2.setState({
           def: def
         });
+
+        definition = def;
       })["catch"](function (e) {
         console.error('Error during definition retrieval/parsing', e);
       });
@@ -284,33 +282,25 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var styles = {
-        backgroundColor: 'white'
-      };
       var _this$state = this.state,
           selectedInterval = _this$state.selectedInterval,
           def = _this$state.def,
           error = _this$state.error;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container",
-        style: styles
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "info"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "Selected Interval:"), " "), selectedInterval.map(function (d, i) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a.Row, null, selectedInterval.map(function (d, i) {
         if (i == 0) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             id: i,
             key: i
-          }, Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["format"])(d, "MM/dd/yyyy HH:mm"), " through ");
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " Selected Interval: ", Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["format"])(d, "MM/dd/yyyy HH:mm"), "  through\xA0"), " ");
         }
 
         if (i == 1) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             id: i,
             key: i
-          }, Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["format"])(d, "MM/dd/yyyy HH:mm"));
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["format"])(d, "MM/dd/yyyy HH:mm")));
         }
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a.Row, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_2___default.a, {
         error: error,
         ticksNumber: 36,
         selectedInterval: timelineInterval,
@@ -318,7 +308,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         onUpdateCallback: this.errorHandler,
         onChangeCallback: this.onChangeCallback,
         disabledIntervals: disabledIntervals
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_5__["DashboardContextProvider"], {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a.Row, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_5__["DashboardContextProvider"], {
         geoRegistry: geoRegistry
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_4___default.a, {
         width: "100%",
@@ -390,6 +380,17 @@ module.exports = require("@splunk/dashboard-core");
 /***/ (function(module, exports) {
 
 module.exports = require("@splunk/dashboard-presets/EnterprisePreset");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/ColumnLayout":
+/*!************************************************!*\
+  !*** external "@splunk/react-ui/ColumnLayout" ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/ColumnLayout");
 
 /***/ }),
 

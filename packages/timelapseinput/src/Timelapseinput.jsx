@@ -7,22 +7,16 @@ import Spinner from '@splunk/react-ui/WaitSpinner';
 import Slider from './slider';
 import { globalTime, useTimeList, useCurrentTime, usePlaybackStatus, usePlaybackSpeed } from './timecontext';
 import { useState } from 'react';
-
+import DashboardCore, { themes as dashboardCoreThemes } from '@splunk/dashboard-core';
+import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-presets/EnterprisePreset';
 import packageJson from '../../../package.json';
 
-
-const dashboard_id = window.location.pathname.split("/").pop()
-
-const internals = []
-
-var start = new Date()
-var end = new Date()
 
 
 function getHoursBetween(start, end) {
     var startDate = new Date(start)
     var endDate = new Date(end)
-    for(var arr=[],dt=startDate; dt<=endDate; dt.setHours(dt.getHours()+1)){
+    for (var arr = [], dt = startDate; dt <= endDate; dt.setHours(dt.getHours() + 1)) {
         arr.push(new Date(dt));
     }
     return arr;
@@ -31,41 +25,40 @@ function getHoursBetween(start, end) {
 function getDaysBetween(start, end) {
     var startDate = new Date(start)
     var endDate = new Date(end)
-    for(var arr=[],dt=startDate; dt<=endDate; dt.setDate(dt.getDate()+1)){
+    for (var arr = [], dt = startDate; dt <= endDate; dt.setDate(dt.getDate() + 1)) {
         arr.push(new Date(dt));
     }
-    return arr;    
+    return arr;
 };
 
 
 function getHoursSince(start) {
-    var hourlist = getHoursBetween(new Date(start),new Date());
-    hourlist.map((v)=>v.toISOString().slice(0,10)).join("")
+    var hourlist = getHoursBetween(new Date(start), new Date());
+    hourlist.map((v) => v.toISOString().slice(0, 10)).join("")
     return hourlist;
 };
 
 
 function getDaysSince(start) {
-    
-    var daylist = getDaysBetween(new Date(start),new Date());
-    daylist.map((v)=>v.toISOString().slice(0,10)).join("")
+
+    var daylist = getDaysBetween(new Date(start), new Date());
+    daylist.map((v) => v.toISOString().slice(0, 10)).join("")
     return daylist;
 };
 
-for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; timelapse_index++)
-{
-        if (packageJson.timesliders[timelapse_index].style === "DaysBetween"){
-            var timesArray = getDaysBetween(packageJson.timesliders[timelapse_index].start, packageJson.timesliders[0].end)
-        }
-        if (packageJson.timesliders[timelapse_index].style === "DaysSince"){
-            var timesArray = getDaysSince(packageJson.timesliders[timelapse_index].start)
-        }
-        if (packageJson.timesliders[timelapse_index].style === "HoursBetween"){
-            var timesArray = getHoursBetween(packageJson.timesliders[timelapse_index].start,packageJson.timesliders[timelapse_index].end)
-        }
-	if (packageJson.timesliders[timelapse_index].style === "HoursSince"){
-            var timesArray = getHoursSince(packageJson.timesliders[timelapse_index].start)
-        }
+for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; timelapse_index++) {
+    if (packageJson.timesliders[timelapse_index].style === "DaysBetween") {
+        var timesArray = getDaysBetween(packageJson.timesliders[timelapse_index].start, packageJson.timesliders[0].end)
+    }
+    if (packageJson.timesliders[timelapse_index].style === "DaysSince") {
+        var timesArray = getDaysSince(packageJson.timesliders[timelapse_index].start)
+    }
+    if (packageJson.timesliders[timelapse_index].style === "HoursBetween") {
+        var timesArray = getHoursBetween(packageJson.timesliders[timelapse_index].start, packageJson.timesliders[timelapse_index].end)
+    }
+    if (packageJson.timesliders[timelapse_index].style === "HoursSince") {
+        var timesArray = getHoursSince(packageJson.timesliders[timelapse_index].start)
+    }
 }
 const Wrapper = styled.div`
     position: fixed;
@@ -121,9 +114,8 @@ const SliderCt = styled.div`
 `;
 let i = 0;
 
-function minutes_with_leading_zeros(dt)
-{
-  return (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes();
+function minutes_with_leading_zeros(dt) {
+    return (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes();
 }
 
 function CurrentTimeValue() {
@@ -178,12 +170,36 @@ function PlaybackSpeed() {
     );
 }
 
-export default function TimelapseControls({ definition }) {
+
+
+export default function TimelapseControls() {
     const [values, setValues] = useState([]);
+    const [definition, setDefinition] = useState({});
+
+
+
     useEffect(() => {
+
+
+        var search = window.location.search
+        const params = new URLSearchParams(search);
+        const dashboardid = params.get('dashboardid');
+        fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => {
+                var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
+                const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
+                setDefinition(def)
+                return def
+            }
+            )
+            .catch(e => {
+                console.error('Error during definition retrieval/parsing', e);
+            });
+
         let active = true;
         (async () => {
-	    const data = timesArray
+            const data = timesArray
             if (active) {
                 const times = data
 
@@ -258,6 +274,12 @@ export default function TimelapseControls({ definition }) {
                     <Slider times={times} />
                 </SliderCt>
             </Timeline>
+            <DashboardCore
+                width="100%"
+                height="calc(100vh - 78px)"
+                preset={EnterprisePreset}
+                definition={definition}
+            />
         </Wrapper>
     );
 }

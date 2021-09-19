@@ -6,6 +6,7 @@ import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
 import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
 import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
+import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 
 
 //Get the current dashboard ID
@@ -15,28 +16,25 @@ const dashboard_id = window.location.pathname.split("/").pop()
 var selectedInterval = []
 var disabledIntervals = []
 var timelineInterval = []
-var def = {}
+
+
 
 const geoRegistry = GeoRegistry.create();
 geoRegistry.addDefaultProvider(new GeoJsonProvider());
 
 
 
+//Get the Time Ranges from the URL Params
 var search = window.location.search
 const params = new URLSearchParams(search);
 const rangeStart = params.get('rangeStart');
 const rangeEnd = params.get('rangeEnd');
-
-console.log(params)
-console.log(rangeStart)
-console.log(rangeEnd)
-
+var definition = ""
 timelineInterval = [Date.parse(rangeStart), Date.parse(rangeEnd)]
 selectedInterval = timelineInterval
 
 //SplunkTimeRangeSlider Class
 class SplunkTimeRangeSliderInput extends React.Component {
-
   constructor(props) {
     super(props);
     this.fetchDefinition();
@@ -53,7 +51,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
         var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
         const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
         this.setState({ def });
-
+        definition = def
       }
       )
       .catch(e => {
@@ -68,14 +66,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
     def: this.props.dash.props.definition
   };
 
-  //Create DashboardCore using the passed definition
-  //dash = <DashboardCore
-  //          width="100%"
-  //          height="calc(100vh - 78px)"
-  //          definition={this.state.def}
-  //          onDefinitionChange={console.log("Changed!")}
-  //          preset={EnterprisePreset} />
-
   //Create start_range as 0
   start_range = 0
 
@@ -86,8 +76,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
 
   //Function for handling range slider changes
   onChangeCallback = async (selectedInterval) => {
-
-
     //Update the selectedInterval variable with the new start and end times
     selectedInterval.map((d, i) => {
       if (i == 0) {
@@ -98,66 +86,50 @@ class SplunkTimeRangeSliderInput extends React.Component {
       }
     })
 
-
     //Set the state variable of selectedInterval with the new values
     this.setState({ selectedInterval })
 
     //For each dataSource in the dashboard, append a where clause to limit the start/end time
-    var definition_new = JSON.parse(JSON.stringify(this.state.def))
-    var definition_old = this.state.def
+    var definition_new = JSON.parse(JSON.stringify(definition))
+    var definition_old = definition
     for (var v in definition_new.dataSources) {
-
-      //Need to update this later, currently just replacing the entire search with a new range based on the rangeslider selected start and end
-      //definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString()+" | fields - time"
-      definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query.substring(0, definition_new.dataSources[v].options.query.indexOf('| noop')) + "| noop" + "| eval time=_time | where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString() + " | fields - time"
-
+      //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
+      definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString() + " | fields - time"
     }
-
-    //Set the state with the new definition
-    //this.setState({def: definition_new}, function() {
-    //console.log("Updated")
-    //});
 
     await this.setState((definition_old, props) => ({
       def: definition_new
     }));
-
-    //this.DashboardCoreApi.updateDefinition(this.state.def)
-    //console.log(this.dash);
   };
 
   render() {
 
-    const styles = {
-      backgroundColor: 'white'
-    };
-
     const { selectedInterval, def, error } = this.state;
     return (
-      <div className="container" style={styles}>
-        <div className="info">
-          <span><strong>Selected Interval:</strong> </span>
+      <ColumnLayout>
+        <ColumnLayout.Row>
+         
           {selectedInterval.map((d, i) => {
             if (i == 0) {
-              return <span id={i} key={i}>{format(d, "MM/dd/yyyy HH:mm")} through </span>
+              return <span id={i} key={i}><p> Selected Interval: {format(d, "MM/dd/yyyy HH:mm")}  through&nbsp;</p> </span>
             }
             if (i == 1) {
-              return <span id={i} key={i}>{format(d, "MM/dd/yyyy HH:mm")}</span>
+              return <span id={i} key={i}><p>{format(d, "MM/dd/yyyy HH:mm")}</p></span>
             }
           })}
-        </div>
-
-        <TimeRange
-          error={error}
-          ticksNumber={36}
-          selectedInterval={timelineInterval}
-          timelineInterval={timelineInterval}
-          onUpdateCallback={this.errorHandler}
-          onChangeCallback={this.onChangeCallback}
-          disabledIntervals={disabledIntervals}
-        />
-
-        <div>
+        </ColumnLayout.Row>
+        <ColumnLayout.Row>
+          <TimeRange
+            error={error}
+            ticksNumber={36}
+            selectedInterval={timelineInterval}
+            timelineInterval={timelineInterval}
+            onUpdateCallback={this.errorHandler}
+            onChangeCallback={this.onChangeCallback}
+            disabledIntervals={disabledIntervals}
+          />
+        </ColumnLayout.Row>
+        <ColumnLayout.Row>
           <DashboardContextProvider geoRegistry={geoRegistry}>
             <DashboardCore
               width="100%"
@@ -168,10 +140,12 @@ class SplunkTimeRangeSliderInput extends React.Component {
               initialMode="view"
             />
           </DashboardContextProvider>
+        </ColumnLayout.Row>
+
+      </ColumnLayout>
 
 
-        </div>
-      </div>
+
     );
   }
 }
