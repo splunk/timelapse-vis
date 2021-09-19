@@ -105,7 +105,7 @@ class DashboardSelector extends Component {
                     <ColumnLayout.Row>
                         <ColumnLayout.Column style={colStyle} span={4}>
                             <p>Use the following link to view your custom dashboard:</p>
-                            <Link to={url}>{url}</Link>
+                            <Link to={url} openInNewContext>{url}</Link>
                         </ColumnLayout.Column>
                     </ColumnLayout.Row>
                 </ColumnLayout>
