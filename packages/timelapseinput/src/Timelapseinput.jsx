@@ -1,6 +1,10 @@
 import React from "react"
-import { useTimer } from "./timer"
 
+var search = window.location.search
+const params = new URLSearchParams(search);
+const rangeStart = Date.parse(params.get('rangeStart')).valueOf();
+const rangeEnd = Date.parse(params.get('rangeEnd')).valueOf();
+const timeinterval = params.get('timeinterval');
 
 class TimelapseControls extends React.Component {
     constructor(props) {
@@ -9,16 +13,15 @@ class TimelapseControls extends React.Component {
             isPlaying: false,
             frequency: this.props.frequency,
             step: this.props.step,
-            startTime: this.props.startTime,
-            endTime: this.props.endTime,
-            time: this.props.startTime
+            startTime: rangeStart,
+            endTime: rangeEnd,
+            time: rangeStart
         }
 
         this.onStopCallback = this.onStopCallback.bind(this)
         this.onPlayCallback = this.onPlayCallback.bind(this)
 
     }
-
 
     onPlayCallback(event) {
         let interval
