@@ -130,6 +130,7 @@ class GlobalTime {
 
     notify() {
         const newVal = this.currentTime;
+
         for (const sub of this._subs.values()) {
             sub(newVal);
         }
@@ -144,9 +145,11 @@ class GlobalTime {
         this._timer = setInterval(() => {
             if (this._cur < this._times.length) {
                 this.setTime(this._cur + 0.1);
+
             } else {
                 if (this._loop) {
                     this.setTime(0);
+
                 } else {
                     this.stopPlayback();
                 }
