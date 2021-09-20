@@ -122,7 +122,7 @@ class GlobalTime {
     }
 
     setTime(time) {
-	if (time !== this._cur) {
+        if (time !== this._cur) {
             this._cur = time;
             this.notify();
         }

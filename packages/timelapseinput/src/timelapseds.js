@@ -2,11 +2,7 @@ import DataSource from '@splunk/datasources/DataSource';
 import DataSet from '@splunk/datasource-utils/DataSet';
 import { globalTime } from './timecontext';
 
-import packageJson from '../../../package.json';
-
-
 const internals = []
-
 
 function capAt(fields, columns, timeColIdx, untilRow) {
     return DataSet.fromJSONCols(
@@ -48,8 +44,8 @@ export default class TimelapseDataSource extends DataSource {
                             meta: {},
                         });
                     } else {
-			const timeFieldIdx = fields.indexOf(timelapse.field || '_time');
-			const parsedTimes = columns[timeFieldIdx].map((v) => new Date(v).getTime());
+                        const timeFieldIdx = fields.indexOf(timelapse.field || '_time');
+                        const parsedTimes = columns[timeFieldIdx].map((v) => new Date(v).getTime());
 
                         switch (timelapse.transform) {
                             case 'null_after':
@@ -74,7 +70,7 @@ export default class TimelapseDataSource extends DataSource {
                             case 'select':
                                 {
                                     const selectNext = ([start, end]) => {
-					
+
                                         observer.next({
                                             data: DataSet.fromJSONCols(
                                                 fields.filter((_, i) => i !== timeFieldIdx),

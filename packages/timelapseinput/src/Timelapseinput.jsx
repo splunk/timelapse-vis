@@ -9,9 +9,19 @@ import { globalTime, useTimeList, useCurrentTime, usePlaybackStatus, usePlayback
 import { useState } from 'react';
 import DashboardCore, { themes as dashboardCoreThemes } from '@splunk/dashboard-core';
 import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-presets/EnterprisePreset';
-import packageJson from '../../../package.json';
+import ColumnLayout from '@splunk/react-ui/ColumnLayout';
+import { DashboardContextProvider } from '@splunk/dashboard-context';
+import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
+import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
 
+const geoRegistry = GeoRegistry.create();
+geoRegistry.addDefaultProvider(new GeoJsonProvider());
 
+var search = window.location.search
+const params = new URLSearchParams(search);
+const rangeStart = params.get('rangeStart');
+const rangeEnd = params.get('rangeEnd');
+const timeinterval = params.get('timeinterval');
 
 function getHoursBetween(start, end) {
     var startDate = new Date(start)
@@ -31,35 +41,14 @@ function getDaysBetween(start, end) {
     return arr;
 };
 
-
-function getHoursSince(start) {
-    var hourlist = getHoursBetween(new Date(start), new Date());
-    hourlist.map((v) => v.toISOString().slice(0, 10)).join("")
-    return hourlist;
-};
-
-
-function getDaysSince(start) {
-
-    var daylist = getDaysBetween(new Date(start), new Date());
-    daylist.map((v) => v.toISOString().slice(0, 10)).join("")
-    return daylist;
-};
-
-for (let timelapse_index = 0; timelapse_index < packageJson.timesliders.length; timelapse_index++) {
-    if (packageJson.timesliders[timelapse_index].style === "DaysBetween") {
-        var timesArray = getDaysBetween(packageJson.timesliders[timelapse_index].start, packageJson.timesliders[0].end)
-    }
-    if (packageJson.timesliders[timelapse_index].style === "DaysSince") {
-        var timesArray = getDaysSince(packageJson.timesliders[timelapse_index].start)
-    }
-    if (packageJson.timesliders[timelapse_index].style === "HoursBetween") {
-        var timesArray = getHoursBetween(packageJson.timesliders[timelapse_index].start, packageJson.timesliders[timelapse_index].end)
-    }
-    if (packageJson.timesliders[timelapse_index].style === "HoursSince") {
-        var timesArray = getHoursSince(packageJson.timesliders[timelapse_index].start)
-    }
+if (timeinterval == "days") {
+    var timesArray = getDaysBetween(rangeStart, rangeEnd)
 }
+
+if (timeinterval == "hours") {
+    var timesArray = getHoursBetween(rangeStart, rangeEnd)
+}
+
 const Wrapper = styled.div`
     position: fixed;
     tops: 0;
@@ -120,6 +109,8 @@ function minutes_with_leading_zeros(dt) {
 
 function CurrentTimeValue() {
     const val = useCurrentTime();
+    console.log(globalTime.currentTime)
+    
     if (!val) {
         return null;
     }
@@ -173,17 +164,16 @@ function PlaybackSpeed() {
 
 
 export default function TimelapseControls() {
+
+    var search = window.location.search
+    const params = new URLSearchParams(search);
+    const dashboardid = params.get('dashboardid');
+
     const [values, setValues] = useState([]);
     const [definition, setDefinition] = useState({});
 
-
-
     useEffect(() => {
-
-
-        var search = window.location.search
-        const params = new URLSearchParams(search);
-        const dashboardid = params.get('dashboardid');
+  
         fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => {
@@ -225,7 +215,7 @@ export default function TimelapseControls() {
         return () => {
             active = false;
         };
-    }, [definition, setValues]);
+    }, [setValues]);
 
     const times = useTimeList();
 
@@ -239,47 +229,55 @@ export default function TimelapseControls() {
         );
     }
     return (
-        <Wrapper>
-            <PlaybackControls>
-                <PlayPauseButton />
-                {/* <PlaybackSpeed /> */}
-            </PlaybackControls>
-            <CurrentValueCt>
-                <CurrentTimeValue />
-            </CurrentValueCt>
-            <Timeline>
-                <ColumnChart
-                    backgroundColor={'transparent'}
-                    xFieldName={'_time'}
-                    yFieldName={'rate'}
-                    legendPlacement="none"
-                    xAxisMajorLabelVisibility="show"
-                    xAxisMajorTickSize={0}
-                    xAxisMajorTickVisibility="hide"
-                    yAxisMajorLabelVisibility="hide"
-                    yAxisVisibility="hide"
-                    yAxisScale="linear"
-                    yAxisMajorTickVisibility="hide"
-                    xAxisTitleVisibility="collapsed"
-                    yAxisTitleVisibility="collapsed"
-                    foregroundColor="#333333"
-                    seriesColors={'#444444'}
-                    height={120}
-                    columnSpacing={0}
-                    seriesSpacing={0}
-                    x={times}
-                    y={values}
-                />
-                <SliderCt>
-                    <Slider times={times} />
-                </SliderCt>
-            </Timeline>
-            <DashboardCore
-                width="100%"
-                height="calc(100vh - 78px)"
-                preset={EnterprisePreset}
-                definition={definition}
-            />
-        </Wrapper>
+
+        <ColumnLayout gutter={1}>
+            <ColumnLayout.Row>
+                <PlaybackControls>
+                    <PlayPauseButton />
+                    {/* <PlaybackSpeed /> */}
+                </PlaybackControls>
+                <CurrentValueCt>
+                    <CurrentTimeValue />
+                </CurrentValueCt>
+                <Timeline>
+                    <ColumnChart
+                        backgroundColor={'transparent'}
+                        xFieldName={'_time'}
+                        yFieldName={'rate'}
+                        legendPlacement="none"
+                        xAxisMajorLabelVisibility="show"
+                        xAxisMajorTickSize={0}
+                        xAxisMajorTickVisibility="hide"
+                        yAxisMajorLabelVisibility="hide"
+                        yAxisVisibility="hide"
+                        yAxisScale="linear"
+                        yAxisMajorTickVisibility="hide"
+                        xAxisTitleVisibility="collapsed"
+                        yAxisTitleVisibility="collapsed"
+                        foregroundColor="#333333"
+                        seriesColors={'#444444'}
+                        height={120}
+                        columnSpacing={0}
+                        seriesSpacing={0}
+                        x={times}
+                        y={values}
+                    />
+                    <SliderCt>
+                        <Slider times={times} />
+                    </SliderCt>
+                </Timeline>
+            </ColumnLayout.Row>
+            <ColumnLayout.Row>
+                <DashboardContextProvider geoRegistry={geoRegistry}>
+                    <DashboardCore
+                        width="100%"
+                        height="calc(100vh - 78px)"
+                        preset={EnterprisePreset}
+                        definition={definition}
+                    />
+                </DashboardContextProvider>
+
+            </ColumnLayout.Row>
+        </ColumnLayout>
     );
 }
