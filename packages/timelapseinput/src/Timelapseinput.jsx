@@ -6,6 +6,8 @@ import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
 import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
+import Select from '@splunk/react-ui/Select';
+
 
 var search = window.location.search
 const params = new URLSearchParams(search);
@@ -15,11 +17,11 @@ const dashboardid = params.get('dashboardid');
 const timeinterval = params.get('timeinterval');
 
 let step = 1000 * 60 * 60 * 24
-if(timeinterval == "days"){
- step = 1000 * 60 * 60 * 24
+if (timeinterval == "days") {
+    step = 1000 * 60 * 60 * 24
 }
-if(timeinterval =="hours"){
- step = 1000 * 60 * 60
+if (timeinterval == "hours") {
+    step = 1000 * 60 * 60
 }
 var definition = ""
 
@@ -39,12 +41,14 @@ class TimelapseControls extends React.Component {
             startTime: rangeStart,
             endTime: rangeEnd,
             time: rangeStart * 1000,
-            def: this.props.dash.props.definition
+            def: this.props.dash.props.definition,
+            playbackMultiplier: 1
         }
         this.fetchDefinition();
         this.onStopCallback = this.onStopCallback.bind(this)
         this.onPlayCallback = this.onPlayCallback.bind(this)
         this.onReverseCallback = this.onReverseCallback.bind(this)
+        this.handleSpeedPicker = this.handleSpeedPicker.bind(this)
     }
 
     fetchDefinition() {
@@ -67,11 +71,10 @@ class TimelapseControls extends React.Component {
         let interval
         this.state.isPlaying = true
 
-        if(this.state.isReversing)
-        {
-        this.setState({
-            isReversing: false
-        })
+        if (this.state.isReversing) {
+            this.setState({
+                isReversing: false
+            })
         }
 
         /** set interval to run frequncy times every second */
@@ -91,18 +94,17 @@ class TimelapseControls extends React.Component {
                 def: definition_new
             })
             //this.state.time = (this.state.time + this.state.step)
-        }, 5000)
+        }, 10000 / this.state.playbackMultiplier )
         //this.state.time = this.state.time + this.state.step
     }
 
     onReverseCallback(event) {
         let interval
 
-        if(this.state.isPlaying)
-        {
-        this.setState({
-            isPlaying: false
-        })
+        if (this.state.isPlaying) {
+            this.setState({
+                isPlaying: false
+            })
         }
 
         this.state.isReversing = true
@@ -124,7 +126,7 @@ class TimelapseControls extends React.Component {
                 def: definition_new
             })
             //this.state.time = (this.state.time + this.state.step)
-        }, 5000)
+        }, 10000 / this.state.playbackMultiplier)
         //this.state.time = this.state.time + this.state.step
     }
 
@@ -135,12 +137,18 @@ class TimelapseControls extends React.Component {
         clearInterval(this.timer)
     }
 
+    handleSpeedPicker(event, { value }) {
+        this.setState({
+            playbackMultiplier: value
+        });
+    };
+
     render() {
         return (
             <ColumnLayout>
-               
+
                 <ColumnLayout.Row>
-                    <ColumnLayout.Column span={2}>
+                    <ColumnLayout.Column span={4}>
                         <h1>{new Date(this.state.time).toLocaleString()}</h1>
                     </ColumnLayout.Column>
                     <ColumnLayout.Column span={6}>
@@ -149,9 +157,17 @@ class TimelapseControls extends React.Component {
 
                 <ColumnLayout.Row>
                     <ColumnLayout.Column span={2}>
-                    <Button label="Reverse" onClick={this.onReverseCallback} appearance="primary" />
+                        <Button label="Reverse" onClick={this.onReverseCallback} appearance="primary" />
                         <Button label="Start" onClick={this.onPlayCallback} appearance="primary" />
                         <Button label="Stop" onClick={this.onStopCallback} appearance="primary" />
+                        <Select onChange={this.handleSpeedPicker}>
+                            <Select.Option value="1" label="1x" />
+                            <Select.Option value="2" label="2x" />
+                            <Select.Option value="3" label="3x" />
+                            <Select.Option value="4" label="4x" />
+                            <Select.Option value="20" label="20x" />
+                            <Select.Option value="20" label="200x" />
+                        </Select>
                     </ColumnLayout.Column>
                     <ColumnLayout.Column span={6}>
                     </ColumnLayout.Column>
