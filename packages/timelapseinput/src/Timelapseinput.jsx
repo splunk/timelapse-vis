@@ -7,6 +7,10 @@ import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
 import Select from '@splunk/react-ui/Select';
+import Slider from '@splunk/react-ui/Slider';
+import { SplunkThemeProvider } from '@splunk/themes';
+import Heading from '@splunk/react-ui/Heading';
+import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 
 
 var search = window.location.search
@@ -23,8 +27,8 @@ if (timeinterval == "days") {
 if (timeinterval == "hours") {
     step = 1000 * 60 * 60
 }
-var definition = ""
 
+var definition = ""
 
 const geoRegistry = GeoRegistry.create();
 geoRegistry.addDefaultProvider(new GeoJsonProvider());
@@ -42,13 +46,19 @@ class TimelapseControls extends React.Component {
             endTime: rangeEnd,
             time: rangeStart * 1000,
             def: this.props.dash.props.definition,
-            playbackMultiplier: 1
+            playbackMultiplier: '4',
+            displayValue: TimelapseControls.convertValueToLabel(1),
+            value: 1,
+            hasNotBeenFetched: true,
         }
         this.fetchDefinition();
         this.onStopCallback = this.onStopCallback.bind(this)
         this.onPlayCallback = this.onPlayCallback.bind(this)
         this.onReverseCallback = this.onReverseCallback.bind(this)
         this.handleSpeedPicker = this.handleSpeedPicker.bind(this)
+        this.handleSliderChange = this.handleSliderChange.bind(this)
+        this.updateDataSources = this.updateDataSources.bind(this)
+
     }
 
     fetchDefinition() {
@@ -59,6 +69,7 @@ class TimelapseControls extends React.Component {
                 const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
                 this.setState({ def });
                 definition = def
+                this.setState({ hasNotBeenFetched: false })
             }
             )
             .catch(e => {
@@ -67,6 +78,23 @@ class TimelapseControls extends React.Component {
     }
 
 
+    
+
+
+    updateDataSources() {
+        console.log("Step 1")
+        var definition_new = JSON.parse(JSON.stringify(definition))
+        console.log("Step 2")
+        for (var v in definition.dataSources) {
+            //console.log(definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() /1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time")
+            //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
+            definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() / 1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time"
+        }
+        console.log("Step 3")
+        this.setState({
+            def: definition_new
+        })
+    }
     onPlayCallback(event) {
         let interval
         this.state.isPlaying = true
@@ -80,27 +108,23 @@ class TimelapseControls extends React.Component {
         /** set interval to run frequncy times every second */
         this.timer = setInterval(() => {
             /** increment the time by the step value */
-            this.setState({
-                time: (this.state.time.valueOf()) + this.state.step
-            })
-            var definition_new = JSON.parse(JSON.stringify(definition))
-
-            for (var v in definition.dataSources) {
-                //console.log(definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() /1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time")
-                //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
-                definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() / 1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time"
+            if ((this.state.time.valueOf() + this.state.step) >= this.state.endTime * 1000) {
+                this.setState({
+                    time: this.state.startTime * 1000
+                })
             }
-            this.setState({
-                def: definition_new
-            })
+            else {
+                this.setState({
+                    time: (this.state.time.valueOf()) + this.state.step
+                })
+            }
+            this.updateDataSources()
             //this.state.time = (this.state.time + this.state.step)
-        }, 10000 / this.state.playbackMultiplier )
+        }, 10000 / this.state.playbackMultiplier)
         //this.state.time = this.state.time + this.state.step
     }
 
     onReverseCallback(event) {
-        let interval
-
         if (this.state.isPlaying) {
             this.setState({
                 isPlaying: false
@@ -112,19 +136,18 @@ class TimelapseControls extends React.Component {
         /** set interval to run frequncy times every second */
         this.timer = setInterval(() => {
             /** increment the time by the step value */
-            this.setState({
-                time: (this.state.time.valueOf()) - this.state.step
-            })
-            var definition_new = JSON.parse(JSON.stringify(definition))
-
-            for (var v in definition.dataSources) {
-                //console.log(definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() /1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time")
-                //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
-                definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() / 1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time"
+            if ((this.state.time.valueOf() - this.state.step) <= this.state.startTime * 1000) {
+                this.setState({
+                    time: this.state.endTime * 1000
+                })
             }
-            this.setState({
-                def: definition_new
-            })
+            else {
+                this.setState({
+                    time: (this.state.time.valueOf()) - this.state.step
+                })
+            }
+            this.updateDataSources()
+
             //this.state.time = (this.state.time + this.state.step)
         }, 10000 / this.state.playbackMultiplier)
         //this.state.time = this.state.time + this.state.step
@@ -143,47 +166,67 @@ class TimelapseControls extends React.Component {
         });
     };
 
+
+    static convertValueToLabel(value) {
+        return new Date(value).toLocaleString()
+
+    }
+    handleSliderChange(event, { value }) {
+
+        this.setState({
+            displayValue: TimelapseControls.convertValueToLabel(value),
+            value,
+        });
+        this.setState({
+            time: value
+        }, () => {
+            this.updateDataSources()
+            })
+
+    };
+
+
     render() {
+
+        const colStyle = { border: `0px solid black`, padding: 10, paddingRight: 20, whiteSpace: 'nowrap' };
+
         return (
-            <ColumnLayout>
-
-                <ColumnLayout.Row>
-                    <ColumnLayout.Column span={4}>
-                        <h1>{new Date(this.state.time).toLocaleString()}</h1>
+            <ColumnLayout gutter={2} divider="vertical">
+                <ColumnLayout.Row alignItems="center">
+                    <ColumnLayout.Column span={2} style={colStyle}>
+                        <SplunkThemeProvider family="enterprise" colorScheme="light" density="compact">
+                            <Heading level={2}>{new Date(this.state.time).toLocaleString()}</Heading>
+                            <Button label="Start" onClick={this.onPlayCallback} appearance="primary" />
+                            <Button label="Stop" onClick={this.onStopCallback} appearance="primary" />
+                            <Button label="Reverse" onClick={this.onReverseCallback} appearance="primary" />
+                            <Select value={this.state.playbackMultiplier} prefixLabel="Timelapse Speed" onChange={this.handleSpeedPicker} >
+                                <Select.Option value="1" label="1x" />
+                                <Select.Option value="2" label="2x" />
+                                <Select.Option value="3" label="3x" />
+                                <Select.Option value="4" label="4x" />
+                                <Select.Option value="10" label="10x" />
+                                <Select.Option value="20" label="20x" />
+                                <Select.Option value="200" label="200x" />
+                            </Select>
+                        </SplunkThemeProvider>
                     </ColumnLayout.Column>
-                    <ColumnLayout.Column span={6}>
-                    </ColumnLayout.Column>
-                </ColumnLayout.Row>
-
-                <ColumnLayout.Row>
-                    <ColumnLayout.Column span={2}>
-                        <Button label="Reverse" onClick={this.onReverseCallback} appearance="primary" />
-                        <Button label="Start" onClick={this.onPlayCallback} appearance="primary" />
-                        <Button label="Stop" onClick={this.onStopCallback} appearance="primary" />
-                        <Select onChange={this.handleSpeedPicker}>
-                            <Select.Option value="1" label="1x" />
-                            <Select.Option value="2" label="2x" />
-                            <Select.Option value="3" label="3x" />
-                            <Select.Option value="4" label="4x" />
-                            <Select.Option value="20" label="20x" />
-                            <Select.Option value="20" label="200x" />
-                        </Select>
-                    </ColumnLayout.Column>
-                    <ColumnLayout.Column span={6}>
+                    <ColumnLayout.Column span={6} style={colStyle} >
+                        <SplunkThemeProvider family="enterprise" colorScheme="light" density="compact">
+                            <Slider min={this.state.startTime * 1000} value={this.state.time} displayValue={this.state.displayValue} onChange={this.handleSliderChange} max={this.state.endTime * 1000} step={step} defaultValue={this.state.startTime * 1000} minLabel={new Date(this.state.startTime * 1000).toLocaleString()} maxLabel={new Date(this.state.endTime * 1000).toLocaleString()}/>
+                        </SplunkThemeProvider>
                     </ColumnLayout.Column>
                 </ColumnLayout.Row>
                 <ColumnLayout.Row>
                     <ColumnLayout.Column span={8}>
-                        <DashboardContextProvider geoRegistry={geoRegistry}>
+                        {this.state.hasNotBeenFetched ? <WaitSpinner size="large" /> : <DashboardContextProvider geoRegistry={geoRegistry}>
                             <DashboardCore
                                 width="100%"
                                 height="calc(100vh - 78px)"
                                 definition={this.state.def}
-                                onDefinitionChange={console.log("Changed!")}
                                 preset={EnterprisePreset}
                                 initialMode="view"
                             />
-                        </DashboardContextProvider>
+                        </DashboardContextProvider>}
                     </ColumnLayout.Column>
                 </ColumnLayout.Row>
             </ColumnLayout>
