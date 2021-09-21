@@ -6,6 +6,8 @@ import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-pres
 //Additions for timeslider
 
 import TimelapseControls from '@splunk/timelapseinput';
+import Documentation from '@splunk/documentation'
+
 
 //import SplunkTimeRangeSlider from '../../components/rangeslider/App.js';
 

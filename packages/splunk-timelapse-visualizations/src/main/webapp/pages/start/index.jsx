@@ -8,6 +8,8 @@ import "../../../../../../../node_modules/react-datetime/css/react-datetime.css"
 
 import { StyledContainer, StyledGreeting } from './StartStyles';
 import DashboardSelector from '@splunk/dashboardselector';
+import Documentation from '@splunk/documentation'
+
 
 const themeProviderSettings = getThemeOptions(defaultTheme() || 'enterpriseDark');
 
@@ -21,6 +23,7 @@ layout(
         <StyledContainer>
             <StyledGreeting>Welcome to the Rangeslider and Timelapse Visualizations. </StyledGreeting>
             <DashboardSelector />
+            <Documentation />
         </StyledContainer>
     </SplunkThemeProvider>
 );

@@ -11,14 +11,19 @@ import Slider from '@splunk/react-ui/Slider';
 import { SplunkThemeProvider } from '@splunk/themes';
 import Heading from '@splunk/react-ui/Heading';
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
-
+import demodash from './demodash'
+import Documentation from '@splunk/documentation'
 
 var search = window.location.search
 const params = new URLSearchParams(search);
 const rangeStart = Math.round((Date.parse(params.get('rangeStart')).valueOf()) / 1000);
 const rangeEnd = Math.round((Date.parse(params.get('rangeEnd')).valueOf()) / 1000);
-const dashboardid = params.get('dashboardid');
+var dashboardid = params.get('dashboardid');
 const timeinterval = params.get('timeinterval');
+const demo = params.get('demo');
+
+
+
 
 let step = 1000 * 60 * 60 * 24
 if (timeinterval == "days") {
@@ -62,6 +67,9 @@ class TimelapseControls extends React.Component {
     }
 
     fetchDefinition() {
+        if (demo == "true") {
+            dashboardid = "thisisonlyademo"
+          }
         fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => {
@@ -73,20 +81,26 @@ class TimelapseControls extends React.Component {
             }
             )
             .catch(e => {
+
+                        //If there is an error, and demo==true, apply the demo dashboard.
+        if (demo == "true") {
+            this.setState({ def: demodash });
+            definition = demodash
+            this.setState({ hasNotBeenFetched: false })
+          }
+
+
                 console.error('Error during definition retrieval/parsing', e);
             });
     }
 
     updateDataSources() {
-        console.log("Step 1")
         var definition_new = JSON.parse(JSON.stringify(definition))
-        console.log("Step 2")
         for (var v in definition.dataSources) {
             //console.log(definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() /1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time")
             //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
             definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() / 1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time"
         }
-        console.log("Step 3")
         this.setState({
             def: definition_new
         })
@@ -194,7 +208,6 @@ class TimelapseControls extends React.Component {
                 preset={EnterprisePreset}
                 initialMode="view"
             /></DashboardContextProvider>
-        console.log(dash)
         return (
             <ColumnLayout gutter={2} divider="vertical">
                 <ColumnLayout.Row alignItems="center">

@@ -114,6 +114,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @splunk/react-ui/ColumnLayout */ "@splunk/react-ui/ColumnLayout");
 /* harmony import */ var _splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _demodash__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./demodash */ "./src/demodash.js");
+/* harmony import */ var _splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @splunk/react-ui/WaitSpinner */ "@splunk/react-ui/WaitSpinner");
+/* harmony import */ var _splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_10__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -150,6 +153,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
  //Get the current dashboard ID
 
 var dashboard_id = window.location.pathname.split("/").pop(); //Initialize Variables as empty
@@ -164,6 +169,7 @@ var search = window.location.search;
 var params = new URLSearchParams(search);
 var rangeStart = params.get('rangeStart');
 var rangeEnd = params.get('rangeEnd');
+var demo = params.get('demo');
 var definition = "";
 timelineInterval = [Date.parse(rangeStart), Date.parse(rangeEnd)];
 selectedInterval = timelineInterval; //SplunkTimeRangeSlider Class
@@ -180,12 +186,6 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "state", {
-      error: false,
-      selectedInterval: selectedInterval,
-      def: _this.props.dash.props.definition
-    });
-
     _defineProperty(_assertThisInitialized(_this), "start_range", 0);
 
     _defineProperty(_assertThisInitialized(_this), "end_range", Math.round(Date.now() / 1000));
@@ -199,12 +199,13 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "onChangeCallback", /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(selectedInterval) {
-        var definition_new, definition_old, v;
+        var definition_new, v;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                //Update the selectedInterval variable with the new start and end times
+                console.log("Test"); //Update the selectedInterval variable with the new start and end times
+
                 selectedInterval.map(function (d, i) {
                   if (i == 0) {
                     _this.start_range = d.getTime() / 1000;
@@ -221,21 +222,21 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
 
                 definition_new = JSON.parse(JSON.stringify(definition));
-                definition_old = definition;
+                console.log(definition);
 
-                for (v in definition_new.dataSources) {
+                for (v in definition.dataSources) {
                   //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
                   definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + _this.end_range.toString() + " AND time>=" + _this.start_range.toString() + " | fields - time";
                 }
 
-                _context.next = 7;
-                return _this.setState(function (definition_old, props) {
-                  return {
-                    def: definition_new
-                  };
+                _this.setState({
+                  def: definition_new
                 });
 
-              case 7:
+                definition = definition_new;
+                _this.state.hasNotBeenFetched = false;
+
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -247,6 +248,13 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         return _ref2.apply(this, arguments);
       };
     }());
+
+    _this.state = {
+      error: false,
+      selectedInterval: selectedInterval,
+      def: _this.props.dash.props.definition,
+      hasNotBeenFetched: true
+    };
 
     _this.fetchDefinition();
 
@@ -260,7 +268,14 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
       var search = window.location.search;
       var params = new URLSearchParams(search);
+      var demo = params.get('demo');
       var dashboardid = params.get('dashboardid');
+
+      if (demo == "true") {
+        dashboardid = "thisisonlyademo";
+      }
+
+      console.log(dashboardid);
       fetch("/splunkd/services/data/ui/views/".concat(dashboardid, "?output_mode=json"), {
         credentials: 'include'
       }).then(function (res) {
@@ -274,19 +289,42 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         });
 
         definition = def;
+
+        _this2.setState({
+          hasNotBeenFetched: false
+        });
       })["catch"](function (e) {
+        //If there is an error, and demo==true, apply the demo dashboard.
+        if (demo == "true") {
+          _this2.setState({
+            def: _demodash__WEBPACK_IMPORTED_MODULE_9__["default"]
+          });
+
+          definition = _demodash__WEBPACK_IMPORTED_MODULE_9__["default"];
+
+          _this2.setState({
+            hasNotBeenFetched: false
+          });
+        }
+
         console.error('Error during definition retrieval/parsing', e);
       });
-    } //Initialize State
+    } //Create start_range as 0
 
   }, {
     key: "render",
     value: function render() {
-      var _this$state = this.state,
-          selectedInterval = _this$state.selectedInterval,
-          def = _this$state.def,
-          error = _this$state.error;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a.Row, null, selectedInterval.map(function (d, i) {
+      var dash = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_5__["DashboardContextProvider"], {
+        geoRegistry: geoRegistry
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_4___default.a, {
+        width: "100%",
+        height: "calc(100vh - 78px)",
+        definition: this.state.def,
+        onDefinitionChange: console.log("Changed!"),
+        preset: _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_3___default.a,
+        initialMode: "view"
+      }));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a.Row, null, this.state.selectedInterval.map(function (d, i) {
         if (i == 0) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             id: i,
@@ -301,23 +339,16 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["format"])(d, "MM/dd/yyyy HH:mm")));
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a.Row, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_2___default.a, {
-        error: error,
+        error: this.state.error,
         ticksNumber: 36,
         selectedInterval: timelineInterval,
         timelineInterval: timelineInterval,
         onUpdateCallback: this.errorHandler,
         onChangeCallback: this.onChangeCallback,
         disabledIntervals: disabledIntervals
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a.Row, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_5__["DashboardContextProvider"], {
-        geoRegistry: geoRegistry
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_4___default.a, {
-        width: "100%",
-        height: "calc(100vh - 78px)",
-        definition: this.state.def,
-        onDefinitionChange: console.log("Changed!"),
-        preset: _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_3___default.a,
-        initialMode: "view"
-      }))));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_ColumnLayout__WEBPACK_IMPORTED_MODULE_8___default.a.Row, null, this.state.hasNotBeenFetched ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_10___default.a, {
+        size: "large"
+      }) : dash));
     }
   }]);
 
@@ -325,6 +356,71 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (SplunkTimeRangeSliderInput);
+
+/***/ }),
+
+/***/ "./src/demodash.js":
+/*!*************************!*\
+  !*** ./src/demodash.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var demodash = {
+  "visualizations": {
+    "viz_TUg2KOpr": {
+      "type": "viz.line",
+      "options": {},
+      "dataSources": {
+        "primary": "ds_FtRF4MzI"
+      }
+    }
+  },
+  "dataSources": {
+    "ds_FtRF4MzI": {
+      "type": "ds.search",
+      "options": {
+        "query": "| makeresults count=100 | eval t=86400\n| streamstats sum(t) as t\n| eval _time=_time-t | eval time=_time | fields - time"
+      },
+      "name": "Confirmed Cases"
+    }
+  },
+  "defaults": {
+    "dataSources": {
+      "ds.search": {
+        "options": {}
+      }
+    },
+    "visualizations": {
+      "global": {
+        "showLastUpdated": true
+      }
+    }
+  },
+  "inputs": {},
+  "layout": {
+    "type": "absolute",
+    "options": {
+      "display": "auto-scale"
+    },
+    "structure": [{
+      "item": "viz_TUg2KOpr",
+      "type": "block",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "w": 1200,
+        "h": 510
+      }
+    }],
+    "globalInputs": []
+  },
+  "description": "",
+  "title": "Timelapse"
+};
+/* harmony default export */ __webpack_exports__["default"] = (demodash);
 
 /***/ }),
 
@@ -391,6 +487,17 @@ module.exports = require("@splunk/dashboard-presets/EnterprisePreset");
 /***/ (function(module, exports) {
 
 module.exports = require("@splunk/react-ui/ColumnLayout");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/WaitSpinner":
+/*!***********************************************!*\
+  !*** external "@splunk/react-ui/WaitSpinner" ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/WaitSpinner");
 
 /***/ }),
 
