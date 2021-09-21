@@ -54,9 +54,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
       dashboardid = "thisisonlyademo"
     }
 
-    console.log(dashboardid)
-
-
     fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
@@ -90,7 +87,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
   //Function for handling range slider changes
   onChangeCallback = async (selectedInterval) => {
 
-    console.log("Test")
     //Update the selectedInterval variable with the new start and end times
     selectedInterval.map((d, i) => {
       if (i == 0) {
@@ -106,7 +102,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
 
     //For each dataSource in the dashboard, append a where clause to limit the start/end time
     var definition_new = JSON.parse(JSON.stringify(definition))
-    console.log(definition)
     for (var v in definition.dataSources) {
       //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
       definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString() + " | fields - time"
@@ -126,7 +121,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
         width="100%"
         height="calc(100vh - 78px)"
         definition={this.state.def}
-        onDefinitionChange={console.log("Changed!")}
         preset={EnterprisePreset}
         initialMode="view"
       />

@@ -204,8 +204,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log("Test"); //Update the selectedInterval variable with the new start and end times
-
+                //Update the selectedInterval variable with the new start and end times
                 selectedInterval.map(function (d, i) {
                   if (i == 0) {
                     _this.start_range = d.getTime() / 1000;
@@ -222,7 +221,6 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
 
                 definition_new = JSON.parse(JSON.stringify(definition));
-                console.log(definition);
 
                 for (v in definition.dataSources) {
                   //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
@@ -236,7 +234,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                 definition = definition_new;
                 _this.state.hasNotBeenFetched = false;
 
-              case 9:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -275,7 +273,6 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         dashboardid = "thisisonlyademo";
       }
 
-      console.log(dashboardid);
       fetch("/splunkd/services/data/ui/views/".concat(dashboardid, "?output_mode=json"), {
         credentials: 'include'
       }).then(function (res) {
@@ -320,7 +317,6 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         width: "100%",
         height: "calc(100vh - 78px)",
         definition: this.state.def,
-        onDefinitionChange: console.log("Changed!"),
         preset: _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_3___default.a,
         initialMode: "view"
       }));
