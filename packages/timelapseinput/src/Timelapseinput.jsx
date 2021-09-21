@@ -22,8 +22,6 @@ const timeinterval = params.get('timeinterval');
 const demo = params.get('demo');
 
 
-
-
 let step = 1000 * 60 * 60 * 24
 if (timeinterval == "days") {
     step = 1000 * 60 * 60 * 24
@@ -180,13 +178,12 @@ class TimelapseControls extends React.Component {
         });
     };
 
-
     static convertValueToLabel(value) {
         return new Date(value).toLocaleString()
 
     }
-    handleSliderChange(event, { value }) {
 
+    handleSliderChange(event, { value }) {
         this.setState({
             displayValue: TimelapseControls.convertValueToLabel(value),
             value,
@@ -196,12 +193,9 @@ class TimelapseControls extends React.Component {
         }, () => {
             this.updateDataSources()
         })
-
     };
 
-
     render() {
-
         const colStyle = { border: `0px solid black`, padding: 10, paddingRight: 20, whiteSpace: 'nowrap', textAlign: 'center' };
         const textStyle = { textAlign: 'center' }
         const dash = <DashboardContextProvider geoRegistry={geoRegistry}>

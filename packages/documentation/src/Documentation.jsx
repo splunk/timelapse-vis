@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Button from '@splunk/react-ui/Button';
-import { StyledContainer, StyledGreeting } from './DocumentationStyles';
 import Heading from '@splunk/react-ui/Heading';
-import P from '@splunk/react-ui/Paragraph';
-import List from '@splunk/react-ui/List';
 import Link from '@splunk/react-ui/Link';
+import List from '@splunk/react-ui/List';
+import P from '@splunk/react-ui/Paragraph';
+import React, { Component } from 'react';
 
 class Documentation extends Component {
 
@@ -41,9 +38,9 @@ class Documentation extends Component {
                     <List.Item>rangeEnd (string, format needs to be YYYY-MM-DD HH:MM:SS)</List.Item>
                 </List>
                 <Heading level={3}>Timelapse</Heading>
-                <Link to={"timelapse?demo=true&rangeStart=2021-09-01%2000%3A00%3A00&rangeEnd=2021-09-19%2000%3A00%3A00&timeinterval=days"}>View a Demo Here</Link>
+                <Link target="_blank" to={"timelapse?demo=true&rangeStart=2021-09-01%2000%3A00%3A00&rangeEnd=2021-09-19%2000%3A00%3A00&timeinterval=days"}>View a Demo Here</Link>
                 <P>This input provides the ability to "scrub" through your data. You can playback data in forward, reverse, or even pause your data playback.</P>
-                <List target="_blank" type="decimal">
+                <List type="decimal">
                     <List.Item>demo (string, currently accepts boolean values)</List.Item>
                     <List.Item>dashboardid (string)</List.Item>
                     <List.Item>rangeStart (string, format needs to be YYYY-MM-DD HH:MM:SS)</List.Item>
