@@ -12,7 +12,6 @@ import { SplunkThemeProvider } from '@splunk/themes';
 import Heading from '@splunk/react-ui/Heading';
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 import demodash from './demodash'
-import Documentation from '@splunk/documentation'
 
 var search = window.location.search
 const params = new URLSearchParams(search);
@@ -106,10 +105,11 @@ class TimelapseControls extends React.Component {
         })
     }
     onPlayCallback(event) {
-        let interval
         this.state.isPlaying = true
 
         if (this.state.isReversing) {
+            clearInterval(this.timer)
+
             this.setState({
                 isReversing: false
             })
@@ -136,6 +136,7 @@ class TimelapseControls extends React.Component {
 
     onReverseCallback(event) {
         if (this.state.isPlaying) {
+            clearInterval(this.timer)
             this.setState({
                 isPlaying: false
             })
@@ -166,6 +167,9 @@ class TimelapseControls extends React.Component {
     onStopCallback(event) {
         this.setState({
             isPlaying: false
+        })
+        this.setState({
+            isReversing: false
         })
         clearInterval(this.timer)
     }
@@ -214,8 +218,8 @@ class TimelapseControls extends React.Component {
                     <ColumnLayout.Column span={2} style={colStyle}>
                         <SplunkThemeProvider family="enterprise" colorScheme="light" density="compact">
                             <Heading style={textStyle} level={2}>{new Date(this.state.time).toLocaleString()}</Heading>
-                            <Button label="Start" onClick={this.onPlayCallback} appearance="primary" />
-                            <Button label="Stop" onClick={this.onStopCallback} appearance="primary" />
+                            <Button label="Play" onClick={this.onPlayCallback} appearance="primary" />
+                            <Button label="Pause" onClick={this.onStopCallback} appearance="primary" />
                             <Button label="Reverse" onClick={this.onReverseCallback} appearance="primary" />
                             <Select value={this.state.playbackMultiplier} prefixLabel="Timelapse Speed" onChange={this.handleSpeedPicker} >
                                 <Select.Option value="1" label="1x" />
