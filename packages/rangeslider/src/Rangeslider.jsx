@@ -1,14 +1,14 @@
-import React from "react";
-import { format } from "date-fns";
-import TimeRange from "react-timeline-range-slider";
-import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
-import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
-import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
 import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
+import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
+import DashboardCore from '@splunk/dashboard-core';
+import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
-import demodash from './demodash'
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
+import { format } from "date-fns";
+import React from "react";
+import TimeRange from "react-timeline-range-slider";
+import demodash from './demodash';
 
 //Get the current dashboard ID
 const dashboard_id = window.location.pathname.split("/").pop()
@@ -24,12 +24,11 @@ geoRegistry.addDefaultProvider(new GeoJsonProvider());
 //Get the Time Ranges from the URL Params
 var search = window.location.search
 const params = new URLSearchParams(search);
-const rangeStart = params.get('rangeStart');
-const rangeEnd = params.get('rangeEnd');
-const demo = params.get('demo');
+const rangeStart = Math.round((Date.parse(params.get('rangeStart')).valueOf()) / 1000);
+const rangeEnd = Math.round((Date.parse(params.get('rangeEnd')).valueOf()) / 1000);
 var definition = ""
 
-timelineInterval = [Date.parse(rangeStart), Date.parse(rangeEnd)]
+timelineInterval = [rangeStart * 1000, rangeEnd * 1000]
 selectedInterval = timelineInterval
 
 //SplunkTimeRangeSlider Class
@@ -41,6 +40,8 @@ class SplunkTimeRangeSliderInput extends React.Component {
       selectedInterval,
       def: this.props.dash.props.definition,
       hasNotBeenFetched: true,
+      startTime: rangeStart,
+      endTime: rangeEnd
     }
     this.fetchDefinition();
   }
@@ -76,17 +77,13 @@ class SplunkTimeRangeSliderInput extends React.Component {
       });
   }
 
-  //Create start_range as 0
-  start_range = 0
-
-  //Create End Range as Today's Date
-  end_range = Math.round(Date.now() / 1000)
-
   errorHandler = ({ error }) => this.setState({ error });
 
   //Function for handling range slider changes
   onChangeCallback = async (selectedInterval) => {
 
+    console.log(this.start_range)
+    console.log(this.end_range)
     //Update the selectedInterval variable with the new start and end times
     selectedInterval.map((d, i) => {
       if (i == 0) {
@@ -97,9 +94,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
       }
     })
 
-    //Set the state variable of selectedInterval with the new values
-    this.setState({ selectedInterval })
-
     //For each dataSource in the dashboard, append a where clause to limit the start/end time
     var definition_new = JSON.parse(JSON.stringify(definition))
     for (var v in definition.dataSources) {
@@ -107,11 +101,15 @@ class SplunkTimeRangeSliderInput extends React.Component {
       definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString() + " | fields - time"
     }
 
+
+    //Set the state variable of selectedInterval with the new values
+    this.setState({ selectedInterval })
+
+
     this.setState({
       def: definition_new
     })
-    definition = definition_new
-
+    //definition = definition_new
     this.state.hasNotBeenFetched = false
   };
 
@@ -125,8 +123,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
         initialMode="view"
       />
     </DashboardContextProvider>
-
-
     return (
       <ColumnLayout>
         <ColumnLayout.Row>
@@ -144,7 +140,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
           <TimeRange
             error={this.state.error}
             ticksNumber={36}
-            selectedInterval={timelineInterval}
+            selectedInterval={selectedInterval}
             timelineInterval={timelineInterval}
             onUpdateCallback={this.errorHandler}
             onChangeCallback={this.onChangeCallback}
@@ -155,9 +151,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
           {this.state.hasNotBeenFetched ? <WaitSpinner size="large" /> : dash}
         </ColumnLayout.Row>
       </ColumnLayout>
-
-
-
     );
   }
 }

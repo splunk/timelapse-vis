@@ -6,7 +6,6 @@ import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Datetime from "react-datetime";
 import Link from '@splunk/react-ui/Link';
 
-
 class DashboardSelector extends Component {
 
     constructor(props) {

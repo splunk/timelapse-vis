@@ -13,12 +13,7 @@ import Documentation from '@splunk/documentation'
 
 const themeProviderSettings = getThemeOptions(defaultTheme() || 'enterpriseDark');
 
-
-
 layout(
-
-
-
     <SplunkThemeProvider {...themeProviderSettings}>
         <StyledContainer>
             <StyledGreeting>Documentation</StyledGreeting>
