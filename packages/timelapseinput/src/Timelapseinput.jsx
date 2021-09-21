@@ -77,10 +77,6 @@ class TimelapseControls extends React.Component {
             });
     }
 
-
-    
-
-
     updateDataSources() {
         console.log("Step 1")
         var definition_new = JSON.parse(JSON.stringify(definition))
@@ -181,21 +177,30 @@ class TimelapseControls extends React.Component {
             time: value
         }, () => {
             this.updateDataSources()
-            })
+        })
 
     };
 
 
     render() {
 
-        const colStyle = { border: `0px solid black`, padding: 10, paddingRight: 20, whiteSpace: 'nowrap' };
-
+        const colStyle = { border: `0px solid black`, padding: 10, paddingRight: 20, whiteSpace: 'nowrap', textAlign: 'center' };
+        const textStyle = { textAlign: 'center' }
+        const dash = <DashboardContextProvider geoRegistry={geoRegistry}>
+            <DashboardCore
+                width="100%"
+                height="calc(100vh - 78px)"
+                definition={this.state.def}
+                preset={EnterprisePreset}
+                initialMode="view"
+            /></DashboardContextProvider>
+        console.log(dash)
         return (
             <ColumnLayout gutter={2} divider="vertical">
                 <ColumnLayout.Row alignItems="center">
                     <ColumnLayout.Column span={2} style={colStyle}>
                         <SplunkThemeProvider family="enterprise" colorScheme="light" density="compact">
-                            <Heading level={2}>{new Date(this.state.time).toLocaleString()}</Heading>
+                            <Heading style={textStyle} level={2}>{new Date(this.state.time).toLocaleString()}</Heading>
                             <Button label="Start" onClick={this.onPlayCallback} appearance="primary" />
                             <Button label="Stop" onClick={this.onStopCallback} appearance="primary" />
                             <Button label="Reverse" onClick={this.onReverseCallback} appearance="primary" />
@@ -212,21 +217,13 @@ class TimelapseControls extends React.Component {
                     </ColumnLayout.Column>
                     <ColumnLayout.Column span={6} style={colStyle} >
                         <SplunkThemeProvider family="enterprise" colorScheme="light" density="compact">
-                            <Slider min={this.state.startTime * 1000} value={this.state.time} displayValue={this.state.displayValue} onChange={this.handleSliderChange} max={this.state.endTime * 1000} step={step} defaultValue={this.state.startTime * 1000} minLabel={new Date(this.state.startTime * 1000).toLocaleString()} maxLabel={new Date(this.state.endTime * 1000).toLocaleString()}/>
+                            <Slider min={this.state.startTime * 1000} value={this.state.time} displayValue={this.state.displayValue} onChange={this.handleSliderChange} max={this.state.endTime * 1000} step={step} defaultValue={this.state.startTime * 1000} minLabel={new Date(this.state.startTime * 1000).toLocaleString()} maxLabel={new Date(this.state.endTime * 1000).toLocaleString()} />
                         </SplunkThemeProvider>
                     </ColumnLayout.Column>
                 </ColumnLayout.Row>
                 <ColumnLayout.Row>
                     <ColumnLayout.Column span={8}>
-                        {this.state.hasNotBeenFetched ? <WaitSpinner size="large" /> : <DashboardContextProvider geoRegistry={geoRegistry}>
-                            <DashboardCore
-                                width="100%"
-                                height="calc(100vh - 78px)"
-                                definition={this.state.def}
-                                preset={EnterprisePreset}
-                                initialMode="view"
-                            />
-                        </DashboardContextProvider>}
+                        {this.state.hasNotBeenFetched ? <WaitSpinner size="large" /> : dash}
                     </ColumnLayout.Column>
                 </ColumnLayout.Row>
             </ColumnLayout>
