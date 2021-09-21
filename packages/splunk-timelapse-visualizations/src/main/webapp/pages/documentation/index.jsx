@@ -21,8 +21,8 @@ layout(
 
     <SplunkThemeProvider {...themeProviderSettings}>
         <StyledContainer>
-            <StyledGreeting>Welcome to the Rangeslider and Timelapse Visualizations. </StyledGreeting>
-            <DashboardSelector />
+            <StyledGreeting>Documentation</StyledGreeting>
+            <Documentation />
         </StyledContainer>
     </SplunkThemeProvider>
 );

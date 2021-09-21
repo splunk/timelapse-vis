@@ -1,3 +1,5 @@
 <nav>
     <view name="start" default="true"/>
+<view name="documentation"/>
+
 </nav>
