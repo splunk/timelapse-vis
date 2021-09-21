@@ -81,9 +81,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
 
   //Function for handling range slider changes
   onChangeCallback = async (selectedInterval) => {
-
-    console.log(this.start_range)
-    console.log(this.end_range)
     //Update the selectedInterval variable with the new start and end times
     selectedInterval.map((d, i) => {
       if (i == 0) {
@@ -100,12 +97,8 @@ class SplunkTimeRangeSliderInput extends React.Component {
       //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
       definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + this.end_range.toString() + " AND time>=" + this.start_range.toString() + " | fields - time"
     }
-
-
     //Set the state variable of selectedInterval with the new values
     this.setState({ selectedInterval })
-
-
     this.setState({
       def: definition_new
     })

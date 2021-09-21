@@ -199,9 +199,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log(_this.start_range);
-                console.log(_this.end_range); //Update the selectedInterval variable with the new start and end times
-
+                //Update the selectedInterval variable with the new start and end times
                 selectedInterval.map(function (d, i) {
                   if (i == 0) {
                     _this.start_range = d.getTime() / 1000;
@@ -231,7 +229,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
                 _this.state.hasNotBeenFetched = false;
 
-              case 8:
+              case 6:
               case "end":
                 return _context.stop();
             }
