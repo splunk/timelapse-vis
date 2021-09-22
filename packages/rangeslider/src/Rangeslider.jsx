@@ -10,6 +10,7 @@ import React from "react";
 import TimeRange from "react-timeline-range-slider";
 import demodash from './demodash';
 
+
 //Get the current dashboard ID
 const dashboard_id = window.location.pathname.split("/").pop()
 
@@ -21,6 +22,7 @@ var timelineInterval = []
 const geoRegistry = GeoRegistry.create();
 geoRegistry.addDefaultProvider(new GeoJsonProvider());
 
+
 //Get the Time Ranges from the URL Params
 var search = window.location.search
 const params = new URLSearchParams(search);
@@ -30,6 +32,88 @@ var definition = ""
 
 timelineInterval = [rangeStart * 1000, rangeEnd * 1000]
 selectedInterval = timelineInterval
+const seenImages = {};
+
+
+function parseDataUri(dataUri) {
+  if (!dataUri.startsWith('data:')) {
+    throw new Error('Invalid data URI');
+  }
+  const semiIdx = dataUri.indexOf(';');
+  if (semiIdx < 0) {
+    throw new Error('Invalid data URI');
+  }
+  const mime = dataUri.slice(5, semiIdx);
+  if (!dataUri.slice(semiIdx + 1, 7) === 'base64,') {
+    throw new Error('Unsupported data URI encoding');
+  }
+  const data = Buffer.from(dataUri.slice(semiIdx + 8), 'base64');
+  return [mime, data];
+}
+
+
+async function getImage(assetType, id) {
+  const body = await fetch(`/splunkd/__raw/servicesNS/nobody/splunk-dashboard-studio/storage/collections/data/splunk-dashboard-${assetType}/${encodeURIComponent(
+    id
+  )}`, { credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+      const body = data;
+      return body
+    })
+
+  return body
+}
+
+
+async function downloadImage(src, assetType) {
+  console.log(src)
+  if (!src) {
+    return src;
+  }
+  if (src in seenImages) {
+    return seenImages[src];
+  }
+  if (src.startsWith("data:image")) {
+    return src;
+  }
+
+  if (src.startsWith("<svg ")) {
+    return src;
+  }
+  const [type, id] = src.split('://');
+  if (type === 'https' || type === 'http') {
+    const res = fetch(src);
+    const data = res.buffer();
+    const mimeType = res.headers.get('Content-Type');
+    return src;
+  }
+
+  if (type === 'splunk-enterprise-kvstore') {
+
+    var imgData = { dataURI: "null" }
+    try {
+      console.log(id + " " + assetType)
+      imgData = await getImage(assetType, id).then(blob => {
+        return blob
+      })
+    }
+    catch (e) {
+      console.log(e)
+      console.log("Cannot find image")
+    }
+
+    if (imgData.dataURI == "null") {
+      imgData.dataURI == src
+    }
+    else {
+      const [mimeType, data] = parseDataUri(imgData.dataURI);
+    }
+    return imgData.dataURI
+  }
+  throw new Error(`Unexpected image type: ${type}`);
+}
+
 
 //SplunkTimeRangeSlider Class
 class SplunkTimeRangeSliderInput extends React.Component {
@@ -41,12 +125,15 @@ class SplunkTimeRangeSliderInput extends React.Component {
       def: this.props.dash.props.definition,
       hasNotBeenFetched: true,
       startTime: rangeStart,
-      endTime: rangeEnd
+      endTime: rangeEnd,
+      def: {}
     }
-    this.fetchDefinition();
+
+    this.fetchDefinition()
+
   }
 
-  fetchDefinition() {
+  fetchDefinition = async () => {
     var search = window.location.search
     const params = new URLSearchParams(search);
     const demo = params.get('demo');
@@ -55,16 +142,15 @@ class SplunkTimeRangeSliderInput extends React.Component {
       dashboardid = "thisisonlyademo"
     }
 
-    fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
+    const def = await fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
         const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
-        this.setState({ def });
-        definition = def
-        this.setState({ hasNotBeenFetched: false })
+        return def
       }
       )
+
       .catch(e => {
 
         //If there is an error, and demo==true, apply the demo dashboard.
@@ -75,7 +161,71 @@ class SplunkTimeRangeSliderInput extends React.Component {
         }
         console.error('Error during definition retrieval/parsing', e);
       });
+
+    //Let's process the dashboard before we put it in place
+    //First let's get images
+
+    for (const viz of Object.values(def.visualizations || {})) {
+      var src = ""
+      console.log(viz)
+      try {
+        if (viz.type === 'viz.singlevalueicon') {
+          viz.options.icon = await downloadImage(viz.options.icon, 'icons')
+        }
+        if (viz.type === 'splunk.singlevalueicon') {
+          viz.options.icon = await downloadImage(viz.options.icon, 'icons')
+        }
+        if (viz.type === 'viz.img') {
+          viz.options.src = await downloadImage(viz.options.src, 'images')
+        }
+        if (viz.type === 'splunk.choropleth.svg') {
+          viz.options.svg = await downloadImage(viz.options.svg, 'images')
+        }
+        if (viz.type === 'viz.choropleth.svg') {
+          viz.options.svg = await downloadImage(viz.options.svg, 'images')
+        }
+      } catch (e) {
+
+        console.log(def)
+        console.log("Failed to load image with src: " + src)
+        console.log(e)
+      }
+    }
+
+
+    if (def.layout.options.backgroundImage) {
+      try{
+          def.layout.options.backgroundImage.src = await downloadImage(
+          def.layout.options.backgroundImage.src,
+          'images'
+      );
+      }
+      catch(e)
+      {
+          console.log(e)
+      }
   }
+
+
+
+  
+    if (demo !== "true") {
+      {
+        console.log(def)
+        console.log("Not a demo")
+        this.setState({ def });
+        console.log("Set state")
+        definition = def
+        console.log("Set def variable")
+        this.setState({ hasNotBeenFetched: false })
+
+      }
+
+    }
+  }
+
+
+
 
   errorHandler = ({ error }) => this.setState({ error });
 
