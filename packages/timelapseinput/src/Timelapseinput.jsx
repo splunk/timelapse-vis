@@ -30,7 +30,7 @@ if (timeinterval == "hours") {
     step = 1000 * 60 * 60
 }
 
-var seenImages= {}
+var seenImages = {}
 var definition = ""
 
 const geoRegistry = GeoRegistry.create();
@@ -40,82 +40,80 @@ geoRegistry.addDefaultProvider(new GeoJsonProvider());
 
 function parseDataUri(dataUri) {
     if (!dataUri.startsWith('data:')) {
-      throw new Error('Invalid data URI');
+        throw new Error('Invalid data URI');
     }
     const semiIdx = dataUri.indexOf(';');
     if (semiIdx < 0) {
-      throw new Error('Invalid data URI');
+        throw new Error('Invalid data URI');
     }
     const mime = dataUri.slice(5, semiIdx);
     if (!dataUri.slice(semiIdx + 1, 7) === 'base64,') {
-      throw new Error('Unsupported data URI encoding');
+        throw new Error('Unsupported data URI encoding');
     }
     const data = Buffer.from(dataUri.slice(semiIdx + 8), 'base64');
     return [mime, data];
-  }
-  
-  
-  async function getImage(assetType, id) {
+}
+
+
+async function getImage(assetType, id) {
     const body = await fetch(`/splunkd/__raw/servicesNS/nobody/splunk-dashboard-studio/storage/collections/data/splunk-dashboard-${assetType}/${encodeURIComponent(
-      id
+        id
     )}`, { credentials: 'include' })
-      .then(res => res.json())
-      .then(data => {
-        const body = data;
-        return body
-      })
-  
+        .then(res => res.json())
+        .then(data => {
+            const body = data;
+            return body
+        })
+
     return body
-  }
-  
-  
-  async function downloadImage(src, assetType) {
-    console.log(src)
+}
+
+
+async function downloadImage(src, assetType) {
     if (!src) {
-      return src;
+        return src;
     }
     if (src in seenImages) {
-      return seenImages[src];
+        return seenImages[src];
     }
     if (src.startsWith("data:image")) {
-      return src;
+        return src;
     }
-  
+
     if (src.startsWith("<svg ")) {
-      return src;
+        return src;
     }
     const [type, id] = src.split('://');
     if (type === 'https' || type === 'http') {
-      const res = fetch(src);
-      const data = res.buffer();
-      const mimeType = res.headers.get('Content-Type');
-      return src;
+        const res = fetch(src);
+        const data = res.buffer();
+        const mimeType = res.headers.get('Content-Type');
+        return src;
     }
-  
+
     if (type === 'splunk-enterprise-kvstore') {
-  
-      var imgData = { dataURI: "null" }
-      try {
-        console.log(id + " " + assetType)
-        imgData = await getImage(assetType, id).then(blob => {
-          return blob
-        })
-      }
-      catch (e) {
-        console.log(e)
-        console.log("Cannot find image")
-      }
-  
-      if (imgData.dataURI == "null") {
-        imgData.dataURI == src
-      }
-      else {
-        const [mimeType, data] = parseDataUri(imgData.dataURI);
-      }
-      return imgData.dataURI
+
+        var imgData = { dataURI: "null" }
+        try {
+            imgData = await getImage(assetType, id).then(blob => {
+                return blob
+            })
+        }
+        catch (e) {
+            console.log(e)
+            console.log("Cannot find image")
+        }
+
+        if (imgData.dataURI == "null") {
+            imgData.dataURI == src
+        }
+        else {
+            const [mimeType, data] = parseDataUri(imgData.dataURI);
+        }
+        return imgData.dataURI
     }
     throw new Error(`Unexpected image type: ${type}`);
-  }
+}
 
 
 class TimelapseControls extends React.Component {
@@ -151,87 +149,78 @@ class TimelapseControls extends React.Component {
         const demo = params.get('demo');
         var dashboardid = params.get('dashboardid');
         if (demo == "true") {
-          dashboardid = "thisisonlyademo"
+            dashboardid = "thisisonlyademo"
         }
-    
+
         const def = await fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
-          .then(res => res.json())
-          .then(data => {
-            var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
-            const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
-            return def
-          }
-          )
-    
-          .catch(e => {
-    
-            //If there is an error, and demo==true, apply the demo dashboard.
-            if (demo == "true") {
-              this.setState({ def: demodash });
-              definition = demodash
-              this.setState({ hasNotBeenFetched: false })
+            .then(res => res.json())
+            .then(data => {
+                var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
+                const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
+                return def
             }
-            console.error('Error during definition retrieval/parsing', e);
-          });
-    
+            )
+
+            .catch(e => {
+
+                //If there is an error, and demo==true, apply the demo dashboard.
+                if (demo == "true") {
+                    this.setState({ def: demodash });
+                    definition = demodash
+                    this.setState({ hasNotBeenFetched: false })
+                }
+                console.error('Error during definition retrieval/parsing', e);
+            });
+
         //Let's process the dashboard before we put it in place
         //First let's get images
-    
-        for (const viz of Object.values(def.visualizations || {})) {
-          var src = ""
-          console.log(viz)
-          try {
-            if (viz.type === 'viz.singlevalueicon') {
-              viz.options.icon = await downloadImage(viz.options.icon, 'icons')
-            }
-            if (viz.type === 'splunk.singlevalueicon') {
-              viz.options.icon = await downloadImage(viz.options.icon, 'icons')
-            }
-            if (viz.type === 'viz.img') {
-              viz.options.src = await downloadImage(viz.options.src, 'images')
-            }
-            if (viz.type === 'splunk.choropleth.svg') {
-              viz.options.svg = await downloadImage(viz.options.svg, 'images')
-            }
-            if (viz.type === 'viz.choropleth.svg') {
-              viz.options.svg = await downloadImage(viz.options.svg, 'images')
-            }
-          } catch (e) {
-    
-            console.log(def)
-            console.log("Failed to load image with src: " + src)
-            console.log(e)
-          }
-        }
-
-        if (def.layout.options.backgroundImage) {
-            try{
-                def.layout.options.backgroundImage.src = await downloadImage(
-                def.layout.options.backgroundImage.src,
-                'images'
-            );
-            }
-            catch(e)
-            {
-                console.log(e)
-            }
-        }
-
-        
         if (demo !== "true") {
-          {
-            console.log(def)
-            console.log("Not a demo")
-            this.setState({ def });
-            console.log("Set state")
-            definition = def
-            console.log("Set def variable")
-            this.setState({ hasNotBeenFetched: false })
-    
-          }
-    
+            {
+                for (const viz of Object.values(def.visualizations || {})) {
+                    var src = ""
+                    try {
+                        if (viz.type === 'viz.singlevalueicon') {
+                            viz.options.icon = await downloadImage(viz.options.icon, 'icons')
+                        }
+                        if (viz.type === 'splunk.singlevalueicon') {
+                            viz.options.icon = await downloadImage(viz.options.icon, 'icons')
+                        }
+                        if (viz.type === 'viz.img') {
+                            viz.options.src = await downloadImage(viz.options.src, 'images')
+                        }
+                        if (viz.type === 'splunk.choropleth.svg') {
+                            viz.options.svg = await downloadImage(viz.options.svg, 'images')
+                        }
+                        if (viz.type === 'viz.choropleth.svg') {
+                            viz.options.svg = await downloadImage(viz.options.svg, 'images')
+                        }
+                    } catch (e) {
+
+                        console.log("Failed to load image with src: " + src)
+                        console.log(e)
+                    }
+                }
+
+                if (def.layout.options.backgroundImage) {
+                    try {
+                        def.layout.options.backgroundImage.src = await downloadImage(
+                            def.layout.options.backgroundImage.src,
+                            'images'
+                        );
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
+                }
+
+
+
+                this.setState({ def });
+                definition = def
+                this.setState({ hasNotBeenFetched: false })
+            }
         }
-      }
+    }
 
     updateDataSources() {
         var definition_new = JSON.parse(JSON.stringify(definition))

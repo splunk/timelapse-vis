@@ -2088,44 +2088,42 @@ function _downloadImage() {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            console.log(src);
-
             if (src) {
-              _context4.next = 3;
+              _context4.next = 2;
               break;
             }
 
             return _context4.abrupt("return", src);
 
-          case 3:
+          case 2:
             if (!(src in seenImages)) {
-              _context4.next = 5;
+              _context4.next = 4;
               break;
             }
 
             return _context4.abrupt("return", seenImages[src]);
 
-          case 5:
+          case 4:
             if (!src.startsWith("data:image")) {
-              _context4.next = 7;
+              _context4.next = 6;
               break;
             }
 
             return _context4.abrupt("return", src);
 
-          case 7:
+          case 6:
             if (!src.startsWith("<svg ")) {
-              _context4.next = 9;
+              _context4.next = 8;
               break;
             }
 
             return _context4.abrupt("return", src);
 
-          case 9:
+          case 8:
             _src$split = src.split('://'), _src$split2 = _slicedToArray(_src$split, 2), type = _src$split2[0], id = _src$split2[1];
 
             if (!(type === 'https' || type === 'http')) {
-              _context4.next = 15;
+              _context4.next = 14;
               break;
             }
 
@@ -2134,34 +2132,33 @@ function _downloadImage() {
             mimeType = res.headers.get('Content-Type');
             return _context4.abrupt("return", src);
 
-          case 15:
+          case 14:
             if (!(type === 'splunk-enterprise-kvstore')) {
-              _context4.next = 30;
+              _context4.next = 28;
               break;
             }
 
             imgData = {
               dataURI: "null"
             };
-            _context4.prev = 17;
-            console.log(id + " " + assetType);
-            _context4.next = 21;
+            _context4.prev = 16;
+            _context4.next = 19;
             return getImage(assetType, id).then(function (blob) {
               return blob;
             });
 
-          case 21:
+          case 19:
             imgData = _context4.sent;
-            _context4.next = 28;
+            _context4.next = 26;
             break;
 
-          case 24:
-            _context4.prev = 24;
-            _context4.t0 = _context4["catch"](17);
+          case 22:
+            _context4.prev = 22;
+            _context4.t0 = _context4["catch"](16);
             console.log(_context4.t0);
             console.log("Cannot find image");
 
-          case 28:
+          case 26:
             if (imgData.dataURI == "null") {
               imgData.dataURI == src;
             } else {
@@ -2170,15 +2167,15 @@ function _downloadImage() {
 
             return _context4.abrupt("return", imgData.dataURI);
 
-          case 30:
+          case 28:
             throw new Error("Unexpected image type: ".concat(type));
 
-          case 31:
+          case 29:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[17, 24]]);
+    }, _callee4, null, [[16, 22]]);
   }));
   return _downloadImage.apply(this, arguments);
 }
@@ -2239,17 +2236,22 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
             case 7:
               def = _context.sent;
+
+              if (!(demo !== "true")) {
+                _context.next = 56;
+                break;
+              }
+
               _i = 0, _Object$values = Object.values(def.visualizations || {});
 
-            case 9:
+            case 10:
               if (!(_i < _Object$values.length)) {
-                _context.next = 44;
+                _context.next = 43;
                 break;
               }
 
               viz = _Object$values[_i];
               src = "";
-              console.log(viz);
               _context.prev = 13;
 
               if (!(viz.type === 'viz.singlevalueicon')) {
@@ -2312,67 +2314,57 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
               viz.options.svg = _context.sent;
 
             case 34:
-              _context.next = 41;
+              _context.next = 40;
               break;
 
             case 36:
               _context.prev = 36;
               _context.t0 = _context["catch"](13);
-              console.log(def);
               console.log("Failed to load image with src: " + src);
               console.log(_context.t0);
 
-            case 41:
+            case 40:
               _i++;
-              _context.next = 9;
+              _context.next = 10;
               break;
 
-            case 44:
+            case 43:
               if (!def.layout.options.backgroundImage) {
-                _context.next = 54;
+                _context.next = 53;
                 break;
               }
 
-              _context.prev = 45;
-              _context.next = 48;
+              _context.prev = 44;
+              _context.next = 47;
               return downloadImage(def.layout.options.backgroundImage.src, 'images');
 
-            case 48:
+            case 47:
               def.layout.options.backgroundImage.src = _context.sent;
-              _context.next = 54;
+              _context.next = 53;
               break;
 
-            case 51:
-              _context.prev = 51;
-              _context.t1 = _context["catch"](45);
+            case 50:
+              _context.prev = 50;
+              _context.t1 = _context["catch"](44);
               console.log(_context.t1);
 
-            case 54:
-              if (demo !== "true") {
-                {
-                  console.log(def);
-                  console.log("Not a demo");
+            case 53:
+              _this.setState({
+                def: def
+              });
 
-                  _this.setState({
-                    def: def
-                  });
+              definition = def;
 
-                  console.log("Set state");
-                  definition = def;
-                  console.log("Set def variable");
+              _this.setState({
+                hasNotBeenFetched: false
+              });
 
-                  _this.setState({
-                    hasNotBeenFetched: false
-                  });
-                }
-              }
-
-            case 55:
+            case 56:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[13, 36], [45, 51]]);
+      }, _callee, null, [[13, 36], [44, 50]]);
     })));
 
     _defineProperty(_assertThisInitialized(_this), "errorHandler", function (_ref2) {

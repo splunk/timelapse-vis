@@ -67,7 +67,6 @@ async function getImage(assetType, id) {
 
 
 async function downloadImage(src, assetType) {
-  console.log(src)
   if (!src) {
     return src;
   }
@@ -93,7 +92,6 @@ async function downloadImage(src, assetType) {
 
     var imgData = { dataURI: "null" }
     try {
-      console.log(id + " " + assetType)
       imgData = await getImage(assetType, id).then(blob => {
         return blob
       })
@@ -128,9 +126,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
       endTime: rangeEnd,
       def: {}
     }
-
     this.fetchDefinition()
-
   }
 
   fetchDefinition = async () => {
@@ -164,68 +160,53 @@ class SplunkTimeRangeSliderInput extends React.Component {
 
     //Let's process the dashboard before we put it in place
     //First let's get images
-
-    for (const viz of Object.values(def.visualizations || {})) {
-      var src = ""
-      console.log(viz)
-      try {
-        if (viz.type === 'viz.singlevalueicon') {
-          viz.options.icon = await downloadImage(viz.options.icon, 'icons')
-        }
-        if (viz.type === 'splunk.singlevalueicon') {
-          viz.options.icon = await downloadImage(viz.options.icon, 'icons')
-        }
-        if (viz.type === 'viz.img') {
-          viz.options.src = await downloadImage(viz.options.src, 'images')
-        }
-        if (viz.type === 'splunk.choropleth.svg') {
-          viz.options.svg = await downloadImage(viz.options.svg, 'images')
-        }
-        if (viz.type === 'viz.choropleth.svg') {
-          viz.options.svg = await downloadImage(viz.options.svg, 'images')
-        }
-      } catch (e) {
-
-        console.log(def)
-        console.log("Failed to load image with src: " + src)
-        console.log(e)
-      }
-    }
-
-
-    if (def.layout.options.backgroundImage) {
-      try{
-          def.layout.options.backgroundImage.src = await downloadImage(
-          def.layout.options.backgroundImage.src,
-          'images'
-      );
-      }
-      catch(e)
-      {
-          console.log(e)
-      }
-  }
-
-
-
-  
     if (demo !== "true") {
       {
-        console.log(def)
-        console.log("Not a demo")
+        for (const viz of Object.values(def.visualizations || {})) {
+          var src = ""
+          try {
+            if (viz.type === 'viz.singlevalueicon') {
+              viz.options.icon = await downloadImage(viz.options.icon, 'icons')
+            }
+            if (viz.type === 'splunk.singlevalueicon') {
+              viz.options.icon = await downloadImage(viz.options.icon, 'icons')
+            }
+            if (viz.type === 'viz.img') {
+              viz.options.src = await downloadImage(viz.options.src, 'images')
+            }
+            if (viz.type === 'splunk.choropleth.svg') {
+              viz.options.svg = await downloadImage(viz.options.svg, 'images')
+            }
+            if (viz.type === 'viz.choropleth.svg') {
+              viz.options.svg = await downloadImage(viz.options.svg, 'images')
+            }
+          } catch (e) {
+
+            console.log("Failed to load image with src: " + src)
+            console.log(e)
+          }
+        }
+
+
+        if (def.layout.options.backgroundImage) {
+          try {
+            def.layout.options.backgroundImage.src = await downloadImage(
+              def.layout.options.backgroundImage.src,
+              'images'
+            );
+          }
+          catch (e) {
+            console.log(e)
+          }
+        }
+
+
         this.setState({ def });
-        console.log("Set state")
         definition = def
-        console.log("Set def variable")
         this.setState({ hasNotBeenFetched: false })
-
       }
-
     }
   }
-
-
-
 
   errorHandler = ({ error }) => this.setState({ error });
 
