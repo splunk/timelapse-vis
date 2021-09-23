@@ -1,4 +1,4 @@
-# Contributing to Timelapsevis
+# Contributing to Splunk Custom Time Inputs
 
 ## Overview
 
