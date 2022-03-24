@@ -20,9 +20,6 @@ const rangeStart = Math.round((Date.parse(params.get('rangeStart')).valueOf()) /
 const rangeEnd = Math.round((Date.parse(params.get('rangeEnd')).valueOf()) / 1000);
 const timeinterval = params.get('timeinterval');
 
-
-console.log(timeinterval)
-console.log(params)
 let step = 1000 * 60 * 60 * 24
 if (timeinterval == "days") {
     step = 1000 * 60 * 60 * 24
@@ -31,7 +28,6 @@ if (timeinterval == "hours") {
     step = 1000 * 60 * 60
 }
 if (timeinterval == "years") {
-    console.log("Time Interval is years")
     step = 1000 * 60 * 60 * 24 * 365.25
 }
 
@@ -316,8 +312,26 @@ class TimelapseControls extends React.Component {
     };
 
     static convertValueToLabel(value) {
-        return new Date(value).toLocaleString()
-
+        if(value != 1)
+        {
+            if(timeinterval == "years")
+            {
+                console.log("Converting based on years")
+                console.log(value)
+                let d = new Date(value)
+                let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+                console.log(String(ye))
+                return ye
+            }
+            if(timeinterval == "months")
+            {
+                let d = new Date(value).toLocaleString()
+                return d
+            }
+        }
+        else{
+            return ' '
+        }
     }
 
     handleSliderChange(event, { value }) {
@@ -348,7 +362,7 @@ class TimelapseControls extends React.Component {
                 <ColumnLayout.Row alignItems="center">
                     <ColumnLayout.Column span={2} style={colStyle}>
                         <SplunkThemeProvider family="enterprise" colorScheme="light" density="compact">
-                            <Heading style={textStyle} level={2}>{new Date(this.state.time).toLocaleString()}</Heading>
+                            <Heading style={textStyle} level={2}>{this.state.displayValue}</Heading>
                             <Button label="Play" onClick={this.onPlayCallback} appearance="primary" />
                             <Button label="Pause" onClick={this.onStopCallback} appearance="primary" />
                             <Button label="Reverse" onClick={this.onReverseCallback} appearance="primary" />
