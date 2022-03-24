@@ -21,7 +21,8 @@
   "main": "Dashboardselector.js",
   "dependencies": {
     "@splunk/react-ui": "^4.2.0",
-    "@splunk/themes": "^0.8.0"
+    "@splunk/themes": "^0.8.0",
+    "react-datetime": "^3.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",

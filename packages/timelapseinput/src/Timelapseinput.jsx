@@ -14,20 +14,25 @@ import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 import demodash from './demodash'
 
 var search = window.location.search
+console.log(search)
 const params = new URLSearchParams(search);
 const rangeStart = Math.round((Date.parse(params.get('rangeStart')).valueOf()) / 1000);
 const rangeEnd = Math.round((Date.parse(params.get('rangeEnd')).valueOf()) / 1000);
-var dashboardid = params.get('dashboardid');
 const timeinterval = params.get('timeinterval');
-const demo = params.get('demo');
 
 
+console.log(timeinterval)
+console.log(params)
 let step = 1000 * 60 * 60 * 24
 if (timeinterval == "days") {
     step = 1000 * 60 * 60 * 24
 }
 if (timeinterval == "hours") {
     step = 1000 * 60 * 60
+}
+if (timeinterval == "years") {
+    console.log("Time Interval is years")
+    step = 1000 * 60 * 60 * 24 * 365.25
 }
 
 var seenImages = {}
@@ -234,6 +239,7 @@ class TimelapseControls extends React.Component {
         })
     }
     onPlayCallback(event) {
+        console.log(params)
         this.state.isPlaying = true
 
         if (this.state.isReversing) {

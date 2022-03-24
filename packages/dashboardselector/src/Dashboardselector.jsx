@@ -78,6 +78,7 @@ class DashboardSelector extends Component {
                 <Select onChange={this.handleTimeInterval}>
                     <Select.Option value="hours" label="Hours" />
                     <Select.Option value="days" label="Days" />
+                    <Select.Option value="years" label="Years" />
                 </Select></ColumnLayout.Column>;
 
             intervalColumn = <ColumnLayout.Column style={colStyle}>Select Time Interval:</ColumnLayout.Column>
