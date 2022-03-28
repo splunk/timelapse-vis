@@ -473,11 +473,7 @@ class TimelapseControls extends React.Component {
             <ColumnLayout gutter={2} divider="vertical">
                 <ColumnLayout.Row alignItems="center">
                     <ColumnLayout.Column span={2} style={colStyle}>
-                        <SplunkThemeProvider
-                            family="enterprise"
-                            colorScheme="light"
-                            density="compact"
-                        >
+                        <SplunkThemeProvider family="prisma" colorScheme="light" density="compact">
                             <Heading style={textStyle} level={2}>
                                 {this.state.displayValue}
                             </Heading>
@@ -533,7 +529,13 @@ class TimelapseControls extends React.Component {
                 </ColumnLayout.Row>
                 <ColumnLayout.Row>
                     <ColumnLayout.Column span={8}>
-                        {this.state.hasNotBeenFetched ? <WaitSpinner size="large" /> : dash}
+                        <SplunkThemeProvider
+                            family="enterprise"
+                            colorScheme="light"
+                            density="compact"
+                        >
+                            {this.state.hasNotBeenFetched ? <WaitSpinner size="large" /> : dash}
+                        </SplunkThemeProvider>
                     </ColumnLayout.Column>
                 </ColumnLayout.Row>
             </ColumnLayout>
