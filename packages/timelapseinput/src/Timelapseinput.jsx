@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
@@ -11,33 +11,32 @@ import Slider from '@splunk/react-ui/Slider';
 import { SplunkThemeProvider } from '@splunk/themes';
 import Heading from '@splunk/react-ui/Heading';
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
-import demodash from './demodash'
+import demodash from './demodash';
+import SearchJob from '@splunk/search-job';
 
-var search = window.location.search
-console.log(search)
+var search = window.location.search;
+console.log(search);
 const params = new URLSearchParams(search);
-const rangeStart = Math.round((Date.parse(params.get('rangeStart')).valueOf()) / 1000);
-const rangeEnd = Math.round((Date.parse(params.get('rangeEnd')).valueOf()) / 1000);
+const rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
+const rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
 const timeinterval = params.get('timeinterval');
 
-let step = 1000 * 60 * 60 * 24
-if (timeinterval == "days") {
-    step = 1000 * 60 * 60 * 24
+let step = 1000 * 60 * 60 * 24;
+if (timeinterval == 'days') {
+    step = 1000 * 60 * 60 * 24;
 }
-if (timeinterval == "hours") {
-    step = 1000 * 60 * 60
+if (timeinterval == 'hours') {
+    step = 1000 * 60 * 60;
 }
-if (timeinterval == "years") {
-    step = 1000 * 60 * 60 * 24 * 365.25
+if (timeinterval == 'years') {
+    step = 1000 * 60 * 60 * 24 * 365.25;
 }
 
-var seenImages = {}
-var definition = ""
+var seenImages = {};
+var definition = '';
 
 const geoRegistry = GeoRegistry.create();
 geoRegistry.addDefaultProvider(new GeoJsonProvider());
-
-
 
 function parseDataUri(dataUri) {
     if (!dataUri.startsWith('data:')) {
@@ -55,20 +54,21 @@ function parseDataUri(dataUri) {
     return [mime, data];
 }
 
-
 async function getImage(assetType, id) {
-    const body = await fetch(`/splunkd/__raw/servicesNS/nobody/splunk-dashboard-studio/storage/collections/data/splunk-dashboard-${assetType}/${encodeURIComponent(
-        id
-    )}`, { credentials: 'include' })
-        .then(res => res.json())
-        .then(data => {
+    const body = await fetch(
+        `/splunkd/__raw/servicesNS/nobody/splunk-dashboard-studio/storage/collections/data/splunk-dashboard-${assetType}/${encodeURIComponent(
+            id
+        )}`,
+        { credentials: 'include' }
+    )
+        .then((res) => res.json())
+        .then((data) => {
             const body = data;
-            return body
-        })
+            return body;
+        });
 
-    return body
+    return body;
 }
-
 
 async function downloadImage(src, assetType) {
     if (!src) {
@@ -77,11 +77,11 @@ async function downloadImage(src, assetType) {
     if (src in seenImages) {
         return seenImages[src];
     }
-    if (src.startsWith("data:image")) {
+    if (src.startsWith('data:image')) {
         return src;
     }
 
-    if (src.startsWith("<svg ")) {
+    if (src.startsWith('<svg ')) {
         return src;
     }
     const [type, id] = src.split('://');
@@ -93,29 +93,25 @@ async function downloadImage(src, assetType) {
     }
 
     if (type === 'splunk-enterprise-kvstore') {
-
-        var imgData = { dataURI: "null" }
+        var imgData = { dataURI: 'null' };
         try {
-            imgData = await getImage(assetType, id).then(blob => {
-                return blob
-            })
-        }
-        catch (e) {
-            console.log(e)
-            console.log("Cannot find image")
+            imgData = await getImage(assetType, id).then((blob) => {
+                return blob;
+            });
+        } catch (e) {
+            console.log(e);
+            console.log('Cannot find image');
         }
 
-        if (imgData.dataURI == "null") {
-            imgData.dataURI == src
-        }
-        else {
+        if (imgData.dataURI == 'null') {
+            imgData.dataURI == src;
+        } else {
             const [mimeType, data] = parseDataUri(imgData.dataURI);
         }
-        return imgData.dataURI
+        return imgData.dataURI;
     }
     throw new Error(`Unexpected image type: ${type}`);
 }
-
 
 class TimelapseControls extends React.Component {
     constructor(props) {
@@ -133,72 +129,78 @@ class TimelapseControls extends React.Component {
             displayValue: TimelapseControls.convertValueToLabel(1),
             value: 1,
             hasNotBeenFetched: true,
-        }
+            dataSources: {},
+        };
         this.fetchDefinition();
-        this.onStopCallback = this.onStopCallback.bind(this)
-        this.onPlayCallback = this.onPlayCallback.bind(this)
-        this.onReverseCallback = this.onReverseCallback.bind(this)
-        this.handleSpeedPicker = this.handleSpeedPicker.bind(this)
-        this.handleSliderChange = this.handleSliderChange.bind(this)
-        this.updateDataSources = this.updateDataSources.bind(this)
 
+        this.onStopCallback = this.onStopCallback.bind(this);
+        this.onPlayCallback = this.onPlayCallback.bind(this);
+        this.onReverseCallback = this.onReverseCallback.bind(this);
+        this.handleSpeedPicker = this.handleSpeedPicker.bind(this);
+        this.handleSliderChange = this.handleSliderChange.bind(this);
+        this.updateDataSources = this.updateDataSources.bind(this);
     }
 
+    runSearch = async () => {};
+
     fetchDefinition = async () => {
-        var search = window.location.search
+        var search = window.location.search;
         const params = new URLSearchParams(search);
         const demo = params.get('demo');
         var dashboardid = params.get('dashboardid');
-        if (demo == "true") {
-            dashboardid = "thisisonlyademo"
+        if (demo == 'true') {
+            dashboardid = 'thisisonlyademo';
         }
 
-        const def = await fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, { credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
-                const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
-                return def
-            }
-            )
+        const def = await fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, {
+            credentials: 'include',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                var xml = new DOMParser().parseFromString(
+                    data.entry[0].content['eai:data'],
+                    'application/xml'
+                );
+                var def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
 
-            .catch(e => {
+                return def;
+            })
 
+            .catch((e) => {
                 //If there is an error, and demo==true, apply the demo dashboard.
-                if (demo == "true") {
+                if (demo == 'true') {
                     this.setState({ def: demodash });
-                    definition = demodash
-                    this.setState({ hasNotBeenFetched: false })
+                    definition = demodash;
+                    this.setState({ hasNotBeenFetched: false });
                 }
                 console.error('Error during definition retrieval/parsing', e);
             });
 
         //Let's process the dashboard before we put it in place
         //First let's get images
-        if (demo !== "true") {
+        if (demo !== 'true') {
             {
                 for (const viz of Object.values(def.visualizations || {})) {
-                    var src = ""
+                    var src = '';
                     try {
                         if (viz.type === 'viz.singlevalueicon') {
-                            viz.options.icon = await downloadImage(viz.options.icon, 'icons')
+                            viz.options.icon = await downloadImage(viz.options.icon, 'icons');
                         }
                         if (viz.type === 'splunk.singlevalueicon') {
-                            viz.options.icon = await downloadImage(viz.options.icon, 'icons')
+                            viz.options.icon = await downloadImage(viz.options.icon, 'icons');
                         }
                         if (viz.type === 'viz.img') {
-                            viz.options.src = await downloadImage(viz.options.src, 'images')
+                            viz.options.src = await downloadImage(viz.options.src, 'images');
                         }
                         if (viz.type === 'splunk.choropleth.svg') {
-                            viz.options.svg = await downloadImage(viz.options.svg, 'images')
+                            viz.options.svg = await downloadImage(viz.options.svg, 'images');
                         }
                         if (viz.type === 'viz.choropleth.svg') {
-                            viz.options.svg = await downloadImage(viz.options.svg, 'images')
+                            viz.options.svg = await downloadImage(viz.options.svg, 'images');
                         }
                     } catch (e) {
-
-                        console.log("Failed to load image with src: " + src)
-                        console.log(e)
+                        console.log('Failed to load image with src: ' + src);
+                        console.log(e);
                     }
                 }
 
@@ -208,129 +210,196 @@ class TimelapseControls extends React.Component {
                             def.layout.options.backgroundImage.src,
                             'images'
                         );
-                    }
-                    catch (e) {
-                        console.log(e)
+                    } catch (e) {
+                        console.log(e);
                     }
                 }
-
-
-
-                this.setState({ def });
-                definition = def
-                this.setState({ hasNotBeenFetched: false })
             }
         }
-    }
+        this.setState({ def });
+        console.log(this.state.def);
+        var definition = this.state.def;
+        var results = '';
+
+        //Start to Loop through Searches
+        for (var datasource in definition.dataSources) {
+            this.setState({ currentds: datasource });
+
+            //Handle a ds.search
+            if (definition.dataSources[this.state.currentds].type == 'ds.search') {
+                definition.dataSources[this.state.currentds].type = 'ds.test';
+
+                var earliest = '';
+                var latest = '';
+                var query = '';
+
+                var results = '';
+                query = definition.dataSources[this.state.currentds].options.query;
+
+                //If there are query parameters in the dataSource
+                if (definition.dataSources[this.state.currentds].options.queryParameters) {
+                    if (
+                        definition.dataSources[this.state.currentds].options.queryParameters
+                            .earliest
+                    ) {
+                        earliest =
+                            definition.dataSources[this.state.currentds].options.queryParameters
+                                .earliest;
+                    }
+                    if (
+                        definition.dataSources[this.state.currentds].options.queryParameters.latest
+                    ) {
+                        latest =
+                            definition.dataSources[this.state.currentds].options.queryParameters
+                                .latest;
+                    }
+                }
+                //If there are NO query parameters in the dataSource
+                else {
+                    //Check the defaults of the definition
+                    //else just return -24h as the default
+                    earliest = '-24h@h';
+                    latest = 'now';
+                }
+
+                console.log(this.state.currentds);
+                console.log({
+                    search: query,
+                    earliest_time: earliest,
+                    latest_time: latest,
+                });
+                results = await SearchJob.create({
+                    search: query,
+                    earliest_time: earliest,
+                    latest_time: latest,
+                })
+                    .getResults({ output_mode: 'json_cols' })
+                    .first()
+                    .toPromise();
+                console.log(results);
+
+                var defUpdate = this.state.def;
+                defUpdate.dataSources[this.state.currentds].options = {
+                    data: {
+                        fields: results.fields,
+                        columns: results.columns,
+                    },
+                };
+                this.setState({ def: defUpdate });
+            }
+        }
+
+        this.setState({ hasNotBeenFetched: false });
+    };
 
     updateDataSources() {
-        var definition_new = JSON.parse(JSON.stringify(definition))
+        var definition_new = JSON.parse(JSON.stringify(definition));
         for (var v in definition.dataSources) {
             //console.log(definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() /1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time")
             //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
-            definition_new.dataSources[v].options.query = definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() / 1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time"
+            definition_new.dataSources[v].options.query =
+                definition_new.dataSources[v].options.query +
+                '| eval time=_time | where time<=' +
+                (this.state.time.valueOf() / 1000).toString() +
+                ' AND time>=' +
+                this.state.startTime.toString() +
+                ' | fields - time';
         }
         this.setState({
-            def: definition_new
-        })
+            def: definition_new,
+        });
     }
     onPlayCallback(event) {
-        console.log(params)
-        this.state.isPlaying = true
+        console.log(params);
+        this.state.isPlaying = true;
 
         if (this.state.isReversing) {
-            clearInterval(this.timer)
+            clearInterval(this.timer);
 
             this.setState({
-                isReversing: false
-            })
+                isReversing: false,
+            });
         }
 
         /** set interval to run frequncy times every second */
         this.timer = setInterval(() => {
             /** increment the time by the step value */
-            if ((this.state.time.valueOf() + this.state.step) >= this.state.endTime * 1000) {
+            if (this.state.time.valueOf() + this.state.step >= this.state.endTime * 1000) {
                 this.setState({
-                    time: this.state.startTime * 1000
-                })
-            }
-            else {
+                    time: this.state.startTime * 1000,
+                });
+            } else {
                 this.setState({
-                    time: (this.state.time.valueOf()) + this.state.step
-                })
+                    time: this.state.time.valueOf() + this.state.step,
+                });
             }
-            this.updateDataSources()
+            this.updateDataSources();
             //this.state.time = (this.state.time + this.state.step)
-        }, 10000 / this.state.playbackMultiplier)
+        }, 10000 / this.state.playbackMultiplier);
         //this.state.time = this.state.time + this.state.step
     }
 
     onReverseCallback(event) {
         if (this.state.isPlaying) {
-            clearInterval(this.timer)
+            clearInterval(this.timer);
             this.setState({
-                isPlaying: false
-            })
+                isPlaying: false,
+            });
         }
 
-        this.state.isReversing = true
+        this.state.isReversing = true;
 
         /** set interval to run frequncy times every second */
         this.timer = setInterval(() => {
             /** increment the time by the step value */
-            if ((this.state.time.valueOf() - this.state.step) <= this.state.startTime * 1000) {
+            if (this.state.time.valueOf() - this.state.step <= this.state.startTime * 1000) {
                 this.setState({
-                    time: this.state.endTime * 1000
-                })
-            }
-            else {
+                    time: this.state.endTime * 1000,
+                });
+            } else {
                 this.setState({
-                    time: (this.state.time.valueOf()) - this.state.step
-                })
+                    time: this.state.time.valueOf() - this.state.step,
+                });
             }
-            this.updateDataSources()
+            this.updateDataSources();
 
             //this.state.time = (this.state.time + this.state.step)
-        }, 10000 / this.state.playbackMultiplier)
+        }, 10000 / this.state.playbackMultiplier);
         //this.state.time = this.state.time + this.state.step
     }
 
     onStopCallback(event) {
         this.setState({
-            isPlaying: false
-        })
+            isPlaying: false,
+        });
         this.setState({
-            isReversing: false
-        })
-        clearInterval(this.timer)
+            isReversing: false,
+        });
+        clearInterval(this.timer);
     }
 
     handleSpeedPicker(event, { value }) {
         this.setState({
-            playbackMultiplier: value
+            playbackMultiplier: value,
         });
-    };
+    }
 
     static convertValueToLabel(value) {
-        if(value != 1)
-        {
-            if(timeinterval == "years")
-            {
-                console.log("Converting based on years")
-                console.log(value)
-                let d = new Date(value)
+        if (value != 1) {
+            if (timeinterval == 'years') {
+                console.log('Converting based on years');
+                console.log(value);
+                let d = new Date(value);
                 let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-                console.log(String(ye))
-                return ye
+                console.log(String(ye));
+                return ye;
             }
-            if(timeinterval == "months")
-            {
-                let d = new Date(value).toLocaleString()
-                return d
+            if (timeinterval == 'months') {
+                let d = new Date(value).toLocaleString();
+                return d;
             }
-        }
-        else{
-            return ' '
+        } else {
+            return ' ';
         }
     }
 
@@ -339,34 +408,68 @@ class TimelapseControls extends React.Component {
             displayValue: TimelapseControls.convertValueToLabel(value),
             value,
         });
-        this.setState({
-            time: value
-        }, () => {
-            this.updateDataSources()
-        })
-    };
+        this.setState(
+            {
+                time: value,
+            },
+            () => {
+                this.updateDataSources();
+            }
+        );
+    }
 
     render() {
-        const colStyle = { border: `0px solid black`, padding: 10, paddingRight: 20, whiteSpace: 'nowrap', textAlign: 'center' };
-        const textStyle = { textAlign: 'center' }
-        const dash = <DashboardContextProvider geoRegistry={geoRegistry}>
-            <DashboardCore
-                width="100%"
-                height="calc(100vh - 78px)"
-                definition={this.state.def}
-                preset={EnterprisePreset}
-                initialMode="view"
-            /></DashboardContextProvider>
+        const colStyle = {
+            border: `0px solid black`,
+            padding: 10,
+            paddingRight: 20,
+            whiteSpace: 'nowrap',
+            textAlign: 'center',
+        };
+        const textStyle = { textAlign: 'center' };
+        const dash = (
+            <DashboardContextProvider geoRegistry={geoRegistry}>
+                <DashboardCore
+                    width="100%"
+                    height="calc(100vh - 78px)"
+                    definition={this.state.def}
+                    preset={EnterprisePreset}
+                    initialMode="view"
+                />
+            </DashboardContextProvider>
+        );
         return (
             <ColumnLayout gutter={2} divider="vertical">
                 <ColumnLayout.Row alignItems="center">
                     <ColumnLayout.Column span={2} style={colStyle}>
-                        <SplunkThemeProvider family="enterprise" colorScheme="light" density="compact">
-                            <Heading style={textStyle} level={2}>{this.state.displayValue}</Heading>
-                            <Button label="Play" onClick={this.onPlayCallback} appearance="primary" />
-                            <Button label="Pause" onClick={this.onStopCallback} appearance="primary" />
-                            <Button label="Reverse" onClick={this.onReverseCallback} appearance="primary" />
-                            <Select value={this.state.playbackMultiplier} prefixLabel="Timelapse Speed" onChange={this.handleSpeedPicker} >
+                        <SplunkThemeProvider
+                            family="enterprise"
+                            colorScheme="light"
+                            density="compact"
+                        >
+                            <Heading style={textStyle} level={2}>
+                                {this.state.displayValue}
+                            </Heading>
+                            <Button
+                                label="Play"
+                                onClick={this.onPlayCallback}
+                                appearance="primary"
+                            />
+                            <Button
+                                label="Pause"
+                                onClick={this.onStopCallback}
+                                appearance="primary"
+                            />
+                            <Button
+                                label="Reverse"
+                                onClick={this.onReverseCallback}
+                                appearance="primary"
+                            />
+                            <Select
+                                value={this.state.playbackMultiplier}
+                                prefixLabel="Timelapse Speed"
+                                onChange={this.handleSpeedPicker}
+                            >
                                 <Select.Option value="1" label="1x" />
                                 <Select.Option value="2" label="2x" />
                                 <Select.Option value="3" label="3x" />
@@ -377,9 +480,23 @@ class TimelapseControls extends React.Component {
                             </Select>
                         </SplunkThemeProvider>
                     </ColumnLayout.Column>
-                    <ColumnLayout.Column span={6} style={colStyle} >
-                        <SplunkThemeProvider family="enterprise" colorScheme="light" density="compact">
-                            <Slider min={this.state.startTime * 1000} value={this.state.time} displayValue={this.state.displayValue} onChange={this.handleSliderChange} max={this.state.endTime * 1000} step={step} defaultValue={this.state.startTime * 1000} minLabel={new Date(this.state.startTime * 1000).toLocaleString()} maxLabel={new Date(this.state.endTime * 1000).toLocaleString()} />
+                    <ColumnLayout.Column span={6} style={colStyle}>
+                        <SplunkThemeProvider
+                            family="enterprise"
+                            colorScheme="light"
+                            density="compact"
+                        >
+                            <Slider
+                                min={this.state.startTime * 1000}
+                                value={this.state.time}
+                                displayValue={this.state.displayValue}
+                                onChange={this.handleSliderChange}
+                                max={this.state.endTime * 1000}
+                                step={step}
+                                defaultValue={this.state.startTime * 1000}
+                                minLabel={new Date(this.state.startTime * 1000).toLocaleString()}
+                                maxLabel={new Date(this.state.endTime * 1000).toLocaleString()}
+                            />
                         </SplunkThemeProvider>
                     </ColumnLayout.Column>
                 </ColumnLayout.Row>
@@ -389,8 +506,8 @@ class TimelapseControls extends React.Component {
                     </ColumnLayout.Column>
                 </ColumnLayout.Row>
             </ColumnLayout>
-        )
+        );
     }
 }
 
-export default TimelapseControls
+export default TimelapseControls;
