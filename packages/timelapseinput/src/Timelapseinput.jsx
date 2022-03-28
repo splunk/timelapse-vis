@@ -263,7 +263,7 @@ class TimelapseControls extends React.Component {
                     earliest_time: earliest,
                     latest_time: latest,
                 })
-                    .getResults({ output_mode: 'json_cols' })
+                    .getResults({ output_mode: 'json_cols', count: 0 })
                     .first()
                     .toPromise();
 
@@ -279,6 +279,7 @@ class TimelapseControls extends React.Component {
             }
         }
 
+        console.log(defUpdate);
         this.setState({ defOrig: this.state.def });
         this.setState({ hasNotBeenFetched: false });
     };
@@ -301,7 +302,7 @@ class TimelapseControls extends React.Component {
                     );
 
                     //If the currentTime is less than selected
-                    if (selectedTime < currTime) {
+                    if (currTime > selectedTime) {
                         console.log(currTime + ' Is less than ' + selectedTime);
                         console.log(time);
                         console.log(v);
@@ -357,10 +358,12 @@ class TimelapseControls extends React.Component {
                 this.setState({
                     time: this.state.startTime * 1000,
                 });
+                this.updateLabel(this.state.startTime * 1000);
             } else {
                 this.setState({
                     time: this.state.time.valueOf() + this.state.step,
                 });
+                this.updateLabel(this.state.time.valueOf() + this.state.step);
             }
             this.updateDataSources();
             //this.state.time = (this.state.time + this.state.step)
@@ -385,10 +388,12 @@ class TimelapseControls extends React.Component {
                 this.setState({
                     time: this.state.endTime * 1000,
                 });
+                this.updateLabel(this.state.endTime * 1000);
             } else {
                 this.setState({
                     time: this.state.time.valueOf() - this.state.step,
                 });
+                this.updateLabel(this.state.time.valueOf() - this.state.step);
             }
             this.updateDataSources();
 
@@ -433,13 +438,17 @@ class TimelapseControls extends React.Component {
     }
 
     handleSliderChange(event, { value }) {
+        this.updateLabel(value);
+        this.setState({ time: value }, () => this.updateDataSources());
+    }
+
+    updateLabel(value) {
+        console.log(value);
         this.setState({
             displayValue: TimelapseControls.convertValueToLabel(value),
             value,
         });
-        this.setState({ time: value }, () => this.updateDataSources());
     }
-
     render() {
         const colStyle = {
             border: `0px solid black`,
