@@ -140,9 +140,6 @@ class TimelapseControls extends React.Component {
         this.handleSliderChange = this.handleSliderChange.bind(this);
         this.updateDataSources = this.updateDataSources.bind(this);
     }
-
-    runSearch = async () => {};
-
     fetchDefinition = async () => {
         var search = window.location.search;
         const params = new URLSearchParams(search);
@@ -217,7 +214,6 @@ class TimelapseControls extends React.Component {
             }
         }
         this.setState({ def });
-        console.log(this.state.def);
         var definition = this.state.def;
         var results = '';
 
@@ -262,12 +258,6 @@ class TimelapseControls extends React.Component {
                     latest = 'now';
                 }
 
-                console.log(this.state.currentds);
-                console.log({
-                    search: query,
-                    earliest_time: earliest,
-                    latest_time: latest,
-                });
                 results = await SearchJob.create({
                     search: query,
                     earliest_time: earliest,
@@ -276,9 +266,9 @@ class TimelapseControls extends React.Component {
                     .getResults({ output_mode: 'json_cols' })
                     .first()
                     .toPromise();
-                console.log(results);
 
                 var defUpdate = this.state.def;
+
                 defUpdate.dataSources[this.state.currentds].options = {
                     data: {
                         fields: results.fields,
@@ -289,28 +279,67 @@ class TimelapseControls extends React.Component {
             }
         }
 
+        this.setState({ defOrig: this.state.def });
         this.setState({ hasNotBeenFetched: false });
     };
 
     updateDataSources() {
-        var definition_new = JSON.parse(JSON.stringify(definition));
-        for (var v in definition.dataSources) {
-            //console.log(definition_new.dataSources[v].options.query + "| eval time=_time | where time<=" + (this.state.time.valueOf() /1000).toString() + " AND time>=" + this.state.startTime.toString() + " | fields - time")
-            //Currently just modify the range of the search with a new range based on the rangeslider selected start and end
-            definition_new.dataSources[v].options.query =
-                definition_new.dataSources[v].options.query +
-                '| eval time=_time | where time<=' +
-                (this.state.time.valueOf() / 1000).toString() +
-                ' AND time>=' +
-                this.state.startTime.toString() +
-                ' | fields - time';
+        var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
+        var selectedTime = new Date(this.state.time);
+        var startTime = new Date(this.state.startTime);
+
+        for (var v in definition_new.dataSources) {
+            if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
+                //Iterate through the time column, whereever it exists
+                for (var time in definition_new.dataSources[v].options.data.columns[
+                    definition_new.dataSources[v].options.data.fields.indexOf('_time')
+                ]) {
+                    var currTime = new Date(
+                        definition_new.dataSources[v].options.data.columns[
+                            definition_new.dataSources[v].options.data.fields.indexOf('_time')
+                        ][time]
+                    );
+
+                    //If the currentTime is less than selected
+                    if (selectedTime < currTime) {
+                        console.log(currTime + ' Is less than ' + selectedTime);
+                        console.log(time);
+                        console.log(v);
+
+                        for (var n in definition_new.dataSources[v].options.data.columns) {
+                            if (n != 'extend') {
+                                try {
+                                    definition_new.dataSources[v].options.data.columns[n] =
+                                        definition_new.dataSources[v].options.data.columns[n].slice(
+                                            0,
+                                            time
+                                        );
+                                } catch (error) {
+                                    console.log('ERROR');
+                                    console.log(error);
+
+                                    console.log(v);
+                                    console.log(
+                                        typeof definition_new.dataSources[v].options.data.columns
+                                    );
+                                    console.log(definition_new.dataSources[v].options.data.columns);
+                                    console.log(definition_new.dataSources[v].options.data.fields);
+                                    // expected output: ReferenceError: nonExistentFunction is not defined
+                                    // Note - error messages will vary depending on browser
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
         }
+
         this.setState({
             def: definition_new,
         });
     }
     onPlayCallback(event) {
-        console.log(params);
         this.state.isPlaying = true;
 
         if (this.state.isReversing) {
@@ -408,14 +437,7 @@ class TimelapseControls extends React.Component {
             displayValue: TimelapseControls.convertValueToLabel(value),
             value,
         });
-        this.setState(
-            {
-                time: value,
-            },
-            () => {
-                this.updateDataSources();
-            }
-        );
+        this.setState({ time: value }, () => this.updateDataSources());
     }
 
     render() {
