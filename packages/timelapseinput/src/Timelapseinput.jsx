@@ -4,13 +4,20 @@ import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
 import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
 import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
-import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
 import Select from '@splunk/react-ui/Select';
+import Switch from '@splunk/react-ui/Switch';
 import Slider from '@splunk/react-ui/Slider';
-import { SplunkThemeProvider } from '@splunk/themes';
 import Heading from '@splunk/react-ui/Heading';
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
+import SidePanel from '@splunk/react-ui/SidePanel';
+
+import TriangleRight from '@splunk/react-icons/TriangleRight';
+import TriangleLeft from '@splunk/react-icons/TriangleLeft';
+import Pause from '@splunk/react-icons/Pause';
+
+import { SplunkThemeProvider } from '@splunk/themes';
+
 import demodash from './demodash';
 import SearchJob from '@splunk/search-job';
 
@@ -126,20 +133,43 @@ class TimelapseControls extends React.Component {
             time: rangeStart * 1000,
             def: this.props.dash.props.definition,
             playbackMultiplier: '4',
-            displayValue: TimelapseControls.convertValueToLabel(1),
+            displayValue: 'All-Time',
             value: 1,
             hasNotBeenFetched: true,
             dataSources: {},
+            width: 0,
+            height: 0,
+            dark: false,
+            leftOpen: false,
         };
         this.fetchDefinition();
 
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.onStopCallback = this.onStopCallback.bind(this);
         this.onPlayCallback = this.onPlayCallback.bind(this);
         this.onReverseCallback = this.onReverseCallback.bind(this);
         this.handleSpeedPicker = this.handleSpeedPicker.bind(this);
         this.handleSliderChange = this.handleSliderChange.bind(this);
         this.updateDataSources = this.updateDataSources.bind(this);
+        this.handleDarkModeClick = this.handleDarkModeClick.bind(this);
+        this.openLeftPanel = this.openLeftPanel.bind(this);
+        this.handleRequestOpen = this.handleRequestOpen.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    }
+
     fetchDefinition = async () => {
         var search = window.location.search;
         const params = new URLSearchParams(search);
@@ -279,7 +309,6 @@ class TimelapseControls extends React.Component {
             }
         }
 
-        console.log(defUpdate);
         this.setState({ defOrig: this.state.def });
         this.setState({ hasNotBeenFetched: false });
     };
@@ -303,10 +332,6 @@ class TimelapseControls extends React.Component {
 
                     //If the currentTime is less than selected
                     if (currTime > selectedTime) {
-                        console.log(currTime + ' Is less than ' + selectedTime);
-                        console.log(time);
-                        console.log(v);
-
                         for (var n in definition_new.dataSources[v].options.data.columns) {
                             if (n != 'extend') {
                                 try {
@@ -449,6 +474,30 @@ class TimelapseControls extends React.Component {
             value,
         });
     }
+    handleDarkModeClick(event) {
+        console.log(event);
+        this.setState({ dark: !this.state.dark });
+    }
+
+    handleRequestOpen(dockPosition) {
+        if (dockPosition === 'bottomOpen') {
+            setBottomOpen(true);
+        } else if (dockPosition === 'leftOpen') {
+            this.setState({ leftOpen: true });
+        } else if (dockPosition === 'rightOpen') {
+            setRightOpen(true);
+        } else if (dockPosition === 'topOpen') {
+            setTopOpen(true);
+        }
+    }
+    openLeftPanel() {
+        this.handleRequestOpen('leftOpen');
+    }
+
+    handleRequestClose() {
+        this.setState({ leftOpen: false });
+    }
+
     render() {
         const colStyle = {
             border: `0px solid black`,
@@ -461,7 +510,7 @@ class TimelapseControls extends React.Component {
         const dash = (
             <DashboardContextProvider geoRegistry={geoRegistry}>
                 <DashboardCore
-                    width="100%"
+                    width={this.state.width}
                     height="calc(100vh - 78px)"
                     definition={this.state.def}
                     preset={EnterprisePreset}
@@ -470,79 +519,176 @@ class TimelapseControls extends React.Component {
             </DashboardContextProvider>
         );
         return (
-            <ColumnLayout gutter={2} divider="vertical">
-                <ColumnLayout.Row alignItems="center">
-                    <ColumnLayout.Column span={2} style={colStyle}>
-                        <SplunkThemeProvider
-                            family="enterprise"
-                            colorScheme="light"
-                            density="compact"
-                        >
-                            <Heading style={textStyle} level={2}>
-                                {this.state.displayValue}
-                            </Heading>
-                            <Button
-                                label="Play"
-                                onClick={this.onPlayCallback}
-                                appearance="primary"
-                            />
-                            <Button
-                                label="Pause"
-                                onClick={this.onStopCallback}
-                                appearance="primary"
-                            />
-                            <Button
-                                label="Reverse"
-                                onClick={this.onReverseCallback}
-                                appearance="primary"
-                            />
-                            <Select
-                                value={this.state.playbackMultiplier}
-                                prefixLabel="Timelapse Speed"
-                                onChange={this.handleSpeedPicker}
-                            >
-                                <Select.Option value="1" label="1x" />
-                                <Select.Option value="2" label="2x" />
-                                <Select.Option value="3" label="3x" />
-                                <Select.Option value="4" label="4x" />
-                                <Select.Option value="10" label="10x" />
-                                <Select.Option value="20" label="20x" />
-                                <Select.Option value="200" label="200x" />
-                            </Select>
-                        </SplunkThemeProvider>
-                    </ColumnLayout.Column>
-                    <ColumnLayout.Column span={6} style={colStyle}>
-                        <SplunkThemeProvider
-                            family="enterprise"
-                            colorScheme="light"
-                            density="compact"
-                        >
-                            <Slider
-                                min={this.state.startTime * 1000}
-                                value={this.state.time}
-                                displayValue={this.state.displayValue}
-                                onChange={this.handleSliderChange}
-                                max={this.state.endTime * 1000}
-                                step={step}
-                                defaultValue={this.state.startTime * 1000}
-                                minLabel={new Date(this.state.startTime * 1000).toLocaleString()}
-                                maxLabel={new Date(this.state.endTime * 1000).toLocaleString()}
-                            />
-                        </SplunkThemeProvider>
-                    </ColumnLayout.Column>
-                </ColumnLayout.Row>
-                <ColumnLayout.Row>
-                    <ColumnLayout.Column span={8}>
-                        <SplunkThemeProvider
-                            family="enterprise"
-                            colorScheme="light"
-                            density="compact"
-                        >
-                            {this.state.hasNotBeenFetched ? <WaitSpinner size="large" /> : dash}
-                        </SplunkThemeProvider>
-                    </ColumnLayout.Column>
-                </ColumnLayout.Row>
-            </ColumnLayout>
+            <div
+                style={
+                    this.state.dark
+                        ? {
+                              textAlign: 'center',
+                              margin: 'auto',
+                              align: 'center',
+                              width: '100%',
+                              backgroundColor: '#171D21',
+                          }
+                        : {
+                              textAlign: 'center',
+                              margin: 'auto',
+                              align: 'center',
+                              width: '100%',
+                              backgroundColor: '#FFFFFF',
+                          }
+                }
+            >
+                <SplunkThemeProvider
+                    family="enterprise"
+                    colorScheme={this.state.dark ? 'dark' : 'light'}
+                    density="compact"
+                >
+                    <table
+                        style={{
+                            textAlign: 'center',
+                            margin: 'auto',
+                            align: 'center',
+                            width: this.state.width,
+                        }}
+                    >
+                        <tbody>
+                            <tr style={{ paddingBottom: '10px' }}>
+                                <td
+                                    style={{
+                                        ...colStyle,
+                                        width: '25%',
+                                        padding: '30px',
+                                        paddingTop: '0px',
+                                        paddingBottom: '10px',
+                                    }}
+                                >
+                                    <Heading style={textStyle} level={2}>
+                                        {this.state.displayValue}
+                                    </Heading>
+
+                                    <SidePanel
+                                        open={this.state.leftOpen}
+                                        dockPosition="left"
+                                        onRequestClose={this.handleRequestClose}
+                                        innerStyle={{ width: 300 }}
+                                    >
+                                        <div style={{ padding: '10px' }}>
+                                            <Heading level={2}>Configuration:</Heading>
+                                            <Heading level={3}>Theme:</Heading>
+                                            <Switch
+                                                value="darkMode"
+                                                onClick={this.handleDarkModeClick}
+                                                selected={this.state.dark}
+                                                appearance={'toggle'}
+                                            >
+                                                Dark Mode
+                                            </Switch>{' '}
+                                            <Heading level={3}>Playback Speed:</Heading>
+                                            <Select
+                                                value={this.state.playbackMultiplier}
+                                                prefixLabel="Timelapse Speed"
+                                                onChange={this.handleSpeedPicker}
+                                            >
+                                                <Select.Option value="1" label="1x" />
+                                                <Select.Option value="2" label="2x" />
+                                                <Select.Option value="3" label="3x" />
+                                                <Select.Option value="4" label="4x" />
+                                                <Select.Option value="10" label="10x" />
+                                                <Select.Option value="20" label="20x" />
+                                                <Select.Option value="200" label="200x" />
+                                            </Select>
+                                        </div>
+                                    </SidePanel>
+                                    <Button
+                                        key="left"
+                                        onClick={this.openLeftPanel}
+                                        label="Configure"
+                                    />
+                                    <Button
+                                        label={<TriangleLeft />}
+                                        onClick={this.onReverseCallback}
+                                        appearance="primary"
+                                    />
+                                    <Button
+                                        label={<Pause />}
+                                        onClick={this.onStopCallback}
+                                        appearance="primary"
+                                    />
+                                    <Button
+                                        label={<TriangleRight />}
+                                        onClick={this.onPlayCallback}
+                                        appearance="primary"
+                                    />
+                                </td>
+                                <td
+                                    style={{
+                                        ...colStyle,
+                                        width: '75%',
+                                        paddingRight: '50px',
+                                        paddingTop: '0px',
+                                        paddingBottom: '0px',
+                                    }}
+                                >
+                                    <Slider
+                                        min={this.state.startTime * 1000}
+                                        value={this.state.time}
+                                        displayValue={this.state.displayValue}
+                                        onChange={this.handleSliderChange}
+                                        max={this.state.endTime * 1000}
+                                        step={step}
+                                        defaultValue={this.state.startTime * 1000}
+                                        minLabel={new Date(
+                                            this.state.startTime * 1000
+                                        ).toLocaleString()}
+                                        maxLabel={new Date(
+                                            this.state.endTime * 1000
+                                        ).toLocaleString()}
+                                    />
+                                </td>
+                            </tr>
+
+                            {this.state.hasNotBeenFetched ? (
+                                <tr>
+                                    <td
+                                        colSpan="2"
+                                        style={{
+                                            ...colStyle,
+                                            width: '100%',
+                                            paddingTop: '0px',
+                                            paddingBottom: '0px',
+                                            height: '500px',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                width: '100%',
+                                                textAlign: 'center',
+                                                transform: 'scale(5)',
+                                            }}
+                                        >
+                                            <WaitSpinner style={{}} size="large" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : (
+                                <tr>
+                                    <td
+                                        colSpan="2"
+                                        style={{
+                                            ...colStyle,
+                                            width: '100%',
+                                            paddingTop: '0px',
+                                            paddingBottom: '0px',
+                                        }}
+                                    >
+                                        <>{dash}</>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </SplunkThemeProvider>
+            </div>
         );
     }
 }
