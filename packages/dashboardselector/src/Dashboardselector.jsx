@@ -3,16 +3,23 @@ import { StyledContainer, StyledGreeting } from './DashboardselectorStyles';
 import ListDashboards from '@splunk/listdashboards';
 import Select from '@splunk/react-ui/Select';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
-import Datetime from "react-datetime";
 import Link from '@splunk/react-ui/Link';
 
 class DashboardSelector extends Component {
-
     constructor(props) {
         super(props);
-        this.state = { pickertype: "rangeslider", dashboardid: "", rangeStart: "", rangeEnd: "", timeinterval: ""};
+        this.state = {
+            pickertype: 'rangeslider',
+            dashboardid: '',
+            rangeStart: '',
+            rangeEnd: '',
+            timeinterval: '',
+            theme: '',
+        };
         this.handleChangePickerType = this.handleChangePickerType.bind(this);
         this.handleDashboardIdChange = this.handleDashboardIdChange.bind(this);
+        this.handleThemeSelect = this.handleThemeSelect.bind(this);
+
         this.startChange = this.startChange.bind(this);
         this.endChange = this.endChange.bind(this);
         this.handleTimeInterval = this.handleTimeInterval.bind(this);
@@ -20,46 +27,64 @@ class DashboardSelector extends Component {
 
     handleDashboardIdChange(event, { value }) {
         this.setState({
-            dashboardid: value
+            dashboardid: value,
         });
-    };
+    }
+
+    handleThemeSelect(event, { value }) {
+        this.setState({
+            theme: value,
+        });
+    }
 
     handleChangePickerType(event, { value }) {
         this.setState({
-            pickertype: value
+            pickertype: value,
         });
-    };
+    }
 
     handleTimeInterval(event, { value }) {
         this.setState({
-            timeinterval: value
+            timeinterval: value,
         });
-    };
+    }
 
     startChange(event) {
+        console.log(event);
+
         this.setState({
-            rangeStart: event.format("YYYY-MM-DD HH:mm:ss")
+            rangeStart: event.target.value + ' 00:00:00',
         });
-    };
+    }
 
     endChange(event) {
+        console.log(event.target.value);
         this.setState({
-            rangeEnd: event.format("YYYY-MM-DD HH:mm:ss")
+            rangeEnd: event.target.value + ' 00:00:00',
         });
-    };
+    }
 
     render() {
-
-        var url = window.location.href.replace(/[^\/]+$/, '') + this.state.pickertype + "?dashboardid=" + encodeURIComponent(this.state.dashboardid) + "&rangeStart=" + encodeURIComponent(this.state.rangeStart) + "&rangeEnd=" + encodeURIComponent(this.state.rangeEnd) + "&timeinterval=" + encodeURIComponent(this.state.timeinterval)
-        var startPicker = <Datetime onChange={this.startChange} />
-        var endPicker = <Datetime onChange={this.endChange} />
+        var url =
+            window.location.href.replace(/[^\/]+$/, '') +
+            this.state.pickertype +
+            '?dashboardid=' +
+            encodeURIComponent(this.state.dashboardid) +
+            '&rangeStart=' +
+            encodeURIComponent(this.state.rangeStart) +
+            '&rangeEnd=' +
+            encodeURIComponent(this.state.rangeEnd) +
+            '&timeinterval=' +
+            encodeURIComponent(this.state.timeinterval) +
+            '&theme=' +
+            encodeURIComponent(this.state.theme);
 
         const colStyle = {
             border: `0px solid`,
             padding: 5,
             minHeight: 10,
             width: '100%',
-            paddingLeft: 10
+            paddingLeft: 10,
         };
 
         const calColStyle = {
@@ -67,23 +92,27 @@ class DashboardSelector extends Component {
             padding: 5,
             minHeight: 10,
             width: '100%',
-            paddingReft: 50
+            paddingReft: 50,
         };
 
         let intervalPicker;
         let intervalColumn;
 
-        if (this.state.pickertype == "timelapse") {
-            intervalPicker = <ColumnLayout.Column style={colStyle} span={1}>
-                <Select onChange={this.handleTimeInterval}>
-                    <Select.Option value="hours" label="Hours" />
-                    <Select.Option value="days" label="Days" />
-                    <Select.Option value="years" label="Years" />
-                </Select></ColumnLayout.Column>;
+        if (this.state.pickertype == 'timelapse') {
+            intervalPicker = (
+                <ColumnLayout.Column style={colStyle} span={1}>
+                    <Select onChange={this.handleTimeInterval}>
+                        <Select.Option value="hours" label="Hours" />
+                        <Select.Option value="days" label="Days" />
+                        <Select.Option value="years" label="Years" />
+                    </Select>
+                </ColumnLayout.Column>
+            );
 
-            intervalColumn = <ColumnLayout.Column style={colStyle}>Select Time Interval:</ColumnLayout.Column>
-        } 
-        else {
+            intervalColumn = (
+                <ColumnLayout.Column style={colStyle}>Select Time Interval:</ColumnLayout.Column>
+            );
+        } else {
         }
 
         return (
@@ -91,15 +120,32 @@ class DashboardSelector extends Component {
                 <p>Use the following form to build your custom dashboard URL:</p>
                 <ColumnLayout gutter={1}>
                     <ColumnLayout.Row>
-                        <ColumnLayout.Column style={colStyle}>Select Dashboard:</ColumnLayout.Column>
-                        <ColumnLayout.Column style={colStyle}>Select Type of Input:</ColumnLayout.Column>
-                        <ColumnLayout.Column style={colStyle}>Select Range Start:</ColumnLayout.Column>
-                        <ColumnLayout.Column style={colStyle}>Select Range End:</ColumnLayout.Column>
+                        <ColumnLayout.Column style={colStyle}>
+                            Select Dashboard:
+                        </ColumnLayout.Column>
+                        <ColumnLayout.Column style={colStyle}>
+                            Select Dashboard Theme:
+                        </ColumnLayout.Column>
+                        <ColumnLayout.Column style={colStyle}>
+                            Select Type of Input:
+                        </ColumnLayout.Column>
+                        <ColumnLayout.Column style={colStyle}>
+                            Select Range Start:
+                        </ColumnLayout.Column>
+                        <ColumnLayout.Column style={colStyle}>
+                            Select Range End:
+                        </ColumnLayout.Column>
                         {intervalColumn}
                     </ColumnLayout.Row>
                     <ColumnLayout.Row>
                         <ColumnLayout.Column style={colStyle} span={1}>
                             <ListDashboards changehandler={this.handleDashboardIdChange} />
+                        </ColumnLayout.Column>
+                        <ColumnLayout.Column style={colStyle} span={1}>
+                            <Select onChange={this.handleThemeSelect}>
+                                <Select.Option value="dark" label="Dark Theme" />
+                                <Select.Option value="light" label="Light Theme" />
+                            </Select>
                         </ColumnLayout.Column>
                         <ColumnLayout.Column style={colStyle} span={1}>
                             <Select onChange={this.handleChangePickerType}>
@@ -108,17 +154,29 @@ class DashboardSelector extends Component {
                             </Select>
                         </ColumnLayout.Column>
                         <ColumnLayout.Column style={calColStyle} span={1}>
-                            {startPicker}
+                            <input
+                                type="date"
+                                id="start"
+                                name="dashboard-start"
+                                onChange={this.startChange}
+                            ></input>
                         </ColumnLayout.Column>
                         <ColumnLayout.Column style={calColStyle} span={1}>
-                            {endPicker}
+                            <input
+                                type="date"
+                                id="end"
+                                name="dashboard-end"
+                                onChange={this.endChange}
+                            ></input>
                         </ColumnLayout.Column>
                         {intervalPicker}
                     </ColumnLayout.Row>
                     <ColumnLayout.Row>
                         <ColumnLayout.Column style={colStyle} span={4}>
                             <p>Use the following link to view your custom dashboard:</p>
-                            <Link to={url} openInNewContext>{url}</Link>
+                            <Link to={url} openInNewContext>
+                                {url}
+                            </Link>
                         </ColumnLayout.Column>
                     </ColumnLayout.Row>
                 </ColumnLayout>
