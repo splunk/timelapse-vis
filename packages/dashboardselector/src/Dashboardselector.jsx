@@ -3,6 +3,8 @@ import { StyledContainer, StyledGreeting } from './DashboardselectorStyles';
 import ListDashboards from '@splunk/listdashboards';
 import Select from '@splunk/react-ui/Select';
 import Heading from '@splunk/react-ui/Heading';
+import P from '@splunk/react-ui/Paragraph';
+
 import InfoCircle from '@splunk/react-icons/InfoCircle';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
@@ -22,12 +24,20 @@ class DashboardSelector extends Component {
             timeinterval: '',
             theme: '',
             infoModalOpen: false,
+            rangeStartOpen: false,
+            rangeEndOpen: false,
         };
         this.handleChangePickerType = this.handleChangePickerType.bind(this);
         this.handleDashboardIdChange = this.handleDashboardIdChange.bind(this);
         this.handleThemeSelect = this.handleThemeSelect.bind(this);
         this.handleIntervalInfoOpen = this.handleIntervalInfoOpen.bind(this);
         this.handleIntervalInfoClose = this.handleIntervalInfoClose.bind(this);
+
+        this.handleRangeStartOpen = this.handleRangeStartOpen.bind(this);
+        this.handleRangeStartClose = this.handleRangeStartClose.bind(this);
+
+        this.handleRangeEndOpen = this.handleRangeEndOpen.bind(this);
+        this.handleRangeEndClose = this.handleRangeEndClose.bind(this);
 
         this.startChange = this.startChange.bind(this);
         this.endChange = this.endChange.bind(this);
@@ -78,6 +88,20 @@ class DashboardSelector extends Component {
     }
     handleIntervalInfoClose() {
         this.setState({ infoModalOpen: false });
+    }
+
+    handleRangeStartOpen() {
+        this.setState({ rangeStartOpen: true });
+    }
+    handleRangeStartClose() {
+        this.setState({ rangeStartOpen: false });
+    }
+
+    handleRangeEndOpen() {
+        this.setState({ rangeEndOpen: true });
+    }
+    handleRangeEndClose() {
+        this.setState({ rangeEndOpen: false });
     }
 
     render() {
@@ -147,6 +171,11 @@ class DashboardSelector extends Component {
                                 <li>Days = 86400000 seconds</li>
                                 <li>Hours = 3600000 seconds</li>
                             </ul>
+                            <P>See #3 on the image below</P>
+                            <img
+                                style={{ width: '100%' }}
+                                src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                            ></img>
                         </Modal.Body>
                     </Modal>
                     Select Time Interval:
@@ -178,9 +207,49 @@ class DashboardSelector extends Component {
                                     Select Type of Input:
                                 </ColumnLayout.Column>
                                 <ColumnLayout.Column style={colStyle}>
+                                    <Button
+                                        appearance={'pill'}
+                                        onClick={this.handleRangeStartOpen}
+                                        label={<InfoCircle size={1.5} />}
+                                    />{' '}
+                                    <Modal
+                                        onRequestClose={this.handleRangeStartClose}
+                                        open={this.state.rangeStartOpen}
+                                    >
+                                        <Modal.Body>
+                                            <Heading level={2}>
+                                                The earliest time in the the timelapse or timerange.{' '}
+                                            </Heading>
+                                            <P>See #1 on the image below</P>
+                                            <img
+                                                style={{ width: '100%' }}
+                                                src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                                            ></img>
+                                        </Modal.Body>
+                                    </Modal>
                                     Select Range Start:
                                 </ColumnLayout.Column>
                                 <ColumnLayout.Column style={colStyle}>
+                                    <Button
+                                        appearance={'pill'}
+                                        onClick={this.handleRangeEndOpen}
+                                        label={<InfoCircle size={1.5} />}
+                                    />{' '}
+                                    <Modal
+                                        onRequestClose={this.handleRangeEndClose}
+                                        open={this.state.rangeEndOpen}
+                                    >
+                                        <Modal.Body>
+                                            <Heading level={2}>
+                                                The latest time in the the timelapse or timerange.
+                                            </Heading>
+                                            <P>See #2 on the image below</P>
+                                            <img
+                                                style={{ width: '100%' }}
+                                                src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                                            ></img>
+                                        </Modal.Body>
+                                    </Modal>
                                     Select Range End:
                                 </ColumnLayout.Column>
                                 {intervalColumn}
