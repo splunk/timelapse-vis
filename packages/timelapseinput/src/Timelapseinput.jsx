@@ -9,6 +9,9 @@ import Select from '@splunk/react-ui/Select';
 import Switch from '@splunk/react-ui/Switch';
 import Slider from '@splunk/react-ui/Slider';
 import Heading from '@splunk/react-ui/Heading';
+import Message from '@splunk/react-ui/Message';
+import Accordion from '@splunk/react-ui/Accordion';
+
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 import SidePanel from '@splunk/react-ui/SidePanel';
 
@@ -22,7 +25,6 @@ import demodash from './demodash';
 import SearchJob from '@splunk/search-job';
 
 var search = window.location.search;
-console.log(search);
 const params = new URLSearchParams(search);
 const rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
 const rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
@@ -141,6 +143,8 @@ class TimelapseControls extends React.Component {
             height: 0,
             dark: false,
             leftOpen: false,
+            error_ds_no__time: [],
+            openPanelId: 2,
         };
         this.fetchDefinition();
 
@@ -154,6 +158,8 @@ class TimelapseControls extends React.Component {
         this.handleDarkModeClick = this.handleDarkModeClick.bind(this);
         this.openLeftPanel = this.openLeftPanel.bind(this);
         this.handleRequestOpen = this.handleRequestOpen.bind(this);
+        this.handlePanelChange = this.handlePanelChange.bind(this);
+
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
@@ -202,7 +208,7 @@ class TimelapseControls extends React.Component {
                 }
                 console.error('Error during definition retrieval/parsing', e);
             });
-
+        console.log(this.state.def);
         //Let's process the dashboard before we put it in place
         //First let's get images
         if (demo !== 'true') {
@@ -250,6 +256,7 @@ class TimelapseControls extends React.Component {
         //Start to Loop through Searches
         for (var datasource in definition.dataSources) {
             this.setState({ currentds: datasource });
+            console.log(datasource);
 
             //Handle a ds.search
             if (definition.dataSources[this.state.currentds].type == 'ds.search') {
@@ -299,16 +306,26 @@ class TimelapseControls extends React.Component {
 
                 var defUpdate = this.state.def;
 
+                console.log(results);
+
                 defUpdate.dataSources[this.state.currentds].options = {
                     data: {
                         fields: results.fields,
                         columns: results.columns,
                     },
                 };
+
+                if (results.fields.indexOf('_time') < 0) {
+                    console.log('Missing _time field');
+                    this.setState({
+                        error_ds_no__time: [...this.state.error_ds_no__time, this.state.currentds],
+                    });
+                }
                 this.setState({ def: defUpdate });
             }
         }
 
+        console.log(this.state.def);
         this.setState({ defOrig: this.state.def });
         this.setState({ hasNotBeenFetched: false });
     };
@@ -316,7 +333,6 @@ class TimelapseControls extends React.Component {
     updateDataSources() {
         var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
         var selectedTime = new Date(this.state.time);
-        var startTime = new Date(this.state.startTime);
 
         for (var v in definition_new.dataSources) {
             if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
@@ -498,6 +514,10 @@ class TimelapseControls extends React.Component {
         this.setState({ leftOpen: false });
     }
 
+    handlePanelChange(e, { panelId: panelValue }) {
+        this.setState({ openPanelId: panelValue });
+    }
+
     render() {
         const colStyle = {
             border: `0px solid black`,
@@ -597,6 +617,45 @@ class TimelapseControls extends React.Component {
                                                 <Select.Option value="20" label="20x" />
                                                 <Select.Option value="200" label="200x" />
                                             </Select>
+                                            <Heading level={3}>Dashboard Information</Heading>
+                                            {this.state.error_ds_no__time.length > 0 ? (
+                                                <>
+                                                    <Accordion
+                                                        openPanelId={this.state.openPanelId}
+                                                        onChange={this.handlePanelChange}
+                                                    >
+                                                        <Accordion.Panel
+                                                            panelId={1}
+                                                            title={
+                                                                <Message type="error">
+                                                                    {String(
+                                                                        this.state.error_ds_no__time
+                                                                            .length
+                                                                    ) +
+                                                                        ' Searches missing a _time field'}
+                                                                </Message>
+                                                            }
+                                                        >
+                                                            {this.state.error_ds_no__time.map(
+                                                                (k, v) => {
+                                                                    return (
+                                                                        <p>
+                                                                            {
+                                                                                this.state
+                                                                                    .error_ds_no__time[
+                                                                                    v
+                                                                                ]
+                                                                            }
+                                                                        </p>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </Accordion.Panel>
+                                                    </Accordion>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
                                     </SidePanel>
                                     <Button
