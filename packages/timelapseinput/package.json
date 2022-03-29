@@ -21,6 +21,7 @@
   "main": "Timelapseinput.js",
   "dependencies": {
     "@splunk/react-ui": "^4.2.0",
+    "@splunk/search-job": "^2.0.0",
     "@splunk/themes": "^0.8.0"
   },
   "devDependencies": {
