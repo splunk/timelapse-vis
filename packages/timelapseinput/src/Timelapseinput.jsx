@@ -8,6 +8,7 @@ import Button from '@splunk/react-ui/Button';
 import Select from '@splunk/react-ui/Select';
 import Switch from '@splunk/react-ui/Switch';
 import Slider from '@splunk/react-ui/Slider';
+import P from '@splunk/react-ui/Paragraph';
 import Heading from '@splunk/react-ui/Heading';
 import Message from '@splunk/react-ui/Message';
 import Accordion from '@splunk/react-ui/Accordion';
@@ -18,6 +19,7 @@ import SidePanel from '@splunk/react-ui/SidePanel';
 import TriangleRight from '@splunk/react-icons/TriangleRight';
 import TriangleLeft from '@splunk/react-icons/TriangleLeft';
 import Pause from '@splunk/react-icons/Pause';
+import Bell from '@splunk/react-icons/Bell';
 
 import { SplunkThemeProvider } from '@splunk/themes';
 
@@ -148,8 +150,10 @@ class TimelapseControls extends React.Component {
             dark: darktheme,
             leftOpen: false,
             error_ds_no__time: [],
-            openPanelId: 2,
             error_no_dash: false,
+            warn_inputs_exist: [],
+            openPanelId: 2,
+            openInputsPanelId: 2,
             dashboardID: params.get('dashboardid'),
         };
         this.fetchDefinition();
@@ -165,6 +169,7 @@ class TimelapseControls extends React.Component {
         this.openLeftPanel = this.openLeftPanel.bind(this);
         this.handleRequestOpen = this.handleRequestOpen.bind(this);
         this.handlePanelChange = this.handlePanelChange.bind(this);
+        this.handleInputsPanelChange = this.handleInputsPanelChange.bind(this);
 
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
@@ -252,6 +257,10 @@ class TimelapseControls extends React.Component {
         this.setState({ def });
         var definition = this.state.def;
         var results = '';
+
+        for (var input in definition.inputs) {
+            this.setState({ warn_inputs_exist: [...this.state.warn_inputs_exist, input] });
+        }
 
         //Start to Loop through Searches
         for (var datasource in definition.dataSources) {
@@ -524,6 +533,10 @@ class TimelapseControls extends React.Component {
         this.setState({ openPanelId: panelValue });
     }
 
+    handleInputsPanelChange(e, { panelId: panelValue }) {
+        this.setState({ openInputsPanelId: panelValue });
+    }
+
     render() {
         const colStyle = {
             border: `0px solid black`,
@@ -645,14 +658,52 @@ class TimelapseControls extends React.Component {
                                                             {this.state.error_ds_no__time.map(
                                                                 (k, v) => {
                                                                     return (
-                                                                        <p>
+                                                                        <P>
                                                                             {
                                                                                 this.state
                                                                                     .error_ds_no__time[
                                                                                     v
                                                                                 ]
                                                                             }
-                                                                        </p>
+                                                                        </P>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </Accordion.Panel>
+                                                    </Accordion>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
+                                            {this.state.warn_inputs_exist.length > 0 ? (
+                                                <>
+                                                    <Accordion
+                                                        openPanelId={this.state.openInputsPanelId}
+                                                        onChange={this.handleInputsPanelChange}
+                                                    >
+                                                        <Accordion.Panel
+                                                            panelId={1}
+                                                            title={
+                                                                <Message type="warning">
+                                                                    {String(
+                                                                        this.state.warn_inputs_exist
+                                                                            .length
+                                                                    ) +
+                                                                        ' Inputs Exist Which May Not Work with Timelapse'}
+                                                                </Message>
+                                                            }
+                                                        >
+                                                            {this.state.warn_inputs_exist.map(
+                                                                (k, v) => {
+                                                                    return (
+                                                                        <P>
+                                                                            {
+                                                                                this.state
+                                                                                    .warn_inputs_exist[
+                                                                                    v
+                                                                                ]
+                                                                            }
+                                                                        </P>
                                                                     );
                                                                 }
                                                             )}
@@ -664,6 +715,28 @@ class TimelapseControls extends React.Component {
                                             )}
                                         </div>
                                     </SidePanel>
+                                    {this.state.error_ds_no__time.length > 0 ||
+                                    this.state.error_no_dash ||
+                                    this.state.warn_inputs_exist.length > 0 ? (
+                                        <Button
+                                            key="left"
+                                            onClick={this.openLeftPanel}
+                                            label={
+                                                <>
+                                                    <Bell size={1.5} style={{ color: 'white' }} />{' '}
+                                                    &nbsp;&nbsp;
+                                                    {String(
+                                                        this.state.error_ds_no__time.length +
+                                                            this.state.error_no_dash +
+                                                            this.state.warn_inputs_exist.length
+                                                    )}
+                                                </>
+                                            }
+                                            appearance="pill"
+                                        />
+                                    ) : (
+                                        <></>
+                                    )}
                                     <Button
                                         key="left"
                                         onClick={this.openLeftPanel}
