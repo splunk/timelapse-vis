@@ -3,6 +3,7 @@ import { StyledContainer, StyledGreeting } from './DashboardselectorStyles';
 import ListDashboards from '@splunk/listdashboards';
 import Select from '@splunk/react-ui/Select';
 import P from '@splunk/react-ui/Paragraph';
+import Heading from '@splunk/react-ui/Heading';
 
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Link from '@splunk/react-ui/Link';
@@ -87,7 +88,7 @@ class DashboardSelector extends Component {
             padding: 5,
             minHeight: 10,
             width: '100%',
-            paddingLeft: 10,
+            paddingLeft: 20,
         };
 
         const calColStyle = {
@@ -120,75 +121,85 @@ class DashboardSelector extends Component {
 
         return (
             <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
-                <StyledContainer>
-                    <P>Use the following form to build your custom dashboard URL:</P>
-                    <ColumnLayout gutter={1}>
-                        <ColumnLayout.Row>
-                            <ColumnLayout.Column style={colStyle}>
-                                Select Dashboard:
-                            </ColumnLayout.Column>
-                            <ColumnLayout.Column style={colStyle}>
-                                Select Dashboard Theme:
-                            </ColumnLayout.Column>
-                            <ColumnLayout.Column style={colStyle}>
-                                Select Type of Input:
-                            </ColumnLayout.Column>
-                            <ColumnLayout.Column style={colStyle}>
-                                Select Range Start:
-                            </ColumnLayout.Column>
-                            <ColumnLayout.Column style={colStyle}>
-                                Select Range End:
-                            </ColumnLayout.Column>
-                            {intervalColumn}
-                        </ColumnLayout.Row>
-                        <ColumnLayout.Row>
-                            <ColumnLayout.Column style={colStyle} span={1}>
-                                <ListDashboards changehandler={this.handleDashboardIdChange} />
-                            </ColumnLayout.Column>
-                            <ColumnLayout.Column style={colStyle} span={1}>
-                                <Select onChange={this.handleThemeSelect}>
-                                    <Select.Option value="dark" label="Dark Theme" />
-                                    <Select.Option value="light" label="Light Theme" />
-                                </Select>
-                            </ColumnLayout.Column>
-                            <ColumnLayout.Column style={colStyle} span={1}>
-                                <Select onChange={this.handleChangePickerType}>
-                                    <Select.Option value="rangeslider" label="Range Slider" />
-                                    <Select.Option value="timelapse" label="Timelapse" />
-                                </Select>
-                            </ColumnLayout.Column>
-                            <ColumnLayout.Column style={calColStyle} span={1}>
-                                <input
-                                    type="date"
-                                    id="start"
-                                    name="dashboard-start"
-                                    onChange={this.startChange}
-                                ></input>
-                            </ColumnLayout.Column>
-                            <ColumnLayout.Column style={calColStyle} span={1}>
-                                <input
-                                    type="date"
-                                    id="end"
-                                    name="dashboard-end"
-                                    onChange={this.endChange}
-                                ></input>
-                            </ColumnLayout.Column>
-                            {intervalPicker}
-                        </ColumnLayout.Row>
-                        <ColumnLayout.Row>
-                            <ColumnLayout.Column style={colStyle} span={4}>
-                                <P>
-                                    Use the following link to view your custom dashboard. You can
-                                    also share this URL with other users who have access to your
-                                    Splunk Environment. :
-                                </P>
-                                <Link to={url} openInNewContext>
-                                    {url}
-                                </Link>
-                            </ColumnLayout.Column>
-                        </ColumnLayout.Row>
-                    </ColumnLayout>
-                </StyledContainer>
+                <div style={{ width: '100%' }}>
+                    <StyledContainer style={{ width: '100%' }}>
+                        <ColumnLayout gutter={1}>
+                            <ColumnLayout.Row>
+                                <ColumnLayout.Column style={colStyle} span={4}>
+                                    <Heading level={2}>
+                                        Use the following form to build your custom dashboard URL:
+                                    </Heading>
+                                </ColumnLayout.Column>
+                            </ColumnLayout.Row>
+                            <ColumnLayout.Row>
+                                <ColumnLayout.Column style={colStyle}>
+                                    Select Dashboard:
+                                </ColumnLayout.Column>
+                                <ColumnLayout.Column style={colStyle}>
+                                    Select Dashboard Theme:
+                                </ColumnLayout.Column>
+                                <ColumnLayout.Column style={colStyle}>
+                                    Select Type of Input:
+                                </ColumnLayout.Column>
+                                <ColumnLayout.Column style={colStyle}>
+                                    Select Range Start:
+                                </ColumnLayout.Column>
+                                <ColumnLayout.Column style={colStyle}>
+                                    Select Range End:
+                                </ColumnLayout.Column>
+                                {intervalColumn}
+                            </ColumnLayout.Row>
+                            <ColumnLayout.Row>
+                                <ColumnLayout.Column style={colStyle} span={1}>
+                                    <ListDashboards changehandler={this.handleDashboardIdChange} />
+                                </ColumnLayout.Column>
+                                <ColumnLayout.Column style={colStyle} span={1}>
+                                    <Select onChange={this.handleThemeSelect}>
+                                        <Select.Option value="dark" label="Dark Theme" />
+                                        <Select.Option value="light" label="Light Theme" />
+                                    </Select>
+                                </ColumnLayout.Column>
+                                <ColumnLayout.Column style={colStyle} span={1}>
+                                    <Select onChange={this.handleChangePickerType}>
+                                        <Select.Option value="rangeslider" label="Range Slider" />
+                                        <Select.Option value="timelapse" label="Timelapse" />
+                                    </Select>
+                                </ColumnLayout.Column>
+                                <ColumnLayout.Column style={calColStyle} span={1}>
+                                    <input
+                                        type="date"
+                                        id="start"
+                                        name="dashboard-start"
+                                        onChange={this.startChange}
+                                    ></input>
+                                </ColumnLayout.Column>
+                                <ColumnLayout.Column style={calColStyle} span={1}>
+                                    <input
+                                        type="date"
+                                        id="end"
+                                        name="dashboard-end"
+                                        onChange={this.endChange}
+                                    ></input>
+                                </ColumnLayout.Column>
+                                {intervalPicker}
+                            </ColumnLayout.Row>
+                            <ColumnLayout.Row>
+                                <ColumnLayout.Column style={colStyle} span={4}>
+                                    <Heading level={2}>
+                                        Use the link below to view your custom dashboard:{' '}
+                                    </Heading>
+                                    <Heading level={4}>
+                                        You can also share this URL with other users who have access
+                                        to your Splunk Environment.
+                                    </Heading>
+                                    <Link to={url} openInNewContext>
+                                        {url}
+                                    </Link>
+                                </ColumnLayout.Column>
+                            </ColumnLayout.Row>
+                        </ColumnLayout>
+                    </StyledContainer>
+                </div>
             </SplunkThemeProvider>
         );
     }
