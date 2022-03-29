@@ -190,7 +190,8 @@ class DashboardSelector extends Component {
                                     </Heading>
                                     <Heading level={4}>
                                         You can also share this URL with other users who have access
-                                        to your Splunk Environment.
+                                        to your Splunk Environment, the dashboard you've selected,
+                                        and this app.
                                     </Heading>
                                     <Link to={url} openInNewContext>
                                         {url}
