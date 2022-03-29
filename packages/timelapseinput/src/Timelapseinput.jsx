@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
@@ -25,6 +25,14 @@ import { SplunkThemeProvider } from '@splunk/themes';
 
 import SearchJob from '@splunk/search-job';
 
+import jsCharting from '@splunk/charting-bundle';
+
+function hackDisableProgressiveRender() {
+    const c = jsCharting.createChart(document.createElement('div'), {});
+    c.constructor.prototype.shouldProgressiveDraw = () => false;
+    c.destroy();
+}
+
 var search = window.location.search;
 const params = new URLSearchParams(search);
 const rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
@@ -39,7 +47,7 @@ if (timeinterval == 'hours') {
     step = 1000 * 60 * 60;
 }
 if (timeinterval == 'years') {
-    step = 1000 * 60 * 60 * 24 * 365.25;
+    step = 1000 * 60 * 60 * 24 * 365;
 }
 
 var seenImages = {};
@@ -177,6 +185,9 @@ class TimelapseControls extends React.Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        window.jsCharting = jsCharting;
+
+        hackDisableProgressiveRender();
     }
 
     componentWillUnmount() {
@@ -723,8 +734,7 @@ class TimelapseControls extends React.Component {
                                             onClick={this.openLeftPanel}
                                             label={
                                                 <>
-                                                    <Bell size={1.5} style={{ color: 'white' }} />{' '}
-                                                    &nbsp;&nbsp;
+                                                    <Bell size={1.5} /> &nbsp;&nbsp;
                                                     {String(
                                                         this.state.error_ds_no__time.length +
                                                             this.state.error_no_dash +

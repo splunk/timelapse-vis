@@ -167,7 +167,7 @@ class DashboardSelector extends Component {
                             The time interval specifies how much the time changes each time the
                             slider moves by one step mark.{' '}
                             <ul>
-                                <li>Years = 31557600000 seconds</li>
+                                <li>Years = 31536000000 seconds</li>
                                 <li>Days = 86400000 seconds</li>
                                 <li>Hours = 3600000 seconds</li>
                             </ul>
