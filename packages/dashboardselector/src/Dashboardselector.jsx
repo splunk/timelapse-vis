@@ -142,6 +142,11 @@ class DashboardSelector extends Component {
                         <Modal.Body>
                             The time interval specifies how much the time changes each time the
                             slider moves by one step mark.{' '}
+                            <ul>
+                                <li>Years = 31557600000 seconds</li>
+                                <li>Days = 86400000 seconds</li>
+                                <li>Hours = 3600000 seconds</li>
+                            </ul>
                         </Modal.Body>
                     </Modal>
                     Select Time Interval:
