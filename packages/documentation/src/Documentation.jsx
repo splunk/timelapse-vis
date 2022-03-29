@@ -60,7 +60,7 @@ class Documentation extends Component {
                             <Link
                                 target="_blank"
                                 to={
-                                    'timelapse?demo=true&rangeStart=2021-09-01%2000%3A00%3A00&rangeEnd=2021-09-19%2000%3A00%3A00&timeinterval=days'
+                                    '/timelapse?theme=dark&dashboardid=timelapse_demo&rangeStart=2021-12-19%2000%3A00%3A00&rangeEnd=2022-03-28%2000%3A00%3A00&timeinterval=days'
                                 }
                             >
                                 View a Demo Here
@@ -81,6 +81,9 @@ class Documentation extends Component {
                                 timeinterval (string, currently accepts "days", "hours", and
                                 "years")
                             </List.Item>
+                            <List.Item>
+                                theme (string, currently accepts "light" and "dark")
+                            </List.Item>
                         </List>
 
                         <Heading level={4}>Instructions for Creating a Timelapse Dashboard</Heading>
@@ -90,6 +93,12 @@ class Documentation extends Component {
                         </P>
 
                         <List type="decimal">
+                            <List.Item>
+                                <strong>
+                                    Dashboard that you want to apply a timelapse to should be shared
+                                    globally.
+                                </strong>
+                            </List.Item>
                             <List.Item>
                                 <strong>All results should have a valid _time field.</strong>
                             </List.Item>

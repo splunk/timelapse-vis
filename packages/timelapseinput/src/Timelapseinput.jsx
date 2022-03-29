@@ -21,7 +21,6 @@ import Pause from '@splunk/react-icons/Pause';
 
 import { SplunkThemeProvider } from '@splunk/themes';
 
-import demodash from './demodash';
 import SearchJob from '@splunk/search-job';
 
 var search = window.location.search;
@@ -125,6 +124,11 @@ async function downloadImage(src, assetType) {
 class TimelapseControls extends React.Component {
     constructor(props) {
         super(props);
+
+        var darktheme = false;
+        if (params.get('theme') == 'dark') {
+            darktheme = true;
+        }
         this.state = {
             isPlaying: false,
             isReversing: false,
@@ -141,7 +145,7 @@ class TimelapseControls extends React.Component {
             dataSources: {},
             width: 0,
             height: 0,
-            dark: false,
+            dark: darktheme,
             leftOpen: false,
             error_ds_no__time: [],
             openPanelId: 2,
@@ -179,11 +183,7 @@ class TimelapseControls extends React.Component {
     fetchDefinition = async () => {
         var search = window.location.search;
         const params = new URLSearchParams(search);
-        const demo = params.get('demo');
         var dashboardid = params.get('dashboardid');
-        if (demo == 'true') {
-            dashboardid = 'thisisonlyademo';
-        }
 
         const def = await fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, {
             credentials: 'include',
@@ -201,54 +201,48 @@ class TimelapseControls extends React.Component {
 
             .catch((e) => {
                 //If there is an error, and demo==true, apply the demo dashboard.
-                if (demo == 'true') {
-                    this.setState({ def: demodash });
-                    definition = demodash;
-                    this.setState({ hasNotBeenFetched: false });
-                }
+
                 console.error('Error during definition retrieval/parsing', e);
             });
         console.log(this.state.def);
         //Let's process the dashboard before we put it in place
         //First let's get images
-        if (demo !== 'true') {
-            {
-                for (const viz of Object.values(def.visualizations || {})) {
-                    var src = '';
-                    try {
-                        if (viz.type === 'viz.singlevalueicon') {
-                            viz.options.icon = await downloadImage(viz.options.icon, 'icons');
-                        }
-                        if (viz.type === 'splunk.singlevalueicon') {
-                            viz.options.icon = await downloadImage(viz.options.icon, 'icons');
-                        }
-                        if (viz.type === 'viz.img') {
-                            viz.options.src = await downloadImage(viz.options.src, 'images');
-                        }
-                        if (viz.type === 'splunk.choropleth.svg') {
-                            viz.options.svg = await downloadImage(viz.options.svg, 'images');
-                        }
-                        if (viz.type === 'viz.choropleth.svg') {
-                            viz.options.svg = await downloadImage(viz.options.svg, 'images');
-                        }
-                    } catch (e) {
-                        console.log('Failed to load image with src: ' + src);
-                        console.log(e);
-                    }
-                }
 
-                if (def.layout.options.backgroundImage) {
-                    try {
-                        def.layout.options.backgroundImage.src = await downloadImage(
-                            def.layout.options.backgroundImage.src,
-                            'images'
-                        );
-                    } catch (e) {
-                        console.log(e);
-                    }
+        for (const viz of Object.values(def.visualizations || {})) {
+            var src = '';
+            try {
+                if (viz.type === 'viz.singlevalueicon') {
+                    viz.options.icon = await downloadImage(viz.options.icon, 'icons');
                 }
+                if (viz.type === 'splunk.singlevalueicon') {
+                    viz.options.icon = await downloadImage(viz.options.icon, 'icons');
+                }
+                if (viz.type === 'viz.img') {
+                    viz.options.src = await downloadImage(viz.options.src, 'images');
+                }
+                if (viz.type === 'splunk.choropleth.svg') {
+                    viz.options.svg = await downloadImage(viz.options.svg, 'images');
+                }
+                if (viz.type === 'viz.choropleth.svg') {
+                    viz.options.svg = await downloadImage(viz.options.svg, 'images');
+                }
+            } catch (e) {
+                console.log('Failed to load image with src: ' + src);
+                console.log(e);
             }
         }
+
+        if (def.layout.options.backgroundImage) {
+            try {
+                def.layout.options.backgroundImage.src = await downloadImage(
+                    def.layout.options.backgroundImage.src,
+                    'images'
+                );
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
         this.setState({ def });
         var definition = this.state.def;
         var results = '';
@@ -473,7 +467,13 @@ class TimelapseControls extends React.Component {
                 let d = new Date(value).toLocaleString();
                 return d;
             }
+
+            if (timeinterval == 'days') {
+                let d = new Date(value).toLocaleString();
+                return d;
+            }
         } else {
+            console.log('Failed to Convert');
             return ' ';
         }
     }
@@ -484,7 +484,7 @@ class TimelapseControls extends React.Component {
     }
 
     updateLabel(value) {
-        console.log(value);
+        console.log('This Time' + String(value));
         this.setState({
             displayValue: TimelapseControls.convertValueToLabel(value),
             value,
