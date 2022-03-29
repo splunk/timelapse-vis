@@ -1,0 +1,6 @@
+[views/timelapse_demo]
+access = read : [ * ], write : [ * ]
+export = app
+owner = nobody
+version = 8.2.4
+modtime = 1648527291.324464000

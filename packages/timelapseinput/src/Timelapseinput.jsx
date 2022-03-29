@@ -149,6 +149,8 @@ class TimelapseControls extends React.Component {
             leftOpen: false,
             error_ds_no__time: [],
             openPanelId: 2,
+            error_no_dash: false,
+            dashboardID: params.get('dashboardid'),
         };
         this.fetchDefinition();
 
@@ -185,9 +187,12 @@ class TimelapseControls extends React.Component {
         const params = new URLSearchParams(search);
         var dashboardid = params.get('dashboardid');
 
-        const def = await fetch(`/splunkd/services/data/ui/views/${dashboardid}?output_mode=json`, {
-            credentials: 'include',
-        })
+        const def = await fetch(
+            `/splunkd/servicesNS/-/-/data/ui/views/${dashboardid}?output_mode=json`,
+            {
+                credentials: 'include',
+            }
+        )
             .then((res) => res.json())
             .then((data) => {
                 var xml = new DOMParser().parseFromString(
@@ -202,6 +207,7 @@ class TimelapseControls extends React.Component {
             .catch((e) => {
                 //If there is an error, and demo==true, apply the demo dashboard.
 
+                this.setState({ error_no_dash: true });
                 console.error('Error during definition retrieval/parsing', e);
             });
         console.log(this.state.def);
@@ -706,7 +712,7 @@ class TimelapseControls extends React.Component {
                                 </td>
                             </tr>
 
-                            {this.state.hasNotBeenFetched ? (
+                            {this.state.hasNotBeenFetched && this.state.error_no_dash != true ? (
                                 <tr>
                                     <td
                                         colSpan="2"
@@ -726,6 +732,29 @@ class TimelapseControls extends React.Component {
                                             }}
                                         >
                                             <WaitSpinner style={{}} size="large" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : (
+                                <></>
+                            )}
+
+                            {this.state.error_no_dash == true ? (
+                                <tr>
+                                    <td
+                                        colSpan="2"
+                                        style={{
+                                            ...colStyle,
+                                            width: '100%',
+                                            paddingTop: '0px',
+                                            paddingBottom: '0px',
+                                        }}
+                                    >
+                                        <div>
+                                            <Message appearance="fill" type="error">
+                                                Cannot load dashboard with ID:{' '}
+                                                {this.state.dashboardID}.
+                                            </Message>
                                         </div>
                                     </td>
                                 </tr>
