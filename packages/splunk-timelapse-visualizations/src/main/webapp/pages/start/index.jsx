@@ -1,16 +1,14 @@
 import DashboardSelector from '@splunk/dashboardselector';
 import layout from '@splunk/react-page';
-import { defaultTheme, getThemeOptions } from '@splunk/splunk-utils/themes';
 import { SplunkThemeProvider } from '@splunk/themes';
 import React from 'react';
 import { StyledContainer, StyledGreeting } from './StartStyles';
-
-const themeProviderSettings = getThemeOptions(defaultTheme() || 'enterpriseDark');
+import Heading from '@splunk/react-ui/Heading';
 
 layout(
-    <SplunkThemeProvider {...themeProviderSettings}>
+    <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
         <StyledContainer>
-            <StyledGreeting>Welcome to the Rangeslider and Timelapse Visualizations. </StyledGreeting>
+            <Heading level={1}>Welcome to the Rangeslider and Timelapse Visualizations</Heading>
             <DashboardSelector />
         </StyledContainer>
     </SplunkThemeProvider>
