@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, useRef, useState } from 'react';
 import { StyledContainer, StyledGreeting } from './DashboardselectorStyles';
 import ListDashboards from '@splunk/listdashboards';
 import Select from '@splunk/react-ui/Select';
-import P from '@splunk/react-ui/Paragraph';
 import Heading from '@splunk/react-ui/Heading';
-
+import InfoCircle from '@splunk/react-icons/InfoCircle';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
+import Button from '@splunk/react-ui/Button';
+
 import Link from '@splunk/react-ui/Link';
 import { SplunkThemeProvider } from '@splunk/themes';
+import Modal from '@splunk/react-ui/Modal';
 
 class DashboardSelector extends Component {
     constructor(props) {
@@ -19,10 +21,13 @@ class DashboardSelector extends Component {
             rangeEnd: '',
             timeinterval: '',
             theme: '',
+            infoModalOpen: false,
         };
         this.handleChangePickerType = this.handleChangePickerType.bind(this);
         this.handleDashboardIdChange = this.handleDashboardIdChange.bind(this);
         this.handleThemeSelect = this.handleThemeSelect.bind(this);
+        this.handleIntervalInfoOpen = this.handleIntervalInfoOpen.bind(this);
+        this.handleIntervalInfoClose = this.handleIntervalInfoClose.bind(this);
 
         this.startChange = this.startChange.bind(this);
         this.endChange = this.endChange.bind(this);
@@ -68,6 +73,13 @@ class DashboardSelector extends Component {
         });
     }
 
+    handleIntervalInfoOpen() {
+        this.setState({ infoModalOpen: true });
+    }
+    handleIntervalInfoClose() {
+        this.setState({ infoModalOpen: false });
+    }
+
     render() {
         var url =
             window.location.href.replace(/[^\/]+$/, '') +
@@ -89,6 +101,7 @@ class DashboardSelector extends Component {
             minHeight: 10,
             width: '100%',
             paddingLeft: 20,
+            textAlign: 'center',
         };
 
         const calColStyle = {
@@ -96,6 +109,8 @@ class DashboardSelector extends Component {
             padding: 5,
             minHeight: 10,
             width: '100%',
+            textAlign: 'center',
+
             paddingReft: 50,
         };
 
@@ -114,7 +129,23 @@ class DashboardSelector extends Component {
             );
 
             intervalColumn = (
-                <ColumnLayout.Column style={colStyle}>Select Time Interval:</ColumnLayout.Column>
+                <ColumnLayout.Column style={colStyle}>
+                    <Button
+                        appearance={'pill'}
+                        onClick={this.handleIntervalInfoOpen}
+                        label={<InfoCircle size={1.5} />}
+                    />
+                    <Modal
+                        onRequestClose={this.handleIntervalInfoClose}
+                        open={this.state.infoModalOpen}
+                    >
+                        <Modal.Body>
+                            The time interval specifies how much the time changes each time the
+                            slider moves by one step mark.{' '}
+                        </Modal.Body>
+                    </Modal>
+                    Select Time Interval:
+                </ColumnLayout.Column>
             );
         } else {
         }
@@ -184,7 +215,10 @@ class DashboardSelector extends Component {
                                 {intervalPicker}
                             </ColumnLayout.Row>
                             <ColumnLayout.Row>
-                                <ColumnLayout.Column style={colStyle} span={4}>
+                                <ColumnLayout.Column
+                                    style={{ ...colStyle, textAlign: 'left' }}
+                                    span={4}
+                                >
                                     <Heading level={2}>
                                         Use the link below to view your custom dashboard:{' '}
                                     </Heading>
