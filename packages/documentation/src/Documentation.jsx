@@ -60,7 +60,7 @@ class Documentation extends Component {
                             <Link
                                 target="_blank"
                                 to={
-                                    '/timelapse?theme=dark&dashboardid=timelapse_demo&rangeStart=2021-12-19%2000%3A00%3A00&rangeEnd=2022-03-28%2000%3A00%3A00&timeinterval=days'
+                                    'timelapse?theme=dark&dashboardid=timelapse_demo&rangeStart=2021-12-19%2000%3A00%3A00&rangeEnd=2022-03-28%2000%3A00%3A00&timeinterval=days'
                                 }
                             >
                                 View a Demo Here
