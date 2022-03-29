@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import layout from '@splunk/react-page';
 import { SplunkThemeProvider } from '@splunk/themes';
-
-import { defaultTheme, getThemeOptions } from '@splunk/splunk-utils/themes';
-
+import Heading from '@splunk/react-ui/Heading';
 import { StyledContainer, StyledGreeting } from './StartStyles';
 import Documentation from '@splunk/documentation';
 
@@ -20,7 +18,7 @@ layout(
     >
         <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
             <StyledContainer>
-                <StyledGreeting>Documentation</StyledGreeting>
+                <Heading level={1}>Documentation</Heading>
                 <Documentation />
             </StyledContainer>
         </SplunkThemeProvider>

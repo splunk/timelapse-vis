@@ -739,6 +739,24 @@ class TimelapseControls extends React.Component {
                                 <></>
                             )}
 
+                            {this.state.hasNotBeenFetched == true ? (
+                                <></>
+                            ) : (
+                                <tr>
+                                    <td
+                                        colSpan="2"
+                                        style={{
+                                            ...colStyle,
+                                            width: '100%',
+                                            paddingTop: '0px',
+                                            paddingBottom: '0px',
+                                        }}
+                                    >
+                                        <>{dash}</>
+                                    </td>
+                                </tr>
+                            )}
+
                             {this.state.error_no_dash == true ? (
                                 <tr>
                                     <td
@@ -759,19 +777,7 @@ class TimelapseControls extends React.Component {
                                     </td>
                                 </tr>
                             ) : (
-                                <tr>
-                                    <td
-                                        colSpan="2"
-                                        style={{
-                                            ...colStyle,
-                                            width: '100%',
-                                            paddingTop: '0px',
-                                            paddingBottom: '0px',
-                                        }}
-                                    >
-                                        <>{dash}</>
-                                    </td>
-                                </tr>
+                                <></>
                             )}
                         </tbody>
                     </table>

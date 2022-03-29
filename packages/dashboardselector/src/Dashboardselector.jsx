@@ -177,7 +177,11 @@ class DashboardSelector extends Component {
                         </ColumnLayout.Row>
                         <ColumnLayout.Row>
                             <ColumnLayout.Column style={colStyle} span={4}>
-                                <P>Use the following link to view your custom dashboard:</P>
+                                <P>
+                                    Use the following link to view your custom dashboard. You can
+                                    also share this URL with other users who have access to your
+                                    Splunk Environment. :
+                                </P>
                                 <Link to={url} openInNewContext>
                                     {url}
                                 </Link>
