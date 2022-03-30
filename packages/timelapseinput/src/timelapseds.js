@@ -38,9 +38,10 @@ export default class TimelapseDataSource extends DataSource {
             const parsedTimes = this.data.columns[timeFieldIdx].map((v) => new Date(v).getTime());
 
             const updateUntilTime = ([time]) => {
-                console.log('Updating Until Time');
-                const t = time;
+                const t = globalTime._cur;
+                console.log(new Date(time));
                 let untilRow = parsedTimes.findIndex((v) => v > t);
+                console.log(untilRow);
                 if (untilRow < 0) {
                     untilRow = Infinity;
                 }

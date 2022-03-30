@@ -148,7 +148,7 @@ class TimelapseControls extends React.Component {
             time: rangeStart * 1000,
             def: this.props.dash.props.definition,
             playbackMultiplier: '4',
-            displayValue: 'All-Time',
+            displayValue: 'Press Play to Start Timelapse',
             value: 1,
             hasNotBeenFetched: true,
             dataSources: {},
@@ -363,46 +363,9 @@ class TimelapseControls extends React.Component {
         this.setState({ hasNotBeenFetched: false });
     };
 
+    //This is used to resaturate the datasource
     updateDataSources() {
         var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
-        var selectedTime = new Date(this.state.time);
-
-        for (var v in definition_new.dataSources) {
-            if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
-                //Iterate through the time column, whereever it exists
-                for (var time in definition_new.dataSources[v].options.data.columns[
-                    definition_new.dataSources[v].options.data.fields.indexOf('_time')
-                ]) {
-                    var currTime = new Date(
-                        definition_new.dataSources[v].options.data.columns[
-                            definition_new.dataSources[v].options.data.fields.indexOf('_time')
-                        ][time]
-                    );
-
-                    //If the currentTime is less than selected
-                    if (currTime > selectedTime) {
-                        for (var n in definition_new.dataSources[v].options.data.columns) {
-                            if (n != 'extend') {
-                                try {
-                                    definition_new.dataSources[v].options.data.columns[n] =
-                                        definition_new.dataSources[v].options.data.columns[n].slice(
-                                            0,
-                                            time
-                                        );
-                                } catch (error) {
-                                    console.log('ERROR');
-
-                                    // expected output: ReferenceError: nonExistentFunction is not defined
-                                    // Note - error messages will vary depending on browser
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-
         this.setState({
             def: definition_new,
         });
@@ -421,14 +384,14 @@ class TimelapseControls extends React.Component {
                 this.setState({
                     time: this.state.startTime * 1000,
                 });
-                globalTime.setTime(this.state.time);
+                globalTime.setTime(this.state.startTime * 1000);
 
                 this.updateLabel(this.state.startTime * 1000);
             } else {
                 this.setState({
                     time: this.state.time.valueOf() + this.state.step,
                 });
-                globalTime.setTime(this.state.time);
+                globalTime.setTime(this.state.time.valueOf() + this.state.step);
 
                 this.updateLabel(this.state.time.valueOf() + this.state.step);
             }
@@ -452,14 +415,14 @@ class TimelapseControls extends React.Component {
                 this.setState({
                     time: this.state.endTime * 1000,
                 });
-                globalTime.setTime(this.state.time);
+                globalTime.setTime(this.state.endTime * 1000);
 
                 this.updateLabel(this.state.endTime * 1000);
             } else {
                 this.setState({
                     time: this.state.time.valueOf() - this.state.step,
                 });
-                globalTime.setTime(this.state.time);
+                globalTime.setTime(this.state.time.valueOf() - this.state.step);
 
                 this.updateLabel(this.state.time.valueOf() - this.state.step);
             }
@@ -623,9 +586,13 @@ class TimelapseControls extends React.Component {
                                         paddingBottom: '10px',
                                     }}
                                 >
-                                    <Heading style={textStyle} level={2}>
-                                        {this.state.displayValue}
-                                    </Heading>
+                                    {this.state.hasNotBeenFetched == true ? (
+                                        <></>
+                                    ) : (
+                                        <Heading style={textStyle} level={2}>
+                                            {this.state.displayValue}
+                                        </Heading>
+                                    )}
 
                                     <SidePanel
                                         open={this.state.leftOpen}
@@ -758,26 +725,33 @@ class TimelapseControls extends React.Component {
                                     ) : (
                                         <></>
                                     )}
-                                    <Button
-                                        key="left"
-                                        onClick={this.openLeftPanel}
-                                        label="Configure"
-                                    />
-                                    <Button
-                                        label={<TriangleLeft />}
-                                        onClick={this.onReverseCallback}
-                                        appearance="primary"
-                                    />
-                                    <Button
-                                        label={<Pause />}
-                                        onClick={this.onStopCallback}
-                                        appearance="primary"
-                                    />
-                                    <Button
-                                        label={<TriangleRight />}
-                                        onClick={this.onPlayCallback}
-                                        appearance="primary"
-                                    />
+
+                                    {this.state.hasNotBeenFetched == true ? (
+                                        <></>
+                                    ) : (
+                                        <>
+                                            <Button
+                                                key="left"
+                                                onClick={this.openLeftPanel}
+                                                label="Configure"
+                                            />
+                                            <Button
+                                                label={<TriangleLeft />}
+                                                onClick={this.onReverseCallback}
+                                                appearance="primary"
+                                            />
+                                            <Button
+                                                label={<Pause />}
+                                                onClick={this.onStopCallback}
+                                                appearance="primary"
+                                            />
+                                            <Button
+                                                label={<TriangleRight />}
+                                                onClick={this.onPlayCallback}
+                                                appearance="primary"
+                                            />
+                                        </>
+                                    )}
                                 </td>
                                 <td
                                     style={{
@@ -788,21 +762,25 @@ class TimelapseControls extends React.Component {
                                         paddingBottom: '0px',
                                     }}
                                 >
-                                    <Slider
-                                        min={this.state.startTime * 1000}
-                                        value={this.state.time}
-                                        displayValue={this.state.displayValue}
-                                        onChange={this.handleSliderChange}
-                                        max={this.state.endTime * 1000}
-                                        step={step}
-                                        defaultValue={this.state.startTime * 1000}
-                                        minLabel={new Date(
-                                            this.state.startTime * 1000
-                                        ).toLocaleString()}
-                                        maxLabel={new Date(
-                                            this.state.endTime * 1000
-                                        ).toLocaleString()}
-                                    />
+                                    {this.state.hasNotBeenFetched == true ? (
+                                        <></>
+                                    ) : (
+                                        <Slider
+                                            min={this.state.startTime * 1000}
+                                            value={this.state.time}
+                                            displayValue={this.state.displayValue}
+                                            onChange={this.handleSliderChange}
+                                            max={this.state.endTime * 1000}
+                                            step={step}
+                                            defaultValue={this.state.startTime * 1000}
+                                            minLabel={new Date(
+                                                this.state.startTime * 1000
+                                            ).toLocaleString()}
+                                            maxLabel={new Date(
+                                                this.state.endTime * 1000
+                                            ).toLocaleString()}
+                                        />
+                                    )}
                                 </td>
                             </tr>
 

@@ -9,7 +9,7 @@ class GlobalTime {
     _speed = 1;
     _start = 0;
     _end = 0;
-    span = 86400000;
+    span = 0;
 
     setRange(from, to) {
         const times = [];
@@ -36,8 +36,8 @@ class GlobalTime {
 
     setTimes(times) {
         this._times = times.map((t) => new Date(t).getTime());
-        this._times.sort();
-        this.setTime(0);
+        //this._times.sort();
+        //this.setTime(0);
     }
 
     subscribe(callback) {
@@ -100,6 +100,7 @@ class GlobalTime {
 
     timeSpanAt(idx) {
         if (idx != null) {
+            console.log(this._times.length);
             idx = Math.max(0, Math.min(this._times.length - 1, Math.floor(idx)));
             const start = this._times[idx];
             if (start != null) {
@@ -136,6 +137,9 @@ class GlobalTime {
     }
 
     setTime(time) {
+        console.log(time);
+        console.log(new Date(time));
+
         if (time !== this._cur) {
             this._cur = time;
             this.notify();
