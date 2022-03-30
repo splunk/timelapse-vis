@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
@@ -162,6 +162,8 @@ class TimelapseControls extends React.Component {
             warn_inputs_exist: [],
             openPanelId: 2,
             openInputsPanelId: 2,
+            numberOfSearches: 0,
+            numberOfSearchesComplete: 0,
             dashboardID: params.get('dashboardid'),
         };
         this.fetchDefinition();
@@ -180,14 +182,15 @@ class TimelapseControls extends React.Component {
         this.handleInputsPanelChange = this.handleInputsPanelChange.bind(this);
 
         this.handleRequestClose = this.handleRequestClose.bind(this);
+        window.jsCharting = jsCharting;
+
+        hackDisableProgressiveRender();
+        console.log(window);
     }
 
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-        window.jsCharting = jsCharting;
-
-        hackDisableProgressiveRender();
     }
 
     componentWillUnmount() {
@@ -275,11 +278,24 @@ class TimelapseControls extends React.Component {
 
         //Start to Loop through Searches
         for (var datasource in definition.dataSources) {
+            //Handle a ds.search
+            if (definition.dataSources[datasource].type == 'ds.search') {
+                this.setState({
+                    numberOfSearches: this.state.numberOfSearches + 1,
+                });
+            }
+        }
+
+        //Start to Loop through Searches
+        for (var datasource in definition.dataSources) {
             this.setState({ currentds: datasource });
             console.log(datasource);
 
             //Handle a ds.search
             if (definition.dataSources[this.state.currentds].type == 'ds.search') {
+                this.setState({
+                    numberOfSearchesComplete: this.state.numberOfSearchesComplete + 1,
+                });
                 definition.dataSources[this.state.currentds].type = 'ds.test';
 
                 var earliest = '';
@@ -351,6 +367,8 @@ class TimelapseControls extends React.Component {
     };
 
     updateDataSources() {
+        hackDisableProgressiveRender();
+
         var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
         var selectedTime = new Date(this.state.time);
 
@@ -378,14 +396,7 @@ class TimelapseControls extends React.Component {
                                         );
                                 } catch (error) {
                                     console.log('ERROR');
-                                    console.log(error);
 
-                                    console.log(v);
-                                    console.log(
-                                        typeof definition_new.dataSources[v].options.data.columns
-                                    );
-                                    console.log(definition_new.dataSources[v].options.data.columns);
-                                    console.log(definition_new.dataSources[v].options.data.fields);
                                     // expected output: ReferenceError: nonExistentFunction is not defined
                                     // Note - error messages will vary depending on browser
                                 }
@@ -796,28 +807,59 @@ class TimelapseControls extends React.Component {
                             </tr>
 
                             {this.state.hasNotBeenFetched && this.state.error_no_dash != true ? (
-                                <tr>
-                                    <td
-                                        colSpan="2"
-                                        style={{
-                                            ...colStyle,
-                                            width: '100%',
-                                            paddingTop: '0px',
-                                            paddingBottom: '0px',
-                                            height: '500px',
-                                        }}
-                                    >
-                                        <div
+                                <>
+                                    <tr>
+                                        <td
+                                            colSpan="2"
                                             style={{
+                                                ...colStyle,
                                                 width: '100%',
+                                                paddingTop: '0px',
+                                                paddingBottom: '0px',
+                                                height: '100px',
                                                 textAlign: 'center',
-                                                transform: 'scale(5)',
+                                                verticalAlign: 'text-bottom',
                                             }}
                                         >
-                                            <WaitSpinner style={{}} size="large" />
-                                        </div>
-                                    </td>
-                                </tr>
+                                            {' '}
+                                            <Heading
+                                                level={1}
+                                                style={{
+                                                    width: '100%',
+                                                    textAlign: 'center',
+                                                    margin: 'auto',
+                                                }}
+                                            >
+                                                Running Search {this.state.numberOfSearchesComplete}
+                                                /{this.state.numberOfSearches}
+                                            </Heading>
+                                            <br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            colSpan="2"
+                                            style={{
+                                                ...colStyle,
+                                                width: '100%',
+                                                paddingTop: '0px',
+                                                paddingBottom: '0px',
+                                                height: '200px',
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    width: '100%',
+                                                    textAlign: 'center',
+                                                    transform: 'scale(5)',
+                                                }}
+                                            >
+                                                <WaitSpinner style={{}} size="large" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </>
                             ) : (
                                 <></>
                             )}

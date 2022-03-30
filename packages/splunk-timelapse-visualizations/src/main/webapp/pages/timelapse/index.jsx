@@ -10,7 +10,7 @@ var dash = <DashboardCore width="100%" height="calc(100vh - 78px)" preset={Enter
 
 layout(
     <>
-        <div style={{ height: 125 }}>
+        <div style={{ height: 125, backgroundColor: 'blue' }}>
             <TimelapseControls dash={dash} />
         </div>
     </>,
