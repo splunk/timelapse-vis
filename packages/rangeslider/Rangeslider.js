@@ -82,1098 +82,16 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 19);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/Rangeslider.jsx");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports) {
-
-module.exports = require("react");
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-ui/Heading");
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-ui/Accordion");
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-ui/Paragraph");
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-ui/Message");
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-ui/Button");
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("date-fns");
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/dashboard-context");
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/dashboard-context/GeoJsonProvider");
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/dashboard-context/GeoRegistry");
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/dashboard-core");
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/dashboard-presets/EnterprisePreset");
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-ui/Switch");
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-ui/WaitSpinner");
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-ui/SidePanel");
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/react-icons/Bell");
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = require("react-timeline-range-slider");
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/themes");
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports) {
-
-module.exports = require("@splunk/search-job");
-
-/***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony import */ var _splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
-/* harmony import */ var _splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
-/* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
-/* harmony import */ var _splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
-/* harmony import */ var _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
-/* harmony import */ var _splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(12);
-/* harmony import */ var _splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(3);
-/* harmony import */ var _splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(1);
-/* harmony import */ var _splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(4);
-/* harmony import */ var _splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(2);
-/* harmony import */ var _splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(13);
-/* harmony import */ var _splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(14);
-/* harmony import */ var _splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(15);
-/* harmony import */ var _splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(6);
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(date_fns__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(0);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(16);
-/* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var _splunk_themes__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(17);
-/* harmony import */ var _splunk_themes__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_splunk_themes__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var _splunk_search_job__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(18);
-/* harmony import */ var _splunk_search_job__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_splunk_search_job__WEBPACK_IMPORTED_MODULE_18__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- //Initialize Variables as empty
-
-var selectedInterval = [];
-var disabledIntervals = [];
-var timelineInterval = [];
-var geoRegistry = _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_2___default.a.create();
-geoRegistry.addDefaultProvider(new _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_1___default.a()); //Get the Time Ranges from the URL Params
-
-var search = window.location.search;
-var params = new URLSearchParams(search);
-var rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
-var rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
-timelineInterval = [rangeStart * 1000, rangeEnd * 1000];
-selectedInterval = timelineInterval;
-var seenImages = {};
-
-function parseDataUri(dataUri) {
-  if (!dataUri.startsWith('data:')) {
-    throw new Error('Invalid data URI');
-  }
-
-  var semiIdx = dataUri.indexOf(';');
-
-  if (semiIdx < 0) {
-    throw new Error('Invalid data URI');
-  }
-
-  var mime = dataUri.slice(5, semiIdx);
-
-  if (!dataUri.slice(semiIdx + 1, 7) === 'base64,') {
-    throw new Error('Unsupported data URI encoding');
-  }
-
-  var data = Buffer.from(dataUri.slice(semiIdx + 8), 'base64');
-  return [mime, data];
-}
-
-function getImage(_x, _x2) {
-  return _getImage.apply(this, arguments);
-}
-
-function _getImage() {
-  _getImage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(assetType, id) {
-    var body;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.next = 2;
-            return fetch("/splunkd/__raw/servicesNS/nobody/splunk-dashboard-studio/storage/collections/data/splunk-dashboard-".concat(assetType, "/").concat(encodeURIComponent(id)), {
-              credentials: 'include'
-            }).then(function (res) {
-              return res.json();
-            }).then(function (data) {
-              var body = data;
-              return body;
-            });
-
-          case 2:
-            body = _context3.sent;
-            return _context3.abrupt("return", body);
-
-          case 4:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-  return _getImage.apply(this, arguments);
-}
-
-function downloadImage(_x3, _x4) {
-  return _downloadImage.apply(this, arguments);
-} //SplunkTimeRangeSlider Class
-
-
-function _downloadImage() {
-  _downloadImage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(src, assetType) {
-    var _src$split, _src$split2, type, id, res, data, mimeType, imgData, _parseDataUri, _parseDataUri2, _mimeType, _data;
-
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            if (src) {
-              _context4.next = 2;
-              break;
-            }
-
-            return _context4.abrupt("return", src);
-
-          case 2:
-            if (!(src in seenImages)) {
-              _context4.next = 4;
-              break;
-            }
-
-            return _context4.abrupt("return", seenImages[src]);
-
-          case 4:
-            if (!src.startsWith('data:image')) {
-              _context4.next = 6;
-              break;
-            }
-
-            return _context4.abrupt("return", src);
-
-          case 6:
-            if (!src.startsWith('<svg ')) {
-              _context4.next = 8;
-              break;
-            }
-
-            return _context4.abrupt("return", src);
-
-          case 8:
-            _src$split = src.split('://'), _src$split2 = _slicedToArray(_src$split, 2), type = _src$split2[0], id = _src$split2[1];
-
-            if (!(type === 'https' || type === 'http')) {
-              _context4.next = 14;
-              break;
-            }
-
-            res = fetch(src);
-            data = res.buffer();
-            mimeType = res.headers.get('Content-Type');
-            return _context4.abrupt("return", src);
-
-          case 14:
-            if (!(type === 'splunk-enterprise-kvstore')) {
-              _context4.next = 28;
-              break;
-            }
-
-            imgData = {
-              dataURI: 'null'
-            };
-            _context4.prev = 16;
-            _context4.next = 19;
-            return getImage(assetType, id).then(function (blob) {
-              return blob;
-            });
-
-          case 19:
-            imgData = _context4.sent;
-            _context4.next = 26;
-            break;
-
-          case 22:
-            _context4.prev = 22;
-            _context4.t0 = _context4["catch"](16);
-            console.log(_context4.t0);
-            console.log('Cannot find image');
-
-          case 26:
-            if (imgData.dataURI == 'null') {
-              imgData.dataURI == src;
-            } else {
-              _parseDataUri = parseDataUri(imgData.dataURI), _parseDataUri2 = _slicedToArray(_parseDataUri, 2), _mimeType = _parseDataUri2[0], _data = _parseDataUri2[1];
-            }
-
-            return _context4.abrupt("return", imgData.dataURI);
-
-          case 28:
-            throw new Error("Unexpected image type: ".concat(type));
-
-          case 29:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, null, [[16, 22]]);
-  }));
-  return _downloadImage.apply(this, arguments);
-}
-
-var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
-  _inherits(SplunkTimeRangeSliderInput, _React$Component);
-
-  var _super = _createSuper(SplunkTimeRangeSliderInput);
-
-  function SplunkTimeRangeSliderInput(props) {
-    var _this$state;
-
-    var _this;
-
-    _classCallCheck(this, SplunkTimeRangeSliderInput);
-
-    _this = _super.call(this, props);
-
-    _defineProperty(_assertThisInitialized(_this), "fetchDefinition", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var search, params, dashboardid, def, _i, _Object$values, viz, src, definition, results, input, datasource, earliest, latest, query, defUpdate;
-
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              search = window.location.search;
-              params = new URLSearchParams(search);
-              dashboardid = params.get('dashboardid');
-              _context.next = 5;
-              return fetch("/splunkd/servicesNS/-/-/data/ui/views/".concat(dashboardid, "?output_mode=json"), {
-                credentials: 'include'
-              }).then(function (res) {
-                return res.json();
-              }).then(function (data) {
-                var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
-                var def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
-                return def;
-              })["catch"](function (e) {
-                //If there is an error, and demo==true, apply the demo dashboard.
-                _this.setState({
-                  error_no_dash: true
-                });
-
-                console.error('Error during definition retrieval/parsing', e);
-              });
-
-            case 5:
-              def = _context.sent;
-              _i = 0, _Object$values = Object.values(def.visualizations || {});
-
-            case 7:
-              if (!(_i < _Object$values.length)) {
-                _context.next = 40;
-                break;
-              }
-
-              viz = _Object$values[_i];
-              src = '';
-              _context.prev = 10;
-
-              if (!(viz.type === 'viz.singlevalueicon')) {
-                _context.next = 15;
-                break;
-              }
-
-              _context.next = 14;
-              return downloadImage(viz.options.icon, 'icons');
-
-            case 14:
-              viz.options.icon = _context.sent;
-
-            case 15:
-              if (!(viz.type === 'splunk.singlevalueicon')) {
-                _context.next = 19;
-                break;
-              }
-
-              _context.next = 18;
-              return downloadImage(viz.options.icon, 'icons');
-
-            case 18:
-              viz.options.icon = _context.sent;
-
-            case 19:
-              if (!(viz.type === 'viz.img')) {
-                _context.next = 23;
-                break;
-              }
-
-              _context.next = 22;
-              return downloadImage(viz.options.src, 'images');
-
-            case 22:
-              viz.options.src = _context.sent;
-
-            case 23:
-              if (!(viz.type === 'splunk.choropleth.svg')) {
-                _context.next = 27;
-                break;
-              }
-
-              _context.next = 26;
-              return downloadImage(viz.options.svg, 'images');
-
-            case 26:
-              viz.options.svg = _context.sent;
-
-            case 27:
-              if (!(viz.type === 'viz.choropleth.svg')) {
-                _context.next = 31;
-                break;
-              }
-
-              _context.next = 30;
-              return downloadImage(viz.options.svg, 'images');
-
-            case 30:
-              viz.options.svg = _context.sent;
-
-            case 31:
-              _context.next = 37;
-              break;
-
-            case 33:
-              _context.prev = 33;
-              _context.t0 = _context["catch"](10);
-              console.log('Failed to load image with src: ' + src);
-              console.log(_context.t0);
-
-            case 37:
-              _i++;
-              _context.next = 7;
-              break;
-
-            case 40:
-              if (!def.layout.options.backgroundImage) {
-                _context.next = 50;
-                break;
-              }
-
-              _context.prev = 41;
-              _context.next = 44;
-              return downloadImage(def.layout.options.backgroundImage.src, 'images');
-
-            case 44:
-              def.layout.options.backgroundImage.src = _context.sent;
-              _context.next = 50;
-              break;
-
-            case 47:
-              _context.prev = 47;
-              _context.t1 = _context["catch"](41);
-              console.log(_context.t1);
-
-            case 50:
-              _this.setState({
-                def: def
-              });
-
-              definition = _this.state.def;
-              results = '';
-
-              for (input in definition.inputs) {
-                _this.setState({
-                  warn_inputs_exist: [].concat(_toConsumableArray(_this.state.warn_inputs_exist), [input])
-                });
-              } //Start to Loop through Searches
-
-
-              for (datasource in definition.dataSources) {
-                //Handle a ds.search
-                if (definition.dataSources[datasource].type == 'ds.search') {
-                  _this.setState({
-                    numberOfSearches: _this.state.numberOfSearches + 1
-                  });
-                }
-              } //Start to Loop through Searches
-
-
-              _context.t2 = regeneratorRuntime.keys(definition.dataSources);
-
-            case 56:
-              if ((_context.t3 = _context.t2()).done) {
-                _context.next = 77;
-                break;
-              }
-
-              datasource = _context.t3.value;
-
-              _this.setState({
-                currentds: datasource
-              }); //Handle a ds.search
-
-
-              if (!(definition.dataSources[_this.state.currentds].type == 'ds.search')) {
-                _context.next = 75;
-                break;
-              }
-
-              _this.setState({
-                numberOfSearchesComplete: _this.state.numberOfSearchesComplete + 1
-              });
-
-              definition.dataSources[_this.state.currentds].type = 'ds.test';
-              earliest = '';
-              latest = '';
-              query = '';
-              results = '';
-              query = definition.dataSources[_this.state.currentds].options.query; //If there are query parameters in the dataSource
-
-              if (definition.dataSources[_this.state.currentds].options.queryParameters) {
-                if (definition.dataSources[_this.state.currentds].options.queryParameters.earliest) {
-                  earliest = definition.dataSources[_this.state.currentds].options.queryParameters.earliest;
-                }
-
-                if (definition.dataSources[_this.state.currentds].options.queryParameters.latest) {
-                  latest = definition.dataSources[_this.state.currentds].options.queryParameters.latest;
-                }
-              } //If there are NO query parameters in the dataSource
-              else {
-                //Check the defaults of the definition
-                //else just return -24h as the default
-                earliest = '-24h@h';
-                latest = 'now';
-              }
-
-              _context.next = 70;
-              return _splunk_search_job__WEBPACK_IMPORTED_MODULE_18___default.a.create({
-                search: query,
-                earliest_time: earliest,
-                latest_time: latest
-              }).getResults({
-                output_mode: 'json_cols',
-                count: 0
-              }).first().toPromise();
-
-            case 70:
-              results = _context.sent;
-              defUpdate = _this.state.def;
-              defUpdate.dataSources[_this.state.currentds].options = {
-                data: {
-                  fields: results.fields,
-                  columns: results.columns
-                }
-              };
-
-              if (results.fields.indexOf('_time') < 0) {
-                console.log('Missing _time field');
-
-                _this.setState({
-                  error_ds_no__time: [].concat(_toConsumableArray(_this.state.error_ds_no__time), [_this.state.currentds])
-                });
-              }
-
-              _this.setState({
-                def: defUpdate
-              });
-
-            case 75:
-              _context.next = 56;
-              break;
-
-            case 77:
-              _this.setState({
-                defOrig: _this.state.def
-              });
-
-              _this.setState({
-                hasNotBeenFetched: false
-              });
-
-            case 79:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, null, [[10, 33], [41, 47]]);
-    })));
-
-    _defineProperty(_assertThisInitialized(_this), "errorHandler", function (_ref2) {
-      var error = _ref2.error;
-      return _this.setState({
-        error: error
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onChangeCallback", /*#__PURE__*/function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(selectedInterval) {
-        var definition_new, v, indexes, time, currTime, n;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                //Update the selectedInterval variable with the new start and end times
-                selectedInterval.map(function (d, i) {
-                  if (i == 0) {
-                    _this.start_range = d;
-                  }
-
-                  if (i == 1) {
-                    _this.end_range = d;
-                  }
-                }); //For each dataSource in the dashboard, append a where clause to limit the start/end time
-
-                definition_new = JSON.parse(JSON.stringify(_this.state.defOrig));
-
-                for (v in definition_new.dataSources) {
-                  indexes = [];
-
-                  if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
-                    //Iterate through the time column, whereever it exists
-                    for (time in definition_new.dataSources[v].options.data.columns[definition_new.dataSources[v].options.data.fields.indexOf('_time')]) {
-                      currTime = new Date(definition_new.dataSources[v].options.data.columns[definition_new.dataSources[v].options.data.fields.indexOf('_time')][time]); //If the currentTime is less than selected
-
-                      if (currTime > _this.start_range && currTime < _this.end_range) {
-                        for (n in definition_new.dataSources[v].options.data.columns) {
-                          if (n != 'extend') {
-                            indexes.push(time);
-                          }
-                        }
-                      }
-                    }
-
-                    for (n in definition_new.dataSources[v].options.data.columns) {
-                      try {
-                        definition_new.dataSources[v].options.data.columns[n] = definition_new.dataSources[v].options.data.columns[n].slice(indexes[0], indexes[indexes.length - 1]);
-                      } catch (error) {
-                        console.log('ERROR'); // expected output: ReferenceError: nonExistentFunction is not defined
-                        // Note - error messages will vary depending on browser
-                      }
-                    }
-                  }
-                } //Set the state variable of selectedInterval with the new values
-
-
-                _this.setState({
-                  selectedInterval: selectedInterval
-                });
-
-                _this.setState({
-                  def: definition_new
-                }); //definition = definition_new
-
-
-                _this.state.hasNotBeenFetched = false;
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }));
-
-      return function (_x5) {
-        return _ref3.apply(this, arguments);
-      };
-    }());
-
-    var darktheme = false;
-
-    if (params.get('theme') == 'dark') {
-      darktheme = true;
-    }
-
-    _this.state = (_this$state = {
-      error: false,
-      selectedInterval: selectedInterval,
-      def: _this.props.dash.props.definition,
-      hasNotBeenFetched: true,
-      startTime: rangeStart,
-      endTime: rangeEnd
-    }, _defineProperty(_this$state, "def", {}), _defineProperty(_this$state, "time", rangeStart * 1000), _defineProperty(_this$state, "def", _this.props.dash.props.definition), _defineProperty(_this$state, "playbackMultiplier", '4'), _defineProperty(_this$state, "displayValue", 'All-Time'), _defineProperty(_this$state, "value", 1), _defineProperty(_this$state, "hasNotBeenFetched", true), _defineProperty(_this$state, "dataSources", {}), _defineProperty(_this$state, "width", 0), _defineProperty(_this$state, "height", 0), _defineProperty(_this$state, "dark", darktheme), _defineProperty(_this$state, "leftOpen", false), _defineProperty(_this$state, "error_ds_no__time", []), _defineProperty(_this$state, "error_no_dash", false), _defineProperty(_this$state, "warn_inputs_exist", []), _defineProperty(_this$state, "openPanelId", 2), _defineProperty(_this$state, "openInputsPanelId", 2), _defineProperty(_this$state, "numberOfSearches", 0), _defineProperty(_this$state, "numberOfSearchesComplete", 0), _defineProperty(_this$state, "dashboardID", params.get('dashboardid')), _this$state);
-
-    _this.fetchDefinition();
-
-    _this.updateWindowDimensions = _this.updateWindowDimensions.bind(_assertThisInitialized(_this));
-    _this.updateDataSources = _this.updateDataSources.bind(_assertThisInitialized(_this));
-    _this.handleDarkModeClick = _this.handleDarkModeClick.bind(_assertThisInitialized(_this));
-    _this.openLeftPanel = _this.openLeftPanel.bind(_assertThisInitialized(_this));
-    _this.handleRequestOpen = _this.handleRequestOpen.bind(_assertThisInitialized(_this));
-    _this.handlePanelChange = _this.handlePanelChange.bind(_assertThisInitialized(_this));
-    _this.handleInputsPanelChange = _this.handleInputsPanelChange.bind(_assertThisInitialized(_this));
-    _this.handleRequestClose = _this.handleRequestClose.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(SplunkTimeRangeSliderInput, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.updateWindowDimensions();
-      window.addEventListener('resize', this.updateWindowDimensions);
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-  }, {
-    key: "updateWindowDimensions",
-    value: function updateWindowDimensions() {
-      this.setState({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    }
-  }, {
-    key: "updateDataSources",
-    value: function updateDataSources() {
-      hackDisableProgressiveRender();
-      var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
-      var selectedTime = new Date(this.state.time);
-
-      for (var v in definition_new.dataSources) {
-        if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
-          //Iterate through the time column, whereever it exists
-          for (var time in definition_new.dataSources[v].options.data.columns[definition_new.dataSources[v].options.data.fields.indexOf('_time')]) {
-            var currTime = new Date(definition_new.dataSources[v].options.data.columns[definition_new.dataSources[v].options.data.fields.indexOf('_time')][time]); //If the currentTime is less than selected
-
-            if (currTime > selectedTime) {
-              for (var n in definition_new.dataSources[v].options.data.columns) {
-                if (n != 'extend') {
-                  try {
-                    definition_new.dataSources[v].options.data.columns[n] = definition_new.dataSources[v].options.data.columns[n].slice(0, time);
-                  } catch (error) {
-                    console.log('ERROR'); // expected output: ReferenceError: nonExistentFunction is not defined
-                    // Note - error messages will vary depending on browser
-                  }
-                }
-              }
-
-              break;
-            }
-          }
-        }
-      }
-
-      this.setState({
-        def: definition_new
-      });
-    }
-  }, {
-    key: "handleDarkModeClick",
-    value: function handleDarkModeClick(event) {
-      this.setState({
-        dark: !this.state.dark
-      });
-    }
-  }, {
-    key: "handleRequestOpen",
-    value: function handleRequestOpen(dockPosition) {
-      if (dockPosition === 'bottomOpen') {
-        setBottomOpen(true);
-      } else if (dockPosition === 'leftOpen') {
-        this.setState({
-          leftOpen: true
-        });
-      } else if (dockPosition === 'rightOpen') {
-        setRightOpen(true);
-      } else if (dockPosition === 'topOpen') {
-        setTopOpen(true);
-      }
-    }
-  }, {
-    key: "openLeftPanel",
-    value: function openLeftPanel() {
-      this.handleRequestOpen('leftOpen');
-    }
-  }, {
-    key: "handleRequestClose",
-    value: function handleRequestClose() {
-      this.setState({
-        leftOpen: false
-      });
-    }
-  }, {
-    key: "handlePanelChange",
-    value: function handlePanelChange(e, _ref4) {
-      var panelValue = _ref4.panelId;
-      this.setState({
-        openPanelId: panelValue
-      });
-    }
-  }, {
-    key: "handleInputsPanelChange",
-    value: function handleInputsPanelChange(e, _ref5) {
-      var panelValue = _ref5.panelId;
-      this.setState({
-        openInputsPanelId: panelValue
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      var colStyle = {
-        border: "0px solid black",
-        padding: 10,
-        paddingRight: 20,
-        whiteSpace: 'nowrap',
-        textAlign: 'center'
-      };
-      var textStyle = {
-        textAlign: 'center'
-      };
-      var dash = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__["DashboardContextProvider"], {
-        geoRegistry: geoRegistry
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3___default.a, {
-        width: "100%",
-        height: "calc(100vh - 78px)",
-        definition: this.state.def,
-        preset: _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4___default.a,
-        initialMode: "view"
-      }));
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
-        style: this.state.dark ? {
-          textAlign: 'center',
-          margin: 'auto',
-          align: 'center',
-          width: '100%',
-          backgroundColor: '#171D21'
-        } : {
-          textAlign: 'center',
-          margin: 'auto',
-          align: 'center',
-          width: '100%',
-          backgroundColor: '#FFFFFF'
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_themes__WEBPACK_IMPORTED_MODULE_17__["SplunkThemeProvider"], {
-        family: "enterprise",
-        colorScheme: this.state.dark ? 'dark' : 'light',
-        density: "compact"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("table", {
-        style: {
-          textAlign: 'center',
-          margin: 'auto',
-          align: 'center',
-          width: this.state.width
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", {
-        style: {
-          paddingBottom: '10px'
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
-        style: _objectSpread(_objectSpread({}, colStyle), {}, {
-          width: '25%',
-          padding: '30px',
-          paddingTop: '0px',
-          paddingBottom: '10px'
-        })
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
-        style: textStyle,
-        level: 2
-      }, ' ', "Selected Interval:", ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, {
-        style: textStyle
-      }, Object(date_fns__WEBPACK_IMPORTED_MODULE_14__["format"])(this.state.selectedInterval[0], 'MM/dd/yyyy HH:mm'), ' ', "through", ' ', Object(date_fns__WEBPACK_IMPORTED_MODULE_14__["format"])(this.state.selectedInterval[1], 'MM/dd/yyyy HH:mm'), ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        open: this.state.leftOpen,
-        dockPosition: "left",
-        onRequestClose: this.handleRequestClose,
-        innerStyle: {
-          width: 300
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
-        style: {
-          padding: '10px'
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
-        level: 2
-      }, "Configuration:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
-        level: 3
-      }, "Theme:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6___default.a, {
-        value: "darkMode",
-        onClick: this.handleDarkModeClick,
-        selected: this.state.dark,
-        appearance: 'toggle'
-      }, "Dark Mode"), ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
-        level: 3
-      }, "Dashboard Information"), this.state.error_ds_no__time.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a, {
-        openPanelId: this.state.openPanelId,
-        onChange: this.handlePanelChange
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a.Panel, {
-        panelId: 1,
-        title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
-          type: "error"
-        }, String(this.state.error_ds_no__time.length) + ' Searches missing a _time field')
-      }, this.state.error_ds_no__time.map(function (k, v) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.error_ds_no__time[v]);
-      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.warn_inputs_exist.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a, {
-        openPanelId: this.state.openInputsPanelId,
-        onChange: this.handleInputsPanelChange
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a.Panel, {
-        panelId: 1,
-        title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
-          type: "warning"
-        }, String(this.state.warn_inputs_exist.length) + ' Inputs Exist Which May Not Work with Timelapse')
-      }, this.state.warn_inputs_exist.map(function (k, v) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.warn_inputs_exist[v]);
-      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null))), this.state.error_ds_no__time.length > 0 || this.state.error_no_dash || this.state.warn_inputs_exist.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        key: "left",
-        onClick: this.openLeftPanel,
-        label: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13___default.a, {
-          size: 1.5
-        }), " \xA0\xA0", String(this.state.error_ds_no__time.length + this.state.error_no_dash + this.state.warn_inputs_exist.length)),
-        appearance: "pill"
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        key: "left",
-        onClick: this.openLeftPanel,
-        label: "Configure"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
-        style: _objectSpread(_objectSpread({}, colStyle), {}, {
-          width: '100%',
-          paddingRight: '0px',
-          paddingTop: '0px',
-          paddingBottom: '0px'
-        })
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16___default.a, {
-        error: this.state.error,
-        ticksNumber: 10,
-        selectedInterval: selectedInterval,
-        timelineInterval: timelineInterval,
-        onUpdateCallback: this.errorHandler,
-        onChangeCallback: this.onChangeCallback,
-        disabledIntervals: disabledIntervals
-      }))), this.state.hasNotBeenFetched && this.state.error_no_dash != true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
-        colSpan: "2",
-        style: _objectSpread(_objectSpread({}, colStyle), {}, {
-          width: '100%',
-          paddingTop: '0px',
-          paddingBottom: '0px',
-          height: '100px',
-          textAlign: 'center',
-          verticalAlign: 'text-bottom'
-        })
-      }, ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
-        level: 1,
-        style: {
-          width: '100%',
-          textAlign: 'center',
-          margin: 'auto'
-        }
-      }, "Running Search ", this.state.numberOfSearchesComplete, "/", this.state.numberOfSearches), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
-        colSpan: "2",
-        style: _objectSpread(_objectSpread({}, colStyle), {}, {
-          width: '100%',
-          paddingTop: '0px',
-          paddingBottom: '0px',
-          height: '200px',
-          textAlign: 'center'
-        })
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
-        style: {
-          width: '100%',
-          textAlign: 'center',
-          transform: 'scale(5)'
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11___default.a, {
-        style: {},
-        size: "large"
-      }))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
-        colSpan: "2",
-        style: _objectSpread(_objectSpread({}, colStyle), {}, {
-          width: '100%',
-          paddingTop: '0px',
-          paddingBottom: '0px'
-        })
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, dash))), this.state.error_no_dash == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
-        colSpan: "2",
-        style: _objectSpread(_objectSpread({}, colStyle), {}, {
-          width: '100%',
-          paddingTop: '0px',
-          paddingBottom: '0px'
-        })
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
-        appearance: "fill",
-        type: "error"
-      }, "Cannot load dashboard with ID:", ' ', this.state.dashboardID, ".")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null)))));
-    }
-  }]);
-
-  return SplunkTimeRangeSliderInput;
-}(react__WEBPACK_IMPORTED_MODULE_15___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (SplunkTimeRangeSliderInput);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(20).Buffer))
-
-/***/ }),
-/* 20 */
+/******/ ({
+
+/***/ "../../node_modules/buffer/index.js":
+/*!************************************************************************************!*\
+  !*** /Users/roconnor/Desktop/gitclones/timelapse-vis/node_modules/buffer/index.js ***!
+  \************************************************************************************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1187,9 +105,9 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
 
 
-var base64 = __webpack_require__(22)
-var ieee754 = __webpack_require__(23)
-var isArray = __webpack_require__(24)
+var base64 = __webpack_require__(/*! base64-js */ "base64-js")
+var ieee754 = __webpack_require__(/*! ieee754 */ "ieee754")
+var isArray = __webpack_require__(/*! isarray */ "isarray")
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -2967,10 +1885,15 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(21)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "../../node_modules/webpack/buildin/global.js")))
 
 /***/ }),
-/* 21 */
+
+/***/ "../../node_modules/webpack/buildin/global.js":
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
 var g;
@@ -2996,22 +1919,1225 @@ module.exports = g;
 
 
 /***/ }),
-/* 22 */
+
+/***/ "./src/Rangeslider.jsx":
+/*!*****************************!*\
+  !*** ./src/Rangeslider.jsx ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony import */ var _splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @splunk/dashboard-context */ "@splunk/dashboard-context");
+/* harmony import */ var _splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @splunk/dashboard-context/GeoJsonProvider */ "@splunk/dashboard-context/GeoJsonProvider");
+/* harmony import */ var _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @splunk/dashboard-context/GeoRegistry */ "@splunk/dashboard-context/GeoRegistry");
+/* harmony import */ var _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @splunk/dashboard-core */ "@splunk/dashboard-core");
+/* harmony import */ var _splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @splunk/dashboard-presets/EnterprisePreset */ "@splunk/dashboard-presets/EnterprisePreset");
+/* harmony import */ var _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @splunk/react-ui/Button */ "@splunk/react-ui/Button");
+/* harmony import */ var _splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @splunk/react-ui/Switch */ "@splunk/react-ui/Switch");
+/* harmony import */ var _splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @splunk/react-ui/Paragraph */ "@splunk/react-ui/Paragraph");
+/* harmony import */ var _splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @splunk/react-ui/Heading */ "@splunk/react-ui/Heading");
+/* harmony import */ var _splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @splunk/react-ui/Message */ "@splunk/react-ui/Message");
+/* harmony import */ var _splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @splunk/react-ui/Accordion */ "@splunk/react-ui/Accordion");
+/* harmony import */ var _splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @splunk/react-ui/WaitSpinner */ "@splunk/react-ui/WaitSpinner");
+/* harmony import */ var _splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @splunk/react-ui/SidePanel */ "@splunk/react-ui/SidePanel");
+/* harmony import */ var _splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @splunk/react-icons/Bell */ "@splunk/react-icons/Bell");
+/* harmony import */ var _splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! date-fns */ "date-fns");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(date_fns__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-timeline-range-slider */ "react-timeline-range-slider");
+/* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _splunk_themes__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @splunk/themes */ "@splunk/themes");
+/* harmony import */ var _splunk_themes__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_splunk_themes__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _splunk_search_job__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @splunk/search-job */ "@splunk/search-job");
+/* harmony import */ var _splunk_search_job__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_splunk_search_job__WEBPACK_IMPORTED_MODULE_18__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ //Initialize Variables as empty
+
+var selectedInterval = [];
+var disabledIntervals = [];
+var timelineInterval = [];
+var geoRegistry = _splunk_dashboard_context_GeoRegistry__WEBPACK_IMPORTED_MODULE_2___default.a.create();
+geoRegistry.addDefaultProvider(new _splunk_dashboard_context_GeoJsonProvider__WEBPACK_IMPORTED_MODULE_1___default.a()); //Get the Time Ranges from the URL Params
+
+var search = window.location.search;
+var params = new URLSearchParams(search);
+var rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
+var rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
+timelineInterval = [rangeStart * 1000, rangeEnd * 1000];
+selectedInterval = timelineInterval;
+var seenImages = {};
+
+function parseDataUri(dataUri) {
+  if (!dataUri.startsWith('data:')) {
+    throw new Error('Invalid data URI');
+  }
+
+  var semiIdx = dataUri.indexOf(';');
+
+  if (semiIdx < 0) {
+    throw new Error('Invalid data URI');
+  }
+
+  var mime = dataUri.slice(5, semiIdx);
+
+  if (!dataUri.slice(semiIdx + 1, 7) === 'base64,') {
+    throw new Error('Unsupported data URI encoding');
+  }
+
+  var data = Buffer.from(dataUri.slice(semiIdx + 8), 'base64');
+  return [mime, data];
+}
+
+function getImage(_x, _x2) {
+  return _getImage.apply(this, arguments);
+}
+
+function _getImage() {
+  _getImage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(assetType, id) {
+    var body;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return fetch("/splunkd/__raw/servicesNS/nobody/splunk-dashboard-studio/storage/collections/data/splunk-dashboard-".concat(assetType, "/").concat(encodeURIComponent(id)), {
+              credentials: 'include'
+            }).then(function (res) {
+              return res.json();
+            }).then(function (data) {
+              var body = data;
+              return body;
+            });
+
+          case 2:
+            body = _context3.sent;
+            return _context3.abrupt("return", body);
+
+          case 4:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+  return _getImage.apply(this, arguments);
+}
+
+function downloadImage(_x3, _x4) {
+  return _downloadImage.apply(this, arguments);
+} //SplunkTimeRangeSlider Class
+
+
+function _downloadImage() {
+  _downloadImage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(src, assetType) {
+    var _src$split, _src$split2, type, id, res, data, mimeType, imgData, _parseDataUri, _parseDataUri2, _mimeType, _data;
+
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            if (src) {
+              _context4.next = 2;
+              break;
+            }
+
+            return _context4.abrupt("return", src);
+
+          case 2:
+            if (!(src in seenImages)) {
+              _context4.next = 4;
+              break;
+            }
+
+            return _context4.abrupt("return", seenImages[src]);
+
+          case 4:
+            if (!src.startsWith('data:image')) {
+              _context4.next = 6;
+              break;
+            }
+
+            return _context4.abrupt("return", src);
+
+          case 6:
+            if (!src.startsWith('<svg ')) {
+              _context4.next = 8;
+              break;
+            }
+
+            return _context4.abrupt("return", src);
+
+          case 8:
+            _src$split = src.split('://'), _src$split2 = _slicedToArray(_src$split, 2), type = _src$split2[0], id = _src$split2[1];
+
+            if (!(type === 'https' || type === 'http')) {
+              _context4.next = 14;
+              break;
+            }
+
+            res = fetch(src);
+            data = res.buffer();
+            mimeType = res.headers.get('Content-Type');
+            return _context4.abrupt("return", src);
+
+          case 14:
+            if (!(type === 'splunk-enterprise-kvstore')) {
+              _context4.next = 28;
+              break;
+            }
+
+            imgData = {
+              dataURI: 'null'
+            };
+            _context4.prev = 16;
+            _context4.next = 19;
+            return getImage(assetType, id).then(function (blob) {
+              return blob;
+            });
+
+          case 19:
+            imgData = _context4.sent;
+            _context4.next = 26;
+            break;
+
+          case 22:
+            _context4.prev = 22;
+            _context4.t0 = _context4["catch"](16);
+            console.log(_context4.t0);
+            console.log('Cannot find image');
+
+          case 26:
+            if (imgData.dataURI == 'null') {
+              imgData.dataURI == src;
+            } else {
+              _parseDataUri = parseDataUri(imgData.dataURI), _parseDataUri2 = _slicedToArray(_parseDataUri, 2), _mimeType = _parseDataUri2[0], _data = _parseDataUri2[1];
+            }
+
+            return _context4.abrupt("return", imgData.dataURI);
+
+          case 28:
+            throw new Error("Unexpected image type: ".concat(type));
+
+          case 29:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[16, 22]]);
+  }));
+  return _downloadImage.apply(this, arguments);
+}
+
+var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
+  _inherits(SplunkTimeRangeSliderInput, _React$Component);
+
+  var _super = _createSuper(SplunkTimeRangeSliderInput);
+
+  function SplunkTimeRangeSliderInput(props) {
+    var _this$state;
+
+    var _this;
+
+    _classCallCheck(this, SplunkTimeRangeSliderInput);
+
+    _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "fetchDefinition", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var search, params, dashboardid, def, _i, _Object$values, viz, src, definition, results, input, datasource, earliest, latest, query, defUpdate;
+
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              search = window.location.search;
+              params = new URLSearchParams(search);
+              dashboardid = params.get('dashboardid');
+              _context.next = 5;
+              return fetch("/splunkd/servicesNS/-/-/data/ui/views/".concat(dashboardid, "?output_mode=json"), {
+                credentials: 'include'
+              }).then(function (res) {
+                return res.json();
+              }).then(function (data) {
+                var xml = new DOMParser().parseFromString(data.entry[0].content['eai:data'], 'application/xml');
+                var def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
+                return def;
+              })["catch"](function (e) {
+                //If there is an error, and demo==true, apply the demo dashboard.
+                _this.setState({
+                  error_no_dash: true
+                });
+
+                console.error('Error during definition retrieval/parsing', e);
+              });
+
+            case 5:
+              def = _context.sent;
+              _i = 0, _Object$values = Object.values(def.visualizations || {});
+
+            case 7:
+              if (!(_i < _Object$values.length)) {
+                _context.next = 40;
+                break;
+              }
+
+              viz = _Object$values[_i];
+              src = '';
+              _context.prev = 10;
+
+              if (!(viz.type === 'viz.singlevalueicon')) {
+                _context.next = 15;
+                break;
+              }
+
+              _context.next = 14;
+              return downloadImage(viz.options.icon, 'icons');
+
+            case 14:
+              viz.options.icon = _context.sent;
+
+            case 15:
+              if (!(viz.type === 'splunk.singlevalueicon')) {
+                _context.next = 19;
+                break;
+              }
+
+              _context.next = 18;
+              return downloadImage(viz.options.icon, 'icons');
+
+            case 18:
+              viz.options.icon = _context.sent;
+
+            case 19:
+              if (!(viz.type === 'viz.img')) {
+                _context.next = 23;
+                break;
+              }
+
+              _context.next = 22;
+              return downloadImage(viz.options.src, 'images');
+
+            case 22:
+              viz.options.src = _context.sent;
+
+            case 23:
+              if (!(viz.type === 'splunk.choropleth.svg')) {
+                _context.next = 27;
+                break;
+              }
+
+              _context.next = 26;
+              return downloadImage(viz.options.svg, 'images');
+
+            case 26:
+              viz.options.svg = _context.sent;
+
+            case 27:
+              if (!(viz.type === 'viz.choropleth.svg')) {
+                _context.next = 31;
+                break;
+              }
+
+              _context.next = 30;
+              return downloadImage(viz.options.svg, 'images');
+
+            case 30:
+              viz.options.svg = _context.sent;
+
+            case 31:
+              _context.next = 37;
+              break;
+
+            case 33:
+              _context.prev = 33;
+              _context.t0 = _context["catch"](10);
+              console.log('Failed to load image with src: ' + src);
+              console.log(_context.t0);
+
+            case 37:
+              _i++;
+              _context.next = 7;
+              break;
+
+            case 40:
+              if (!def.layout.options.backgroundImage) {
+                _context.next = 50;
+                break;
+              }
+
+              _context.prev = 41;
+              _context.next = 44;
+              return downloadImage(def.layout.options.backgroundImage.src, 'images');
+
+            case 44:
+              def.layout.options.backgroundImage.src = _context.sent;
+              _context.next = 50;
+              break;
+
+            case 47:
+              _context.prev = 47;
+              _context.t1 = _context["catch"](41);
+              console.log(_context.t1);
+
+            case 50:
+              _this.setState({
+                def: def
+              });
+
+              definition = _this.state.def;
+              results = '';
+
+              for (input in definition.inputs) {
+                _this.setState({
+                  warn_inputs_exist: [].concat(_toConsumableArray(_this.state.warn_inputs_exist), [input])
+                });
+              } //Start to Loop through Searches
+
+
+              for (datasource in definition.dataSources) {
+                //Handle a ds.search
+                if (definition.dataSources[datasource].type == 'ds.search') {
+                  _this.setState({
+                    numberOfSearches: _this.state.numberOfSearches + 1
+                  });
+                }
+              } //Start to Loop through Searches
+
+
+              _context.t2 = regeneratorRuntime.keys(definition.dataSources);
+
+            case 56:
+              if ((_context.t3 = _context.t2()).done) {
+                _context.next = 77;
+                break;
+              }
+
+              datasource = _context.t3.value;
+
+              _this.setState({
+                currentds: datasource
+              }); //Handle a ds.search
+
+
+              if (!(definition.dataSources[_this.state.currentds].type == 'ds.search')) {
+                _context.next = 75;
+                break;
+              }
+
+              _this.setState({
+                numberOfSearchesComplete: _this.state.numberOfSearchesComplete + 1
+              });
+
+              definition.dataSources[_this.state.currentds].type = 'ds.test';
+              earliest = '';
+              latest = '';
+              query = '';
+              results = '';
+              query = definition.dataSources[_this.state.currentds].options.query; //If there are query parameters in the dataSource
+
+              if (definition.dataSources[_this.state.currentds].options.queryParameters) {
+                if (definition.dataSources[_this.state.currentds].options.queryParameters.earliest) {
+                  earliest = definition.dataSources[_this.state.currentds].options.queryParameters.earliest;
+                }
+
+                if (definition.dataSources[_this.state.currentds].options.queryParameters.latest) {
+                  latest = definition.dataSources[_this.state.currentds].options.queryParameters.latest;
+                }
+              } //If there are NO query parameters in the dataSource
+              else {
+                //Check the defaults of the definition
+                //else just return -24h as the default
+                earliest = '-24h@h';
+                latest = 'now';
+              }
+
+              _context.next = 70;
+              return _splunk_search_job__WEBPACK_IMPORTED_MODULE_18___default.a.create({
+                search: query,
+                earliest_time: earliest,
+                latest_time: latest
+              }).getResults({
+                output_mode: 'json_cols',
+                count: 0
+              }).first().toPromise();
+
+            case 70:
+              results = _context.sent;
+              defUpdate = _this.state.def;
+              defUpdate.dataSources[_this.state.currentds].options = {
+                data: {
+                  fields: results.fields,
+                  columns: results.columns
+                }
+              };
+
+              if (results.fields.indexOf('_time') < 0) {
+                console.log('Missing _time field');
+
+                _this.setState({
+                  error_ds_no__time: [].concat(_toConsumableArray(_this.state.error_ds_no__time), [_this.state.currentds])
+                });
+              }
+
+              _this.setState({
+                def: defUpdate
+              });
+
+            case 75:
+              _context.next = 56;
+              break;
+
+            case 77:
+              _this.setState({
+                defOrig: _this.state.def
+              });
+
+              _this.setState({
+                hasNotBeenFetched: false
+              });
+
+            case 79:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[10, 33], [41, 47]]);
+    })));
+
+    _defineProperty(_assertThisInitialized(_this), "errorHandler", function (_ref2) {
+      var error = _ref2.error;
+      return _this.setState({
+        error: error
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onChangeCallback", /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(selectedInterval) {
+        var definition_new, v, indexes, time, currTime, n;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                //Update the selectedInterval variable with the new start and end times
+                selectedInterval.map(function (d, i) {
+                  if (i == 0) {
+                    _this.start_range = d;
+                  }
+
+                  if (i == 1) {
+                    _this.end_range = d;
+                  }
+                }); //For each dataSource in the dashboard, append a where clause to limit the start/end time
+
+                definition_new = JSON.parse(JSON.stringify(_this.state.defOrig));
+
+                for (v in definition_new.dataSources) {
+                  indexes = [];
+
+                  if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
+                    //Iterate through the time column, whereever it exists
+                    for (time in definition_new.dataSources[v].options.data.columns[definition_new.dataSources[v].options.data.fields.indexOf('_time')]) {
+                      currTime = new Date(definition_new.dataSources[v].options.data.columns[definition_new.dataSources[v].options.data.fields.indexOf('_time')][time]); //If the currentTime is less than selected
+
+                      if (currTime > _this.start_range && currTime < _this.end_range) {
+                        for (n in definition_new.dataSources[v].options.data.columns) {
+                          if (n != 'extend') {
+                            indexes.push(time);
+                          }
+                        }
+                      }
+                    }
+
+                    for (n in definition_new.dataSources[v].options.data.columns) {
+                      try {
+                        definition_new.dataSources[v].options.data.columns[n] = definition_new.dataSources[v].options.data.columns[n].slice(indexes[0], indexes[indexes.length - 1]);
+                      } catch (error) {
+                        console.log('ERROR'); // expected output: ReferenceError: nonExistentFunction is not defined
+                        // Note - error messages will vary depending on browser
+                      }
+                    }
+                  }
+                } //Set the state variable of selectedInterval with the new values
+
+
+                _this.setState({
+                  selectedInterval: selectedInterval
+                });
+
+                _this.setState({
+                  def: definition_new
+                }); //definition = definition_new
+
+
+                _this.state.hasNotBeenFetched = false;
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function (_x5) {
+        return _ref3.apply(this, arguments);
+      };
+    }());
+
+    var darktheme = false;
+
+    if (params.get('theme') == 'dark') {
+      darktheme = true;
+    }
+
+    _this.state = (_this$state = {
+      error: false,
+      selectedInterval: selectedInterval,
+      def: _this.props.dash.props.definition,
+      hasNotBeenFetched: true,
+      startTime: rangeStart,
+      endTime: rangeEnd
+    }, _defineProperty(_this$state, "def", {}), _defineProperty(_this$state, "time", rangeStart * 1000), _defineProperty(_this$state, "def", _this.props.dash.props.definition), _defineProperty(_this$state, "playbackMultiplier", '4'), _defineProperty(_this$state, "displayValue", 'All-Time'), _defineProperty(_this$state, "value", 1), _defineProperty(_this$state, "hasNotBeenFetched", true), _defineProperty(_this$state, "dataSources", {}), _defineProperty(_this$state, "width", 0), _defineProperty(_this$state, "height", 0), _defineProperty(_this$state, "dark", darktheme), _defineProperty(_this$state, "leftOpen", false), _defineProperty(_this$state, "error_ds_no__time", []), _defineProperty(_this$state, "error_no_dash", false), _defineProperty(_this$state, "warn_inputs_exist", []), _defineProperty(_this$state, "openPanelId", 2), _defineProperty(_this$state, "openInputsPanelId", 2), _defineProperty(_this$state, "numberOfSearches", 0), _defineProperty(_this$state, "numberOfSearchesComplete", 0), _defineProperty(_this$state, "dashboardID", params.get('dashboardid')), _this$state);
+
+    _this.fetchDefinition();
+
+    _this.updateWindowDimensions = _this.updateWindowDimensions.bind(_assertThisInitialized(_this));
+    _this.updateDataSources = _this.updateDataSources.bind(_assertThisInitialized(_this));
+    _this.handleDarkModeClick = _this.handleDarkModeClick.bind(_assertThisInitialized(_this));
+    _this.openLeftPanel = _this.openLeftPanel.bind(_assertThisInitialized(_this));
+    _this.handleRequestOpen = _this.handleRequestOpen.bind(_assertThisInitialized(_this));
+    _this.handlePanelChange = _this.handlePanelChange.bind(_assertThisInitialized(_this));
+    _this.handleInputsPanelChange = _this.handleInputsPanelChange.bind(_assertThisInitialized(_this));
+    _this.handleRequestClose = _this.handleRequestClose.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(SplunkTimeRangeSliderInput, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.updateWindowDimensions();
+      window.addEventListener('resize', this.updateWindowDimensions);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+  }, {
+    key: "updateWindowDimensions",
+    value: function updateWindowDimensions() {
+      this.setState({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
+  }, {
+    key: "updateDataSources",
+    value: function updateDataSources() {
+      hackDisableProgressiveRender();
+      var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
+      var selectedTime = new Date(this.state.time);
+
+      for (var v in definition_new.dataSources) {
+        if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
+          //Iterate through the time column, whereever it exists
+          for (var time in definition_new.dataSources[v].options.data.columns[definition_new.dataSources[v].options.data.fields.indexOf('_time')]) {
+            var currTime = new Date(definition_new.dataSources[v].options.data.columns[definition_new.dataSources[v].options.data.fields.indexOf('_time')][time]); //If the currentTime is less than selected
+
+            if (currTime > selectedTime) {
+              for (var n in definition_new.dataSources[v].options.data.columns) {
+                if (n != 'extend') {
+                  try {
+                    definition_new.dataSources[v].options.data.columns[n] = definition_new.dataSources[v].options.data.columns[n].slice(0, time);
+                  } catch (error) {
+                    console.log('ERROR'); // expected output: ReferenceError: nonExistentFunction is not defined
+                    // Note - error messages will vary depending on browser
+                  }
+                }
+              }
+
+              break;
+            }
+          }
+        }
+      }
+
+      this.setState({
+        def: definition_new
+      });
+    }
+  }, {
+    key: "handleDarkModeClick",
+    value: function handleDarkModeClick(event) {
+      this.setState({
+        dark: !this.state.dark
+      });
+    }
+  }, {
+    key: "handleRequestOpen",
+    value: function handleRequestOpen(dockPosition) {
+      if (dockPosition === 'bottomOpen') {
+        setBottomOpen(true);
+      } else if (dockPosition === 'leftOpen') {
+        this.setState({
+          leftOpen: true
+        });
+      } else if (dockPosition === 'rightOpen') {
+        setRightOpen(true);
+      } else if (dockPosition === 'topOpen') {
+        setTopOpen(true);
+      }
+    }
+  }, {
+    key: "openLeftPanel",
+    value: function openLeftPanel() {
+      this.handleRequestOpen('leftOpen');
+    }
+  }, {
+    key: "handleRequestClose",
+    value: function handleRequestClose() {
+      this.setState({
+        leftOpen: false
+      });
+    }
+  }, {
+    key: "handlePanelChange",
+    value: function handlePanelChange(e, _ref4) {
+      var panelValue = _ref4.panelId;
+      this.setState({
+        openPanelId: panelValue
+      });
+    }
+  }, {
+    key: "handleInputsPanelChange",
+    value: function handleInputsPanelChange(e, _ref5) {
+      var panelValue = _ref5.panelId;
+      this.setState({
+        openInputsPanelId: panelValue
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var colStyle = {
+        border: "0px solid black",
+        padding: 10,
+        paddingRight: 20,
+        whiteSpace: 'nowrap',
+        textAlign: 'center'
+      };
+      var textStyle = {
+        textAlign: 'center'
+      };
+      var dash = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__["DashboardContextProvider"], {
+        geoRegistry: geoRegistry
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        width: "100%",
+        height: "calc(100vh - 78px)",
+        definition: this.state.def,
+        preset: _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4___default.a,
+        initialMode: "view"
+      }));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
+        style: this.state.dark ? {
+          textAlign: 'center',
+          margin: 'auto',
+          align: 'center',
+          width: '100%',
+          backgroundColor: '#171D21'
+        } : {
+          textAlign: 'center',
+          margin: 'auto',
+          align: 'center',
+          width: '100%',
+          backgroundColor: '#FFFFFF'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_themes__WEBPACK_IMPORTED_MODULE_17__["SplunkThemeProvider"], {
+        family: "enterprise",
+        colorScheme: this.state.dark ? 'dark' : 'light',
+        density: "compact"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("table", {
+        style: {
+          textAlign: 'center',
+          margin: 'auto',
+          align: 'center',
+          width: this.state.width
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", {
+        style: {
+          paddingBottom: '10px'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+        style: _objectSpread(_objectSpread({}, colStyle), {}, {
+          width: '25%',
+          padding: '30px',
+          paddingTop: '0px',
+          paddingBottom: '10px'
+        })
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        style: textStyle,
+        level: 2
+      }, ' ', "Selected Interval:", ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, {
+        style: textStyle
+      }, Object(date_fns__WEBPACK_IMPORTED_MODULE_14__["format"])(this.state.selectedInterval[0], 'MM/dd/yyyy HH:mm'), ' ', "through", ' ', Object(date_fns__WEBPACK_IMPORTED_MODULE_14__["format"])(this.state.selectedInterval[1], 'MM/dd/yyyy HH:mm'), ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default.a, {
+        open: this.state.leftOpen,
+        dockPosition: "left",
+        onRequestClose: this.handleRequestClose,
+        innerStyle: {
+          width: 300
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
+        style: {
+          padding: '10px'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        level: 2
+      }, "Configuration:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        level: 3
+      }, "Theme:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6___default.a, {
+        value: "darkMode",
+        onClick: this.handleDarkModeClick,
+        selected: this.state.dark,
+        appearance: 'toggle'
+      }, "Dark Mode"), ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        level: 3
+      }, "Dashboard Information"), this.state.error_ds_no__time.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a, {
+        openPanelId: this.state.openPanelId,
+        onChange: this.handlePanelChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a.Panel, {
+        panelId: 1,
+        title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+          type: "error"
+        }, String(this.state.error_ds_no__time.length) + ' Searches missing a _time field')
+      }, this.state.error_ds_no__time.map(function (k, v) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.error_ds_no__time[v]);
+      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.warn_inputs_exist.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a, {
+        openPanelId: this.state.openInputsPanelId,
+        onChange: this.handleInputsPanelChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a.Panel, {
+        panelId: 1,
+        title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+          type: "warning"
+        }, String(this.state.warn_inputs_exist.length) + ' Inputs Exist Which May Not Work with Timelapse')
+      }, this.state.warn_inputs_exist.map(function (k, v) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.warn_inputs_exist[v]);
+      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null))), this.state.error_ds_no__time.length > 0 || this.state.error_no_dash || this.state.warn_inputs_exist.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        key: "left",
+        onClick: this.openLeftPanel,
+        label: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13___default.a, {
+          size: 1.5
+        }), " \xA0\xA0", String(this.state.error_ds_no__time.length + this.state.error_no_dash + this.state.warn_inputs_exist.length)),
+        appearance: "pill"
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        key: "left",
+        onClick: this.openLeftPanel,
+        label: "Configure"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+        style: _objectSpread(_objectSpread({}, colStyle), {}, {
+          width: '100%',
+          paddingRight: '0px',
+          paddingTop: '0px',
+          paddingBottom: '0px'
+        })
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16___default.a, {
+        error: this.state.error,
+        ticksNumber: 10,
+        selectedInterval: selectedInterval,
+        timelineInterval: timelineInterval,
+        onUpdateCallback: this.errorHandler,
+        onChangeCallback: this.onChangeCallback,
+        disabledIntervals: disabledIntervals
+      }))), this.state.hasNotBeenFetched && this.state.error_no_dash != true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+        colSpan: "2",
+        style: _objectSpread(_objectSpread({}, colStyle), {}, {
+          width: '100%',
+          paddingTop: '0px',
+          paddingBottom: '0px',
+          height: '100px',
+          textAlign: 'center',
+          verticalAlign: 'text-bottom'
+        })
+      }, ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        level: 1,
+        style: {
+          width: '100%',
+          textAlign: 'center',
+          margin: 'auto'
+        }
+      }, "Running Search ", this.state.numberOfSearchesComplete, "/", this.state.numberOfSearches), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+        colSpan: "2",
+        style: _objectSpread(_objectSpread({}, colStyle), {}, {
+          width: '100%',
+          paddingTop: '0px',
+          paddingBottom: '0px',
+          height: '200px',
+          textAlign: 'center'
+        })
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
+        style: {
+          width: '100%',
+          textAlign: 'center',
+          transform: 'scale(5)'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11___default.a, {
+        style: {},
+        size: "large"
+      }))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+        colSpan: "2",
+        style: _objectSpread(_objectSpread({}, colStyle), {}, {
+          width: '100%',
+          paddingTop: '0px',
+          paddingBottom: '0px'
+        })
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, dash))), this.state.error_no_dash == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+        colSpan: "2",
+        style: _objectSpread(_objectSpread({}, colStyle), {}, {
+          width: '100%',
+          paddingTop: '0px',
+          paddingBottom: '0px'
+        })
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+        appearance: "fill",
+        type: "error"
+      }, "Cannot load dashboard with ID:", ' ', this.state.dashboardID, ".")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null)))));
+    }
+  }]);
+
+  return SplunkTimeRangeSliderInput;
+}(react__WEBPACK_IMPORTED_MODULE_15___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (SplunkTimeRangeSliderInput);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/buffer/index.js */ "../../node_modules/buffer/index.js").Buffer))
+
+/***/ }),
+
+/***/ "@splunk/dashboard-context":
+/*!********************************************!*\
+  !*** external "@splunk/dashboard-context" ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/dashboard-context");
+
+/***/ }),
+
+/***/ "@splunk/dashboard-context/GeoJsonProvider":
+/*!************************************************************!*\
+  !*** external "@splunk/dashboard-context/GeoJsonProvider" ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/dashboard-context/GeoJsonProvider");
+
+/***/ }),
+
+/***/ "@splunk/dashboard-context/GeoRegistry":
+/*!********************************************************!*\
+  !*** external "@splunk/dashboard-context/GeoRegistry" ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/dashboard-context/GeoRegistry");
+
+/***/ }),
+
+/***/ "@splunk/dashboard-core":
+/*!*****************************************!*\
+  !*** external "@splunk/dashboard-core" ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/dashboard-core");
+
+/***/ }),
+
+/***/ "@splunk/dashboard-presets/EnterprisePreset":
+/*!*************************************************************!*\
+  !*** external "@splunk/dashboard-presets/EnterprisePreset" ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/dashboard-presets/EnterprisePreset");
+
+/***/ }),
+
+/***/ "@splunk/react-icons/Bell":
+/*!*******************************************!*\
+  !*** external "@splunk/react-icons/Bell" ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-icons/Bell");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/Accordion":
+/*!*********************************************!*\
+  !*** external "@splunk/react-ui/Accordion" ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/Accordion");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/Button":
+/*!******************************************!*\
+  !*** external "@splunk/react-ui/Button" ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/Button");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/Heading":
+/*!*******************************************!*\
+  !*** external "@splunk/react-ui/Heading" ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/Heading");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/Message":
+/*!*******************************************!*\
+  !*** external "@splunk/react-ui/Message" ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/Message");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/Paragraph":
+/*!*********************************************!*\
+  !*** external "@splunk/react-ui/Paragraph" ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/Paragraph");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/SidePanel":
+/*!*********************************************!*\
+  !*** external "@splunk/react-ui/SidePanel" ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/SidePanel");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/Switch":
+/*!******************************************!*\
+  !*** external "@splunk/react-ui/Switch" ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/Switch");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/WaitSpinner":
+/*!***********************************************!*\
+  !*** external "@splunk/react-ui/WaitSpinner" ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/WaitSpinner");
+
+/***/ }),
+
+/***/ "@splunk/search-job":
+/*!*************************************!*\
+  !*** external "@splunk/search-job" ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/search-job");
+
+/***/ }),
+
+/***/ "@splunk/themes":
+/*!*********************************!*\
+  !*** external "@splunk/themes" ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/themes");
+
+/***/ }),
+
+/***/ "base64-js":
+/*!****************************!*\
+  !*** external "base64-js" ***!
+  \****************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
 module.exports = require("base64-js");
 
 /***/ }),
-/* 23 */
+
+/***/ "date-fns":
+/*!***************************!*\
+  !*** external "date-fns" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("date-fns");
+
+/***/ }),
+
+/***/ "ieee754":
+/*!**************************!*\
+  !*** external "ieee754" ***!
+  \**************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
 module.exports = require("ieee754");
 
 /***/ }),
-/* 24 */
+
+/***/ "isarray":
+/*!**************************!*\
+  !*** external "isarray" ***!
+  \**************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
 module.exports = require("isarray");
 
+/***/ }),
+
+/***/ "react":
+/*!************************!*\
+  !*** external "react" ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("react");
+
+/***/ }),
+
+/***/ "react-timeline-range-slider":
+/*!**********************************************!*\
+  !*** external "react-timeline-range-slider" ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("react-timeline-range-slider");
+
 /***/ })
-/******/ ]);
+
+/******/ });

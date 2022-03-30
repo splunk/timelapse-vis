@@ -293,10 +293,12 @@ class Documentation extends Component {
                                 <strong>
                                     Do not use chain searches as they are currently not supported.
                                 </strong>
-                                Because timelapse visualizations are susceptible to creating a lot
-                                of searches very fast, we preload the data from searches in your
-                                dashboard, and allow you to scrub through that cached data. As a
-                                result, we currently do not support chain searches.
+                                <br />
+                                Because timelapse and timerange visualizations are susceptible to
+                                creating a lot of searches very fast, we preload the data from
+                                searches in your dashboard, and allow you to scrub through that
+                                cached data. As a result, we currently do not support chain
+                                searches.
                             </List.Item>
                         </List>
                     </SplunkThemeProvider>
