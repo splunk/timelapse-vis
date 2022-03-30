@@ -1,29 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Splunk Timelapse Visualization - Rangeslider</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>
-Splunk Timelapse Visualization - Rangeslider
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-</head>
+    <body>
+        <script src="${make_url('/config?autoload=1')}" crossorigin="use-credentials"></script>
+        <script src="${make_url('/static/js/i18n.js')}"></script>
+        <script src="${make_url('/i18ncatalog?autoload=1')}"></script>
+        <script>
+            __splunkd_partials__ = ${json_decode(splunkd)};
+        </script>
+        <script>
+            // Function to change webpage background color
 
-<body>
-    <script src="${make_url('/config?autoload=1')}" crossorigin="use-credentials"></script>
-    <script src="${make_url('/static/js/i18n.js')}"></script>
-    <script src="${make_url('/i18ncatalog?autoload=1')}"></script>
-    <script>
-        __splunkd_partials__ = ${json_decode(splunkd)};
-    </script>
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
 
-    <%
-    page_path = "/static/app/splunk-timelapse-visualizations/pages/" + page + ".js"
-    %>
+            const theme = urlParams.get('theme');
 
-    <script src="${make_url(page_path)}"></script>
-</body>
+            if (theme == 'dark') {
+                changeBodyBg('#171d21');
+            }
 
+            function changeBodyBg(color) {
+                document.body.style.background = color;
+            }
+        </script>
+        <% page_path = "/static/app/splunk-timelapse-visualizations/pages/" + page + ".js" %>
+
+        <script src="${make_url(page_path)}"></script>
+    </body>
 </html>

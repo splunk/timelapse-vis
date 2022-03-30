@@ -172,10 +172,17 @@ class DashboardSelector extends Component {
                                 <li>Hours = 3600000 seconds</li>
                             </ul>
                             <P>See #3 on the image below</P>
-                            <img
-                                style={{ width: '100%' }}
-                                src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                            ></img>
+                            {this.state.pickertype == 'rangeslider' ? (
+                                <img
+                                    style={{ width: '100%' }}
+                                    src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
+                                ></img>
+                            ) : (
+                                <img
+                                    style={{ width: '100%' }}
+                                    src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                                ></img>
+                            )}
                         </Modal.Body>
                     </Modal>
                     Select Time Interval:
@@ -218,13 +225,20 @@ class DashboardSelector extends Component {
                                     >
                                         <Modal.Body>
                                             <Heading level={2}>
-                                                The earliest time in the the timelapse or timerange.{' '}
+                                                The earliest time in the {this.state.pickertype}.{' '}
                                             </Heading>
                                             <P>See #1 on the image below</P>
-                                            <img
-                                                style={{ width: '100%' }}
-                                                src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                                            ></img>
+                                            {this.state.pickertype == 'rangeslider' ? (
+                                                <img
+                                                    style={{ width: '100%' }}
+                                                    src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
+                                                ></img>
+                                            ) : (
+                                                <img
+                                                    style={{ width: '100%' }}
+                                                    src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                                                ></img>
+                                            )}
                                         </Modal.Body>
                                     </Modal>
                                     Select Range Start:
@@ -241,13 +255,20 @@ class DashboardSelector extends Component {
                                     >
                                         <Modal.Body>
                                             <Heading level={2}>
-                                                The latest time in the the timelapse or timerange.
+                                                The latest time in the {this.state.pickertype}.
                                             </Heading>
                                             <P>See #2 on the image below</P>
-                                            <img
-                                                style={{ width: '100%' }}
-                                                src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                                            ></img>
+                                            {this.state.pickertype == 'rangeslider' ? (
+                                                <img
+                                                    style={{ width: '100%' }}
+                                                    src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
+                                                ></img>
+                                            ) : (
+                                                <img
+                                                    style={{ width: '100%' }}
+                                                    src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                                                ></img>
+                                            )}
                                         </Modal.Body>
                                     </Modal>
                                     Select Range End:

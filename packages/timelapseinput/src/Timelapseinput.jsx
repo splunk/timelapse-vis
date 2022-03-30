@@ -4,6 +4,7 @@ import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
 import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
 import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
+
 import Button from '@splunk/react-ui/Button';
 import Select from '@splunk/react-ui/Select';
 import Switch from '@splunk/react-ui/Switch';
@@ -12,7 +13,6 @@ import P from '@splunk/react-ui/Paragraph';
 import Heading from '@splunk/react-ui/Heading';
 import Message from '@splunk/react-ui/Message';
 import Accordion from '@splunk/react-ui/Accordion';
-
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 import SidePanel from '@splunk/react-ui/SidePanel';
 
@@ -51,7 +51,6 @@ if (timeinterval == 'years') {
 }
 
 var seenImages = {};
-var definition = '';
 
 const geoRegistry = GeoRegistry.create();
 geoRegistry.addDefaultProvider(new GeoJsonProvider());
