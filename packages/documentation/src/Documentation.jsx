@@ -151,8 +151,8 @@ class Documentation extends Component {
                                     Dashboard permissions should be set appropriately for the users
                                     of your timelapse or rangeslider dashboard.
                                 </strong>
-                                &nbsp;For example, if you have a private dashboards it will not work
-                                for all users.
+                                &nbsp;For example, if you have a private it will not work for all
+                                users.
                             </List.Item>
                             <List.Item>
                                 <strong>All searches should have a valid _time field.</strong>
@@ -185,8 +185,8 @@ class Documentation extends Component {
                                     </tbody>
                                 </table>
                                 <br />
-                                For a single value, you'll want the data to be structured more like
-                                this:
+                                For a single value in a timelapse or rangeslider, you'll want the
+                                data to be structured more like this:
                                 <br />
                                 <table>
                                     <tbody>
@@ -288,6 +288,15 @@ class Documentation extends Component {
                                     </tbody>
                                 </table>
                                 <br />
+                            </List.Item>
+                            <List.Item>
+                                <strong>
+                                    Do not use chain searches as they are currently not supported.
+                                </strong>
+                                Because timelapse visualizations are susceptible to creating a lot
+                                of searches very fast, we preload the data from searches in your
+                                dashboard, and allow you to scrub through that cached data. As a
+                                result, we currently do not support chain searches.
                             </List.Item>
                         </List>
                     </SplunkThemeProvider>
