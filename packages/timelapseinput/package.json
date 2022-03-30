@@ -21,6 +21,8 @@
   "main": "Timelapseinput.js",
   "dependencies": {
     "@splunk/charting-bundle": "^24.3.3",
+    "@splunk/datasource-utils": "^24.3.0",
+    "@splunk/datasources": "^24.3.0",
     "@splunk/react-ui": "^4.2.0",
     "@splunk/search-job": "^2.0.0",
     "@splunk/themes": "^0.8.0"

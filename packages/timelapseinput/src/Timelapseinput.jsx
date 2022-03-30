@@ -15,6 +15,7 @@ import Message from '@splunk/react-ui/Message';
 import Accordion from '@splunk/react-ui/Accordion';
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 import SidePanel from '@splunk/react-ui/SidePanel';
+import TimelapseDataSource from './timelapseds';
 
 import TriangleRight from '@splunk/react-icons/TriangleRight';
 import TriangleLeft from '@splunk/react-icons/TriangleLeft';
@@ -24,30 +25,29 @@ import Bell from '@splunk/react-icons/Bell';
 import { SplunkThemeProvider } from '@splunk/themes';
 
 import SearchJob from '@splunk/search-job';
-
-import jsCharting from '@splunk/charting-bundle';
-
-function hackDisableProgressiveRender() {
-    const c = jsCharting.createChart(document.createElement('div'), {});
-    c.constructor.prototype.shouldProgressiveDraw = () => false;
-    c.destroy();
-}
+import { globalTime } from './timecontext';
 
 var search = window.location.search;
 const params = new URLSearchParams(search);
 const rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
+globalTime.setStart(rangeStart);
 const rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
+globalTime.setStart(rangeEnd);
+
 const timeinterval = params.get('timeinterval');
 
 let step = 1000 * 60 * 60 * 24;
 if (timeinterval == 'days') {
     step = 1000 * 60 * 60 * 24;
+    globalTime.setSpan(step);
 }
 if (timeinterval == 'hours') {
     step = 1000 * 60 * 60;
+    globalTime.setSpan(step);
 }
 if (timeinterval == 'years') {
     step = 1000 * 60 * 60 * 24 * 365;
+    globalTime.setSpan(step);
 }
 
 var seenImages = {};
@@ -167,6 +167,13 @@ class TimelapseControls extends React.Component {
         };
         this.fetchDefinition();
 
+        var min = this.state.startTime * 1000;
+        var max = this.state.endTime * 1000;
+
+        const length = (max - min) / step + 1;
+        const arr = Array.from({ length }, (_, i) => min + i * step);
+        globalTime.setTimes(arr);
+
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.onStopCallback = this.onStopCallback.bind(this);
         this.onPlayCallback = this.onPlayCallback.bind(this);
@@ -181,10 +188,6 @@ class TimelapseControls extends React.Component {
         this.handleInputsPanelChange = this.handleInputsPanelChange.bind(this);
 
         this.handleRequestClose = this.handleRequestClose.bind(this);
-        window.jsCharting = jsCharting;
-
-        hackDisableProgressiveRender();
-        console.log(window);
     }
 
     componentDidMount() {
@@ -228,7 +231,6 @@ class TimelapseControls extends React.Component {
                 this.setState({ error_no_dash: true });
                 console.error('Error during definition retrieval/parsing', e);
             });
-        console.log(this.state.def);
         //Let's process the dashboard before we put it in place
         //First let's get images
 
@@ -288,14 +290,13 @@ class TimelapseControls extends React.Component {
         //Start to Loop through Searches
         for (var datasource in definition.dataSources) {
             this.setState({ currentds: datasource });
-            console.log(datasource);
 
             //Handle a ds.search
             if (definition.dataSources[this.state.currentds].type == 'ds.search') {
                 this.setState({
                     numberOfSearchesComplete: this.state.numberOfSearchesComplete + 1,
                 });
-                definition.dataSources[this.state.currentds].type = 'ds.test';
+                definition.dataSources[this.state.currentds].type = 'ds.timelapse';
 
                 var earliest = '';
                 var latest = '';
@@ -341,8 +342,6 @@ class TimelapseControls extends React.Component {
 
                 var defUpdate = this.state.def;
 
-                console.log(results);
-
                 defUpdate.dataSources[this.state.currentds].options = {
                     data: {
                         fields: results.fields,
@@ -360,14 +359,11 @@ class TimelapseControls extends React.Component {
             }
         }
 
-        console.log(this.state.def);
         this.setState({ defOrig: this.state.def });
         this.setState({ hasNotBeenFetched: false });
     };
 
     updateDataSources() {
-        hackDisableProgressiveRender();
-
         var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
         var selectedTime = new Date(this.state.time);
 
@@ -412,15 +408,11 @@ class TimelapseControls extends React.Component {
         });
     }
     onPlayCallback(event) {
+        clearInterval(this.timer);
+        this.state.isReversing = false;
+        this.state.isPlaying = false;
+
         this.state.isPlaying = true;
-
-        if (this.state.isReversing) {
-            clearInterval(this.timer);
-
-            this.setState({
-                isReversing: false,
-            });
-        }
 
         /** set interval to run frequncy times every second */
         this.timer = setInterval(() => {
@@ -429,11 +421,15 @@ class TimelapseControls extends React.Component {
                 this.setState({
                     time: this.state.startTime * 1000,
                 });
+                globalTime.setTime(this.state.time);
+
                 this.updateLabel(this.state.startTime * 1000);
             } else {
                 this.setState({
                     time: this.state.time.valueOf() + this.state.step,
                 });
+                globalTime.setTime(this.state.time);
+
                 this.updateLabel(this.state.time.valueOf() + this.state.step);
             }
             this.updateDataSources();
@@ -443,12 +439,9 @@ class TimelapseControls extends React.Component {
     }
 
     onReverseCallback(event) {
-        if (this.state.isPlaying) {
-            clearInterval(this.timer);
-            this.setState({
-                isPlaying: false,
-            });
-        }
+        clearInterval(this.timer);
+        this.state.isReversing = false;
+        this.state.isPlaying = false;
 
         this.state.isReversing = true;
 
@@ -459,11 +452,15 @@ class TimelapseControls extends React.Component {
                 this.setState({
                     time: this.state.endTime * 1000,
                 });
+                globalTime.setTime(this.state.time);
+
                 this.updateLabel(this.state.endTime * 1000);
             } else {
                 this.setState({
                     time: this.state.time.valueOf() - this.state.step,
                 });
+                globalTime.setTime(this.state.time);
+
                 this.updateLabel(this.state.time.valueOf() - this.state.step);
             }
             this.updateDataSources();
@@ -492,11 +489,8 @@ class TimelapseControls extends React.Component {
     static convertValueToLabel(value) {
         if (value != 1) {
             if (timeinterval == 'years') {
-                console.log('Converting based on years');
-                console.log(value);
                 let d = new Date(value);
                 let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-                console.log(String(ye));
                 return ye;
             }
             if (timeinterval == 'months') {
@@ -517,17 +511,16 @@ class TimelapseControls extends React.Component {
     handleSliderChange(event, { value }) {
         this.updateLabel(value);
         this.setState({ time: value }, () => this.updateDataSources());
+        globalTime.setTime(value);
     }
 
     updateLabel(value) {
-        console.log('This Time' + String(value));
         this.setState({
             displayValue: TimelapseControls.convertValueToLabel(value),
             value,
         });
     }
     handleDarkModeClick(event) {
-        console.log(event);
         this.setState({ dark: !this.state.dark });
     }
 
@@ -567,13 +560,21 @@ class TimelapseControls extends React.Component {
             textAlign: 'center',
         };
         const textStyle = { textAlign: 'center' };
+
+        const TIMELAPSE_PRESET = {
+            ...EnterprisePreset,
+            dataSources: {
+                'ds.timelapse': TimelapseDataSource,
+            },
+        };
+
         const dash = (
             <DashboardContextProvider geoRegistry={geoRegistry}>
                 <DashboardCore
                     width={this.state.width}
                     height="calc(100vh - 78px)"
                     definition={this.state.def}
-                    preset={EnterprisePreset}
+                    preset={TIMELAPSE_PRESET}
                     initialMode="view"
                 />
             </DashboardContextProvider>
@@ -829,8 +830,9 @@ class TimelapseControls extends React.Component {
                                                     margin: 'auto',
                                                 }}
                                             >
-                                                Running Search {this.state.numberOfSearchesComplete}
-                                                /{this.state.numberOfSearches}
+                                                Creating Timelapse Datasource{' '}
+                                                {this.state.numberOfSearchesComplete}/
+                                                {this.state.numberOfSearches}
                                             </Heading>
                                             <br />
                                         </td>
