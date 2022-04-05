@@ -82,9 +82,6 @@ if (params.get('timerangetype') === 'relative') {
     }
 }
 
-console.log(rangeStart);
-console.log(rangeEnd);
-
 const timeinterval = params.get('timeinterval');
 
 let step = 1000 * 60 * 60 * 24;
@@ -92,28 +89,22 @@ let step = 1000 * 60 * 60 * 24;
 if (timeinterval == '1sec') {
     step = 1000;
     globalTime.setSpan(step);
-}
-if (timeinterval == '1min') {
+} else if (timeinterval == '1min') {
     step = 1000 * 60;
     globalTime.setSpan(step);
-}
-if (timeinterval == '15min') {
+} else if (timeinterval == '15min') {
     step = 1000 * 15 * 60;
     globalTime.setSpan(step);
-}
-if (timeinterval == '30min') {
+} else if (timeinterval == '30min') {
     step = 1000 * 30 * 60;
     globalTime.setSpan(step);
-}
-if (timeinterval == 'days') {
+} else if (timeinterval == 'days') {
     step = 1000 * 60 * 60 * 24;
     globalTime.setSpan(step);
-}
-if (timeinterval == 'hours') {
+} else if (timeinterval == 'hours') {
     step = 1000 * 60 * 60;
     globalTime.setSpan(step);
-}
-if (timeinterval == 'years') {
+} else if (timeinterval == 'years') {
     step = 1000 * 60 * 60 * 24 * 365;
     globalTime.setSpan(step);
 } else {
