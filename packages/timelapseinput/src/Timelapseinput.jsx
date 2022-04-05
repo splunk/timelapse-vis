@@ -29,14 +29,82 @@ import { globalTime } from './timecontext';
 
 var search = window.location.search;
 const params = new URLSearchParams(search);
-const rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
-globalTime.setStart(rangeStart);
-const rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
-globalTime.setStart(rangeEnd);
+
+var rangeStart = Math.round(Date.now().valueOf() / 1000);
+var rangeEnd = Math.round(Date.now().valueOf() / 1000);
+
+var error_invalid_interval = false;
+
+function setRelative(startdelta) {
+    rangeStart = Math.round((Date.now() - startdelta).valueOf() / 1000);
+    rangeEnd = Math.round(Date.now().valueOf() / 1000);
+}
+
+if (params.get('timerangetype') === 'explicit') {
+    rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
+    globalTime.setStart(rangeStart);
+    rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
+    globalTime.setStart(rangeEnd);
+}
+
+if (params.get('timerangetype') === 'relative') {
+    var rel = params.get('relativetime');
+
+    if (rel == '30min') {
+        setRelative(1000 * 60 * 30);
+    }
+    if (rel == '1h') {
+        setRelative(1000 * 60 * 60);
+    }
+    if (rel == '6h') {
+        setRelative(1000 * 60 * 60 * 6);
+    }
+    if (rel == '12h') {
+        setRelative(1000 * 60 * 60 * 12);
+    }
+    if (rel == '1d') {
+        setRelative(1000 * 60 * 60 * 24);
+    }
+    if (rel == '7d') {
+        setRelative(1000 * 60 * 60 * 24 * 7);
+    }
+    if (rel == '14d') {
+        setRelative(1000 * 60 * 60 * 24 * 14);
+    }
+    if (rel == '30d') {
+        setRelative(1000 * 60 * 60 * 24 * 30);
+    }
+    if (rel == '180d') {
+        setRelative(1000 * 60 * 60 * 24 * 180);
+    }
+    if (rel == '365d') {
+        setRelative(1000 * 60 * 60 * 24 * 365);
+    }
+}
+
+console.log(rangeStart);
+console.log(rangeEnd);
 
 const timeinterval = params.get('timeinterval');
 
 let step = 1000 * 60 * 60 * 24;
+
+if (timeinterval == '1sec') {
+    step = 1000;
+    globalTime.setSpan(step);
+}
+if (timeinterval == '1min') {
+    step = 1000 * 60;
+    globalTime.setSpan(step);
+}
+if (timeinterval == '15min') {
+    step = 1000 * 15 * 60;
+    globalTime.setSpan(step);
+}
+if (timeinterval == '30min') {
+    step = 1000 * 30 * 60;
+    globalTime.setSpan(step);
+}
 if (timeinterval == 'days') {
     step = 1000 * 60 * 60 * 24;
     globalTime.setSpan(step);
@@ -48,6 +116,8 @@ if (timeinterval == 'hours') {
 if (timeinterval == 'years') {
     step = 1000 * 60 * 60 * 24 * 365;
     globalTime.setSpan(step);
+} else {
+    error_invalid_interval = true;
 }
 
 var seenImages = {};
@@ -158,6 +228,8 @@ class TimelapseControls extends React.Component {
             leftOpen: false,
             error_ds_no__time: [],
             error_no_dash: false,
+            error_invalid_interval: error_invalid_interval,
+
             warn_inputs_exist: [],
             openPanelId: 2,
             openInputsPanelId: 2,
@@ -455,13 +527,7 @@ class TimelapseControls extends React.Component {
                 let d = new Date(value);
                 let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
                 return ye;
-            }
-            if (timeinterval == 'months') {
-                let d = new Date(value).toLocaleString();
-                return d;
-            }
-
-            if (timeinterval == 'days') {
+            } else {
                 let d = new Date(value).toLocaleString();
                 return d;
             }
@@ -623,7 +689,9 @@ class TimelapseControls extends React.Component {
                                                 <Select.Option value="4" label="4x" />
                                                 <Select.Option value="10" label="10x" />
                                                 <Select.Option value="20" label="20x" />
+                                                <Select.Option value="100" label="100x" />
                                                 <Select.Option value="200" label="200x" />
+                                                <Select.Option value="400" label="400x" />
                                             </Select>
                                             <Heading level={3}>Dashboard Information</Heading>
                                             {this.state.error_ds_no__time.length > 0 ? (
@@ -702,10 +770,21 @@ class TimelapseControls extends React.Component {
                                             ) : (
                                                 <></>
                                             )}
+                                            {this.state.error_invalid_interval ? (
+                                                <>
+                                                    <Message type="error">
+                                                        Unsupported Time Interval Specified:{' '}
+                                                        {timeinterval}
+                                                    </Message>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
                                     </SidePanel>
                                     {this.state.error_ds_no__time.length > 0 ||
                                     this.state.error_no_dash ||
+                                    this.state.error_invalid_interval ||
                                     this.state.warn_inputs_exist.length > 0 ? (
                                         <Button
                                             key="left"
@@ -716,7 +795,8 @@ class TimelapseControls extends React.Component {
                                                     {String(
                                                         this.state.error_ds_no__time.length +
                                                             this.state.error_no_dash +
-                                                            this.state.warn_inputs_exist.length
+                                                            this.state.warn_inputs_exist.length +
+                                                            error_invalid_interval
                                                     )}
                                                 </>
                                             }
