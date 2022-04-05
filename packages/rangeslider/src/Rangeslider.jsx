@@ -32,8 +32,76 @@ geoRegistry.addDefaultProvider(new GeoJsonProvider());
 //Get the Time Ranges from the URL Params
 var search = window.location.search;
 const params = new URLSearchParams(search);
-const rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
-const rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
+
+var rangeStart = Math.round(Date.now().valueOf() / 1000);
+var rangeEnd = Math.round(Date.now().valueOf() / 1000);
+
+function setRelative(startdelta) {
+    rangeStart = Math.round((Date.now() - startdelta).valueOf() / 1000);
+    rangeEnd = Math.round(Date.now().valueOf() / 1000);
+}
+
+if (params.get('timerangetype') === 'explicit') {
+    rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
+    rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
+}
+
+if (params.get('timerangetype') === 'relative') {
+    var rel = params.get('relativetime');
+
+    if (rel == '30min') {
+        setRelative(1000 * 60 * 30);
+    }
+    if (rel == '1h') {
+        setRelative(1000 * 60 * 60);
+    }
+    if (rel == '6h') {
+        setRelative(1000 * 60 * 60 * 6);
+    }
+    if (rel == '12h') {
+        setRelative(1000 * 60 * 60 * 12);
+    }
+    if (rel == '1d') {
+        setRelative(1000 * 60 * 60 * 24);
+    }
+    if (rel == '7d') {
+        setRelative(1000 * 60 * 60 * 24 * 7);
+    }
+    if (rel == '14d') {
+        setRelative(1000 * 60 * 60 * 24 * 14);
+    }
+    if (rel == '30d') {
+        setRelative(1000 * 60 * 60 * 24 * 30);
+    }
+    if (rel == '180d') {
+        setRelative(1000 * 60 * 60 * 24 * 180);
+    }
+    if (rel == '365d') {
+        setRelative(1000 * 60 * 60 * 24 * 365);
+    }
+}
+
+const timeinterval = params.get('timeinterval');
+var error_invalid_interval = false;
+let step = 1000 * 60 * 60 * 24;
+
+if (timeinterval == '1sec') {
+    step = 1000;
+} else if (timeinterval == '1min') {
+    step = 1000 * 60;
+} else if (timeinterval == '15min') {
+    step = 1000 * 15 * 60;
+} else if (timeinterval == '30min') {
+    step = 1000 * 30 * 60;
+} else if (timeinterval == 'days') {
+    step = 1000 * 60 * 60 * 24;
+} else if (timeinterval == 'hours') {
+    step = 1000 * 60 * 60;
+} else if (timeinterval == 'years') {
+    step = 1000 * 60 * 60 * 24 * 365;
+} else {
+    error_invalid_interval = true;
+}
 
 timelineInterval = [rangeStart * 1000, rangeEnd * 1000];
 selectedInterval = timelineInterval;
@@ -146,6 +214,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
             leftOpen: false,
             error_ds_no__time: [],
             error_no_dash: false,
+            error_invalid_interval: error_invalid_interval,
             warn_inputs_exist: [],
             openPanelId: 2,
             openInputsPanelId: 2,
@@ -654,10 +723,21 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                             ) : (
                                                 <></>
                                             )}
+                                            {this.state.error_invalid_interval ? (
+                                                <>
+                                                    <Message type="error">
+                                                        Unsupported Time Interval Specified:{' '}
+                                                        {timeinterval}
+                                                    </Message>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
                                     </SidePanel>
                                     {this.state.error_ds_no__time.length > 0 ||
                                     this.state.error_no_dash ||
+                                    this.state.error_invalid_interval ||
                                     this.state.warn_inputs_exist.length > 0 ? (
                                         <Button
                                             key="left"
@@ -668,6 +748,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                                     {String(
                                                         this.state.error_ds_no__time.length +
                                                             this.state.error_no_dash +
+                                                            this.state.error_invalid_interval +
                                                             this.state.warn_inputs_exist.length
                                                     )}
                                                 </>
@@ -694,7 +775,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                 >
                                     <TimeRange
                                         error={this.state.error}
-                                        ticksNumber={10}
+                                        step={step}
                                         selectedInterval={selectedInterval}
                                         timelineInterval={timelineInterval}
                                         onUpdateCallback={this.errorHandler}

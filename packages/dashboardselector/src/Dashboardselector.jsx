@@ -178,63 +178,60 @@ class DashboardSelector extends Component {
         let intervalPicker;
         let intervalColumn;
 
-        if (this.state.pickertype == 'timelapse') {
-            intervalPicker = (
-                <ColumnLayout.Column style={colStyle} span={1}>
-                    <Select onChange={this.handleTimeInterval}>
-                        <Select.Option value="1sec" label="1 Second" />
-                        <Select.Option value="1min" label="1 Minute" />
-                        <Select.Option value="15min" label="15 Minutes" />
-                        <Select.Option value="30min" label="30 Minutes" />
-                        <Select.Option value="hours" label="Hours" />
-                        <Select.Option value="days" label="Days" />
-                        <Select.Option value="years" label="Years" />
-                    </Select>
-                </ColumnLayout.Column>
-            );
+        intervalPicker = (
+            <ColumnLayout.Column style={colStyle} span={1}>
+                <Select onChange={this.handleTimeInterval}>
+                    <Select.Option value="1sec" label="1 Second" />
+                    <Select.Option value="1min" label="1 Minute" />
+                    <Select.Option value="15min" label="15 Minutes" />
+                    <Select.Option value="30min" label="30 Minutes" />
+                    <Select.Option value="hours" label="Hours" />
+                    <Select.Option value="days" label="Days" />
+                    <Select.Option value="years" label="Years" />
+                </Select>
+            </ColumnLayout.Column>
+        );
 
-            intervalColumn = (
-                <ColumnLayout.Column style={colStyle}>
-                    <Button
-                        appearance={'pill'}
-                        onClick={this.handleIntervalInfoOpen}
-                        label={<InfoCircle size={1.5} />}
-                    />
-                    <Modal
-                        onRequestClose={this.handleIntervalInfoClose}
-                        open={this.state.infoModalOpen}
-                    >
-                        <Modal.Body>
-                            The time interval specifies how much the time changes each time the
-                            slider moves by one step mark.{' '}
-                            <ul>
-                                <li>Years = 31536000 seconds</li>
-                                <li>Days = 864000 seconds</li>
-                                <li>Hours = 36000 seconds</li>
-                                <li>30 Minutes = 1800 Seconds</li>
-                                <li>15 Minutes = 900</li>
-                                <li>1 Minute = 60 Seconds</li>
-                                <li>1 Second = 1 Second</li>
-                            </ul>
-                            <P>See #3 on the image below</P>
-                            {this.state.pickertype == 'rangeslider' ? (
-                                <img
-                                    style={{ width: '100%' }}
-                                    src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
-                                ></img>
-                            ) : (
-                                <img
-                                    style={{ width: '100%' }}
-                                    src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                                ></img>
-                            )}
-                        </Modal.Body>
-                    </Modal>
-                    Select Time Interval:
-                </ColumnLayout.Column>
-            );
-        } else {
-        }
+        intervalColumn = (
+            <ColumnLayout.Column style={colStyle}>
+                <Button
+                    appearance={'pill'}
+                    onClick={this.handleIntervalInfoOpen}
+                    label={<InfoCircle size={1.5} />}
+                />
+                <Modal
+                    onRequestClose={this.handleIntervalInfoClose}
+                    open={this.state.infoModalOpen}
+                >
+                    <Modal.Body>
+                        The time interval specifies how much the time changes each time the slider
+                        moves by one step mark.{' '}
+                        <ul>
+                            <li>Years = 31536000 seconds</li>
+                            <li>Days = 864000 seconds</li>
+                            <li>Hours = 36000 seconds</li>
+                            <li>30 Minutes = 1800 Seconds</li>
+                            <li>15 Minutes = 900</li>
+                            <li>1 Minute = 60 Seconds</li>
+                            <li>1 Second = 1 Second</li>
+                        </ul>
+                        <P>See #3 on the image below</P>
+                        {this.state.pickertype == 'rangeslider' ? (
+                            <img
+                                style={{ width: '100%' }}
+                                src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
+                            ></img>
+                        ) : (
+                            <img
+                                style={{ width: '100%' }}
+                                src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                            ></img>
+                        )}
+                    </Modal.Body>
+                </Modal>
+                Select Time Interval:
+            </ColumnLayout.Column>
+        );
 
         return (
             <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">

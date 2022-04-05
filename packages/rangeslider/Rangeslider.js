@@ -2047,8 +2047,87 @@ geoRegistry.addDefaultProvider(new _splunk_dashboard_context_GeoJsonProvider__WE
 
 var search = window.location.search;
 var params = new URLSearchParams(search);
-var rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
-var rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
+var rangeStart = Math.round(Date.now().valueOf() / 1000);
+var rangeEnd = Math.round(Date.now().valueOf() / 1000);
+
+function setRelative(startdelta) {
+  rangeStart = Math.round((Date.now() - startdelta).valueOf() / 1000);
+  rangeEnd = Math.round(Date.now().valueOf() / 1000);
+}
+
+if (params.get('timerangetype') === 'explicit') {
+  rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
+  rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
+}
+
+if (params.get('timerangetype') === 'relative') {
+  var rel = params.get('relativetime');
+
+  if (rel == '30min') {
+    setRelative(1000 * 60 * 30);
+  }
+
+  if (rel == '1h') {
+    setRelative(1000 * 60 * 60);
+  }
+
+  if (rel == '6h') {
+    setRelative(1000 * 60 * 60 * 6);
+  }
+
+  if (rel == '12h') {
+    setRelative(1000 * 60 * 60 * 12);
+  }
+
+  if (rel == '1d') {
+    setRelative(1000 * 60 * 60 * 24);
+  }
+
+  if (rel == '7d') {
+    setRelative(1000 * 60 * 60 * 24 * 7);
+  }
+
+  if (rel == '14d') {
+    setRelative(1000 * 60 * 60 * 24 * 14);
+  }
+
+  if (rel == '30d') {
+    setRelative(1000 * 60 * 60 * 24 * 30);
+  }
+
+  if (rel == '180d') {
+    setRelative(1000 * 60 * 60 * 24 * 180);
+  }
+
+  if (rel == '365d') {
+    setRelative(1000 * 60 * 60 * 24 * 365);
+  }
+}
+
+var timeinterval = params.get('timeinterval');
+var error_invalid_interval = false;
+var step = 1000 * 60 * 60 * 24;
+
+if (timeinterval == '1sec') {
+  step = 1000;
+} else if (timeinterval == '1min') {
+  step = 1000 * 60;
+} else if (timeinterval == '15min') {
+  step = 1000 * 15 * 60;
+} else if (timeinterval == '30min') {
+  step = 1000 * 30 * 60;
+} else if (timeinterval == 'days') {
+  step = 1000 * 60 * 60 * 24;
+} else if (timeinterval == 'hours') {
+  step = 1000 * 60 * 60;
+} else if (timeinterval == 'years') {
+  step = 1000 * 60 * 60 * 24 * 365;
+} else {
+  error_invalid_interval = true;
+}
+
+console.log(rangeStart);
+console.log(rangeEnd);
 timelineInterval = [rangeStart * 1000, rangeEnd * 1000];
 selectedInterval = timelineInterval;
 var seenImages = {};
@@ -2582,7 +2661,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
       hasNotBeenFetched: true,
       startTime: rangeStart,
       endTime: rangeEnd
-    }, _defineProperty(_this$state, "def", {}), _defineProperty(_this$state, "time", rangeStart * 1000), _defineProperty(_this$state, "def", _this.props.dash.props.definition), _defineProperty(_this$state, "playbackMultiplier", '4'), _defineProperty(_this$state, "displayValue", 'All-Time'), _defineProperty(_this$state, "value", 1), _defineProperty(_this$state, "hasNotBeenFetched", true), _defineProperty(_this$state, "dataSources", {}), _defineProperty(_this$state, "width", 0), _defineProperty(_this$state, "height", 0), _defineProperty(_this$state, "dark", darktheme), _defineProperty(_this$state, "leftOpen", false), _defineProperty(_this$state, "error_ds_no__time", []), _defineProperty(_this$state, "error_no_dash", false), _defineProperty(_this$state, "warn_inputs_exist", []), _defineProperty(_this$state, "openPanelId", 2), _defineProperty(_this$state, "openInputsPanelId", 2), _defineProperty(_this$state, "numberOfSearches", 0), _defineProperty(_this$state, "numberOfSearchesComplete", 0), _defineProperty(_this$state, "dashboardID", params.get('dashboardid')), _this$state);
+    }, _defineProperty(_this$state, "def", {}), _defineProperty(_this$state, "time", rangeStart * 1000), _defineProperty(_this$state, "def", _this.props.dash.props.definition), _defineProperty(_this$state, "playbackMultiplier", '4'), _defineProperty(_this$state, "displayValue", 'All-Time'), _defineProperty(_this$state, "value", 1), _defineProperty(_this$state, "hasNotBeenFetched", true), _defineProperty(_this$state, "dataSources", {}), _defineProperty(_this$state, "width", 0), _defineProperty(_this$state, "height", 0), _defineProperty(_this$state, "dark", darktheme), _defineProperty(_this$state, "leftOpen", false), _defineProperty(_this$state, "error_ds_no__time", []), _defineProperty(_this$state, "error_no_dash", false), _defineProperty(_this$state, "error_invalid_interval", error_invalid_interval), _defineProperty(_this$state, "warn_inputs_exist", []), _defineProperty(_this$state, "openPanelId", 2), _defineProperty(_this$state, "openInputsPanelId", 2), _defineProperty(_this$state, "numberOfSearches", 0), _defineProperty(_this$state, "numberOfSearchesComplete", 0), _defineProperty(_this$state, "dashboardID", params.get('dashboardid')), _this$state);
 
     _this.fetchDefinition();
 
@@ -2808,12 +2887,14 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         }, String(this.state.warn_inputs_exist.length) + ' Inputs Exist Which May Not Work with Timelapse')
       }, this.state.warn_inputs_exist.map(function (k, v) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.warn_inputs_exist[v]);
-      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null))), this.state.error_ds_no__time.length > 0 || this.state.error_no_dash || this.state.warn_inputs_exist.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
+      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.error_invalid_interval ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+        type: "error"
+      }, "Unsupported Time Interval Specified:", ' ', timeinterval)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null))), this.state.error_ds_no__time.length > 0 || this.state.error_no_dash || this.state.error_invalid_interval || this.state.warn_inputs_exist.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
         key: "left",
         onClick: this.openLeftPanel,
         label: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13___default.a, {
           size: 1.5
-        }), " \xA0\xA0", String(this.state.error_ds_no__time.length + this.state.error_no_dash + this.state.warn_inputs_exist.length)),
+        }), " \xA0\xA0", String(this.state.error_ds_no__time.length + this.state.error_no_dash + this.state.error_invalid_interval + this.state.warn_inputs_exist.length)),
         appearance: "pill"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
         key: "left",
@@ -2828,7 +2909,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         })
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16___default.a, {
         error: this.state.error,
-        ticksNumber: 10,
+        step: step,
         selectedInterval: selectedInterval,
         timelineInterval: timelineInterval,
         onUpdateCallback: this.errorHandler,
