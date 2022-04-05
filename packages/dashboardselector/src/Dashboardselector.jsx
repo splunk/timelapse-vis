@@ -26,8 +26,13 @@ class DashboardSelector extends Component {
             infoModalOpen: false,
             rangeStartOpen: false,
             rangeEndOpen: false,
+            timetype: '',
+            relativetime: '',
+            rangeRelativeOpen: false,
         };
         this.handleChangePickerType = this.handleChangePickerType.bind(this);
+        this.handleTimeType = this.handleTimeType.bind(this);
+        this.handleRelativeTime = this.handleRelativeTime.bind(this);
         this.handleDashboardIdChange = this.handleDashboardIdChange.bind(this);
         this.handleThemeSelect = this.handleThemeSelect.bind(this);
         this.handleIntervalInfoOpen = this.handleIntervalInfoOpen.bind(this);
@@ -38,6 +43,9 @@ class DashboardSelector extends Component {
 
         this.handleRangeEndOpen = this.handleRangeEndOpen.bind(this);
         this.handleRangeEndClose = this.handleRangeEndClose.bind(this);
+
+        this.handleRelativeRangeOpen = this.handleRelativeRangeOpen.bind(this);
+        this.handleRelativeRangeClose = this.handleRelativeRangeClose.bind(this);
 
         this.startChange = this.startChange.bind(this);
         this.endChange = this.endChange.bind(this);
@@ -69,15 +77,12 @@ class DashboardSelector extends Component {
     }
 
     startChange(event) {
-        console.log(event);
-
         this.setState({
             rangeStart: event.target.value + ' 00:00:00',
         });
     }
 
     endChange(event) {
-        console.log(event.target.value);
         this.setState({
             rangeEnd: event.target.value + ' 00:00:00',
         });
@@ -104,6 +109,34 @@ class DashboardSelector extends Component {
         this.setState({ rangeEndOpen: false });
     }
 
+    handleRelativeRangeClose() {
+        this.setState({ rangeRelativeOpen: false });
+    }
+    handleRelativeRangeOpen() {
+        this.setState({ rangeRelativeOpen: true });
+    }
+
+    handleTimeType(event, { value }) {
+        this.setState({
+            timetype: value,
+        });
+
+        if (value == 'explicit') {
+            this.setState({ relativetime: '' });
+        }
+
+        if (value == 'relative') {
+            this.setState({ rangeStart: '' });
+            this.setState({ rangeEnd: '' });
+        }
+    }
+
+    handleRelativeTime(event, { value }) {
+        this.setState({
+            relativetime: value,
+        });
+    }
+
     render() {
         var url =
             window.location.href.replace(/[^\/]+$/, '') +
@@ -117,7 +150,11 @@ class DashboardSelector extends Component {
             '&timeinterval=' +
             encodeURIComponent(this.state.timeinterval) +
             '&theme=' +
-            encodeURIComponent(this.state.theme);
+            encodeURIComponent(this.state.theme) +
+            '&timerangetype=' +
+            encodeURIComponent(this.state.timetype) +
+            '&relativetime=' +
+            encodeURIComponent(this.state.relativetime);
 
         const colStyle = {
             border: `0px solid`,
@@ -145,6 +182,10 @@ class DashboardSelector extends Component {
             intervalPicker = (
                 <ColumnLayout.Column style={colStyle} span={1}>
                     <Select onChange={this.handleTimeInterval}>
+                        <Select.Option value="1sec" label="1 Second" />
+                        <Select.Option value="1min" label="1 Minute" />
+                        <Select.Option value="15min" label="15 Minutes" />
+                        <Select.Option value="30min" label="30 Minutes" />
                         <Select.Option value="hours" label="Hours" />
                         <Select.Option value="days" label="Days" />
                         <Select.Option value="years" label="Years" />
@@ -167,9 +208,13 @@ class DashboardSelector extends Component {
                             The time interval specifies how much the time changes each time the
                             slider moves by one step mark.{' '}
                             <ul>
-                                <li>Years = 31536000000 seconds</li>
-                                <li>Days = 86400000 seconds</li>
-                                <li>Hours = 3600000 seconds</li>
+                                <li>Years = 31536000 seconds</li>
+                                <li>Days = 864000 seconds</li>
+                                <li>Hours = 36000 seconds</li>
+                                <li>30 Minutes = 1800 Seconds</li>
+                                <li>15 Minutes = 900</li>
+                                <li>1 Minute = 60 Seconds</li>
+                                <li>1 Second = 1 Second</li>
                             </ul>
                             <P>See #3 on the image below</P>
                             {this.state.pickertype == 'rangeslider' ? (
@@ -195,9 +240,9 @@ class DashboardSelector extends Component {
             <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
                 <div style={{ width: '100%' }}>
                     <StyledContainer style={{ width: '100%' }}>
-                        <ColumnLayout gutter={1}>
+                        <ColumnLayout gutter={1} style={{ width: '100%' }}>
                             <ColumnLayout.Row>
-                                <ColumnLayout.Column style={colStyle} span={4}>
+                                <ColumnLayout.Column style={colStyle} span={5}>
                                     <Heading level={2}>
                                         Use the following form to build your custom dashboard URL:
                                     </Heading>
@@ -214,65 +259,122 @@ class DashboardSelector extends Component {
                                     Select Type of Input:
                                 </ColumnLayout.Column>
                                 <ColumnLayout.Column style={colStyle}>
-                                    <Button
-                                        appearance={'pill'}
-                                        onClick={this.handleRangeStartOpen}
-                                        label={<InfoCircle size={1.5} />}
-                                    />{' '}
-                                    <Modal
-                                        onRequestClose={this.handleRangeStartClose}
-                                        open={this.state.rangeStartOpen}
-                                    >
-                                        <Modal.Body>
-                                            <Heading level={2}>
-                                                The earliest time in the {this.state.pickertype}.{' '}
-                                            </Heading>
-                                            <P>See #1 on the image below</P>
-                                            {this.state.pickertype == 'rangeslider' ? (
-                                                <img
-                                                    style={{ width: '100%' }}
-                                                    src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
-                                                ></img>
-                                            ) : (
-                                                <img
-                                                    style={{ width: '100%' }}
-                                                    src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                                                ></img>
-                                            )}
-                                        </Modal.Body>
-                                    </Modal>
-                                    Select Range Start:
+                                    Select Time Range Type:
                                 </ColumnLayout.Column>
-                                <ColumnLayout.Column style={colStyle}>
-                                    <Button
-                                        appearance={'pill'}
-                                        onClick={this.handleRangeEndOpen}
-                                        label={<InfoCircle size={1.5} />}
-                                    />{' '}
-                                    <Modal
-                                        onRequestClose={this.handleRangeEndClose}
-                                        open={this.state.rangeEndOpen}
+                                {this.state.timetype === 'explicit' ? (
+                                    <ColumnLayout.Column style={colStyle} span={1}>
+                                        <>
+                                            <Button
+                                                appearance={'pill'}
+                                                onClick={this.handleRangeStartOpen}
+                                                label={<InfoCircle size={1.5} />}
+                                            />
+                                            <Modal
+                                                onRequestClose={this.handleRangeStartClose}
+                                                open={this.state.rangeStartOpen}
+                                            >
+                                                <Modal.Body>
+                                                    <Heading level={2}>
+                                                        The earliest time in the{' '}
+                                                        {this.state.pickertype}.{' '}
+                                                    </Heading>
+                                                    <P>See #1 on the image below</P>
+                                                    {this.state.pickertype == 'rangeslider' ? (
+                                                        <img
+                                                            style={{ width: '100%' }}
+                                                            src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
+                                                        ></img>
+                                                    ) : (
+                                                        <img
+                                                            style={{ width: '100%' }}
+                                                            src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                                                        ></img>
+                                                    )}
+                                                </Modal.Body>
+                                            </Modal>
+                                            Select Range Start:
+                                        </>
+                                    </ColumnLayout.Column>
+                                ) : (
+                                    <></>
+                                )}
+
+                                {this.state.timetype === 'relative' ? (
+                                    <ColumnLayout.Column
+                                        style={{
+                                            ...colStyle,
+                                        }}
+                                        span={1}
                                     >
-                                        <Modal.Body>
-                                            <Heading level={2}>
-                                                The latest time in the {this.state.pickertype}.
-                                            </Heading>
-                                            <P>See #2 on the image below</P>
-                                            {this.state.pickertype == 'rangeslider' ? (
-                                                <img
-                                                    style={{ width: '100%' }}
-                                                    src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
-                                                ></img>
-                                            ) : (
-                                                <img
-                                                    style={{ width: '100%' }}
-                                                    src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                                                ></img>
-                                            )}
-                                        </Modal.Body>
-                                    </Modal>
-                                    Select Range End:
-                                </ColumnLayout.Column>
+                                        <div style={{ width: '200px' }}>
+                                            <Button
+                                                appearance={'pill'}
+                                                onClick={this.handleRelativeRangeOpen}
+                                                label={<InfoCircle size={1.5} />}
+                                            />
+                                            <Modal
+                                                onRequestClose={this.handleRelativeRangeClose}
+                                                open={this.state.rangeRelativeOpen}
+                                            >
+                                                <Modal.Body>
+                                                    <Heading level={2}>
+                                                        The earliest and the latest time in the{' '}
+                                                        {this.state.pickertype}.{' '}
+                                                    </Heading>
+                                                    <P>See #1 and #2 on the image below</P>
+                                                    {this.state.pickertype == 'rangeslider' ? (
+                                                        <img
+                                                            style={{ width: '100%' }}
+                                                            src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
+                                                        ></img>
+                                                    ) : (
+                                                        <img
+                                                            style={{ width: '100%' }}
+                                                            src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                                                        ></img>
+                                                    )}
+                                                </Modal.Body>
+                                            </Modal>
+                                            Select Relative Time:
+                                        </div>
+                                    </ColumnLayout.Column>
+                                ) : (
+                                    <></>
+                                )}
+                                {this.state.timetype === 'explicit' ? (
+                                    <ColumnLayout.Column style={colStyle}>
+                                        <Button
+                                            appearance={'pill'}
+                                            onClick={this.handleRangeEndOpen}
+                                            label={<InfoCircle size={1.5} />}
+                                        />{' '}
+                                        <Modal
+                                            onRequestClose={this.handleRangeEndClose}
+                                            open={this.state.rangeEndOpen}
+                                        >
+                                            <Modal.Body>
+                                                <Heading level={2}>
+                                                    The latest time in the {this.state.pickertype}.
+                                                </Heading>
+                                                <P>See #2 on the image below</P>
+                                                {this.state.pickertype == 'rangeslider' ? (
+                                                    <img
+                                                        style={{ width: '100%' }}
+                                                        src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
+                                                    ></img>
+                                                ) : (
+                                                    <img
+                                                        style={{ width: '100%' }}
+                                                        src="/static/app/splunk-timelapse-visualizations/timelapse.png"
+                                                    ></img>
+                                                )}
+                                            </Modal.Body>
+                                        </Modal>
+                                        Select Range End:
+                                    </ColumnLayout.Column>
+                                ) : (
+                                    <></>
+                                )}
                                 {intervalColumn}
                             </ColumnLayout.Row>
                             <ColumnLayout.Row>
@@ -291,22 +393,60 @@ class DashboardSelector extends Component {
                                         <Select.Option value="timelapse" label="Timelapse" />
                                     </Select>
                                 </ColumnLayout.Column>
-                                <ColumnLayout.Column style={calColStyle} span={1}>
-                                    <input
-                                        type="date"
-                                        id="start"
-                                        name="dashboard-start"
-                                        onChange={this.startChange}
-                                    ></input>
+                                <ColumnLayout.Column style={colStyle} span={1}>
+                                    <Select onChange={this.handleTimeType}>
+                                        <Select.Option value="explicit" label="Explicit" />
+                                        <Select.Option value="relative" label="Relative" />
+                                    </Select>
                                 </ColumnLayout.Column>
-                                <ColumnLayout.Column style={calColStyle} span={1}>
-                                    <input
-                                        type="date"
-                                        id="end"
-                                        name="dashboard-end"
-                                        onChange={this.endChange}
-                                    ></input>
-                                </ColumnLayout.Column>
+                                {this.state.timetype === 'explicit' ? (
+                                    <ColumnLayout.Column style={{ ...calColStyle }} span={1}>
+                                        <input
+                                            type="date"
+                                            id="start"
+                                            name="dashboard-start"
+                                            onChange={this.startChange}
+                                        ></input>{' '}
+                                    </ColumnLayout.Column>
+                                ) : (
+                                    <></>
+                                )}
+
+                                {this.state.timetype === 'relative' ? (
+                                    <ColumnLayout.Column style={{ ...calColStyle }} span={1}>
+                                        <Select
+                                            onChange={this.handleRelativeTime}
+                                            style={{ width: '200px' }}
+                                        >
+                                            <Select.Option value="30min" label="30 Minutes" />
+                                            <Select.Option value="1h" label="1 Hour" />
+                                            <Select.Option value="6h" label="6 Hours" />
+                                            <Select.Option value="12h" label="12 Hours" />
+                                            <Select.Option value="1d" label="1 Day" />
+                                            <Select.Option value="7d" label="7 Days" />
+                                            <Select.Option value="14d" label="14 Days" />
+                                            <Select.Option value="30d" label="30 Days" />
+                                            <Select.Option value="180d" label="180 Days" />
+                                            <Select.Option value="365d" label="1 Year" />
+                                        </Select>{' '}
+                                    </ColumnLayout.Column>
+                                ) : (
+                                    <></>
+                                )}
+
+                                {this.state.timetype === 'explicit' ? (
+                                    <ColumnLayout.Column style={calColStyle} span={1}>
+                                        <input
+                                            type="date"
+                                            id="end"
+                                            name="dashboard-end"
+                                            onChange={this.endChange}
+                                        ></input>
+                                    </ColumnLayout.Column>
+                                ) : (
+                                    <></>
+                                )}
+
                                 {intervalPicker}
                             </ColumnLayout.Row>
                             <ColumnLayout.Row>
