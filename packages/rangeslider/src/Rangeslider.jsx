@@ -12,6 +12,7 @@ import Message from '@splunk/react-ui/Message';
 import Accordion from '@splunk/react-ui/Accordion';
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 import SidePanel from '@splunk/react-ui/SidePanel';
+import Link from '@splunk/react-ui/Link';
 
 import Bell from '@splunk/react-icons/Bell';
 
@@ -754,7 +755,11 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                                 <>
                                                     <Message type="error">
                                                         Missing time type selector. Please go back
-                                                        to the start and select a time type.
+                                                        to the{' '}
+                                                        <Link to="/app/splunk-timelapse-visualizations/start">
+                                                            start
+                                                        </Link>{' '}
+                                                        and select a time type.
                                                     </Message>
                                                 </>
                                             ) : (

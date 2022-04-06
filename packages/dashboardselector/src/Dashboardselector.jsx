@@ -296,6 +296,17 @@ class DashboardSelector extends Component {
                                     <></>
                                 )}
 
+                                {this.state.timetype === '' ? (
+                                    <ColumnLayout.Column
+                                        style={{
+                                            ...colStyle,
+                                        }}
+                                        span={1}
+                                    ></ColumnLayout.Column>
+                                ) : (
+                                    <></>
+                                )}
+
                                 {this.state.timetype === 'relative' ? (
                                     <ColumnLayout.Column
                                         style={{
@@ -338,6 +349,7 @@ class DashboardSelector extends Component {
                                 ) : (
                                     <></>
                                 )}
+
                                 {this.state.timetype === 'explicit' ? (
                                     <ColumnLayout.Column style={colStyle}>
                                         <Button
@@ -439,6 +451,15 @@ class DashboardSelector extends Component {
                                             name="dashboard-end"
                                             onChange={this.endChange}
                                         ></input>
+                                    </ColumnLayout.Column>
+                                ) : (
+                                    <></>
+                                )}
+
+                                {this.state.timetype === '' ? (
+                                    <ColumnLayout.Column style={calColStyle} span={1}>
+                                        {' '}
+                                        Please select a Time Range Type...
                                     </ColumnLayout.Column>
                                 ) : (
                                     <></>

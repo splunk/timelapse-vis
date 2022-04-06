@@ -1955,18 +1955,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @splunk/react-ui/SidePanel */ "@splunk/react-ui/SidePanel");
 /* harmony import */ var _splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @splunk/react-icons/Bell */ "@splunk/react-icons/Bell");
-/* harmony import */ var _splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! date-fns */ "date-fns");
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(date_fns__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-timeline-range-slider */ "react-timeline-range-slider");
-/* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var _splunk_themes__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @splunk/themes */ "@splunk/themes");
-/* harmony import */ var _splunk_themes__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_splunk_themes__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var _splunk_search_job__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @splunk/search-job */ "@splunk/search-job");
-/* harmony import */ var _splunk_search_job__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_splunk_search_job__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var _splunk_react_ui_Link__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @splunk/react-ui/Link */ "@splunk/react-ui/Link");
+/* harmony import */ var _splunk_react_ui_Link__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_ui_Link__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @splunk/react-icons/Bell */ "@splunk/react-icons/Bell");
+/* harmony import */ var _splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! date-fns */ "date-fns");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(date_fns__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-timeline-range-slider */ "react-timeline-range-slider");
+/* harmony import */ var react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _splunk_themes__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @splunk/themes */ "@splunk/themes");
+/* harmony import */ var _splunk_themes__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_splunk_themes__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var _splunk_search_job__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @splunk/search-job */ "@splunk/search-job");
+/* harmony import */ var _splunk_search_job__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_splunk_search_job__WEBPACK_IMPORTED_MODULE_19__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -2018,6 +2020,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -2516,7 +2519,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
               }
 
               _context.next = 70;
-              return _splunk_search_job__WEBPACK_IMPORTED_MODULE_18___default.a.create({
+              return _splunk_search_job__WEBPACK_IMPORTED_MODULE_19___default.a.create({
                 search: query,
                 earliest_time: earliest,
                 latest_time: latest
@@ -2795,16 +2798,16 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
       var textStyle = {
         textAlign: 'center'
       };
-      var dash = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__["DashboardContextProvider"], {
+      var dash = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__["DashboardContextProvider"], {
         geoRegistry: geoRegistry
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3___default.a, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3___default.a, {
         width: "100%",
         height: "calc(100vh - 78px)",
         definition: this.state.def,
         preset: _splunk_dashboard_presets_EnterprisePreset__WEBPACK_IMPORTED_MODULE_4___default.a,
         initialMode: "view"
       }));
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("div", {
         style: this.state.dark ? {
           textAlign: 'center',
           margin: 'auto',
@@ -2818,98 +2821,100 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
           width: '100%',
           backgroundColor: '#FFFFFF'
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_themes__WEBPACK_IMPORTED_MODULE_17__["SplunkThemeProvider"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_themes__WEBPACK_IMPORTED_MODULE_18__["SplunkThemeProvider"], {
         family: "enterprise",
         colorScheme: this.state.dark ? 'dark' : 'light',
         density: "compact"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("table", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("table", {
         style: {
           textAlign: 'center',
           margin: 'auto',
           align: 'center',
           width: this.state.width
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tr", {
         style: {
           paddingBottom: '10px'
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
         style: _objectSpread(_objectSpread({}, colStyle), {}, {
           width: '25%',
           padding: '30px',
           paddingTop: '0px',
           paddingBottom: '10px'
         })
-      }, this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
         style: textStyle,
         level: 2
-      }, ' ', "Selected Interval:", ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, {
+      }, ' ', "Selected Interval:", ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, {
         style: textStyle
-      }, Object(date_fns__WEBPACK_IMPORTED_MODULE_14__["format"])(this.state.selectedInterval[0], 'MM/dd/yyyy HH:mm'), ' ', "through", ' ', Object(date_fns__WEBPACK_IMPORTED_MODULE_14__["format"])(this.state.selectedInterval[1], 'MM/dd/yyyy HH:mm'), ' ')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default.a, {
+      }, Object(date_fns__WEBPACK_IMPORTED_MODULE_15__["format"])(this.state.selectedInterval[0], 'MM/dd/yyyy HH:mm'), ' ', "through", ' ', Object(date_fns__WEBPACK_IMPORTED_MODULE_15__["format"])(this.state.selectedInterval[1], 'MM/dd/yyyy HH:mm'), ' ')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default.a, {
         open: this.state.leftOpen,
         dockPosition: "left",
         onRequestClose: this.handleRequestClose,
         innerStyle: {
           width: 300
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("div", {
         style: {
           padding: '10px'
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
         level: 2
-      }, "Configuration:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, "Configuration:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
         level: 3
-      }, "Theme:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6___default.a, {
+      }, "Theme:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Switch__WEBPACK_IMPORTED_MODULE_6___default.a, {
         value: "darkMode",
         onClick: this.handleDarkModeClick,
         selected: this.state.dark,
         appearance: 'toggle'
-      }, "Dark Mode"), ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, "Dark Mode"), ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
         level: 3
-      }, "Dashboard Information"), this.state.error_ds_no__time.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a, {
+      }, "Dashboard Information"), this.state.error_ds_no__time.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a, {
         openPanelId: this.state.openPanelId,
         onChange: this.handlePanelChange
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a.Panel, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a.Panel, {
         panelId: 1,
-        title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+        title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
           type: "error"
         }, String(this.state.error_ds_no__time.length) + ' Searches missing a _time field')
       }, this.state.error_ds_no__time.map(function (k, v) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.error_ds_no__time[v]);
-      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.warn_inputs_exist.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a, {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.error_ds_no__time[v]);
+      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null), this.state.warn_inputs_exist.length > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a, {
         openPanelId: this.state.openInputsPanelId,
         onChange: this.handleInputsPanelChange
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a.Panel, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Accordion__WEBPACK_IMPORTED_MODULE_10___default.a.Panel, {
         panelId: 1,
-        title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+        title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
           type: "warning"
         }, String(this.state.warn_inputs_exist.length) + ' Inputs Exist Which May Not Work with Timelapse')
       }, this.state.warn_inputs_exist.map(function (k, v) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.warn_inputs_exist[v]);
-      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.error_invalid_interval ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, null, _this2.state.warn_inputs_exist[v]);
+      })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null), this.state.error_invalid_interval ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
         type: "error"
-      }, "Unsupported Time Interval Specified:", ' ', timeinterval)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.error_no_timetype_select ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+      }, "Unsupported Time Interval Specified:", ' ', timeinterval)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null), this.state.error_no_timetype_select ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
         type: "error"
-      }, "Missing time type selector. Please go back to the start and select a time type.")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null))), (this.state.error_ds_no__time.length > 0 || this.state.error_no_dash || this.state.error_invalid_interval || this.state.error_no_timetype_select || this.state.warn_inputs_exist.length > 0) && this.state.hasNotBeenFetched == false ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
+      }, "Missing time type selector. Please go back to the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Link__WEBPACK_IMPORTED_MODULE_13___default.a, {
+        to: "/app/splunk-timelapse-visualizations/start"
+      }, "start"), ' ', "and select a time type.")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null))), (this.state.error_ds_no__time.length > 0 || this.state.error_no_dash || this.state.error_invalid_interval || this.state.error_no_timetype_select || this.state.warn_inputs_exist.length > 0) && this.state.hasNotBeenFetched == false ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
         key: "left",
         onClick: this.openLeftPanel,
-        label: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_13___default.a, {
+        label: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_14___default.a, {
           size: 1.5
         }), " \xA0\xA0", String(this.state.error_ds_no__time.length + this.state.error_no_dash + this.state.error_invalid_interval + this.state.error_no_timetype_select + this.state.warn_inputs_exist.length)),
         appearance: "pill"
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null), this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
         key: "left",
         onClick: this.openLeftPanel,
         label: "Configure"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
         style: _objectSpread(_objectSpread({}, colStyle), {}, {
           width: '100%',
           paddingRight: '0px',
           paddingTop: '0px',
           paddingBottom: '0px'
         })
-      }, this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_16___default.a, {
+      }, this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react_timeline_range_slider__WEBPACK_IMPORTED_MODULE_17___default.a, {
         error: this.state.error,
         step: step,
         selectedInterval: selectedInterval,
@@ -2917,7 +2922,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         onUpdateCallback: this.errorHandler,
         onChangeCallback: this.onChangeCallback,
         disabledIntervals: disabledIntervals
-      }))), this.state.hasNotBeenFetched && this.state.error_no_dash != true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+      }))), this.state.hasNotBeenFetched && this.state.error_no_dash != true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
         colSpan: "2",
         style: _objectSpread(_objectSpread({}, colStyle), {}, {
           width: '100%',
@@ -2927,14 +2932,14 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
           textAlign: 'center',
           verticalAlign: 'text-bottom'
         })
-      }, ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Heading__WEBPACK_IMPORTED_MODULE_8___default.a, {
         level: 1,
         style: {
           width: '100%',
           textAlign: 'center',
           margin: 'auto'
         }
-      }, "Running Search ", this.state.numberOfSearchesComplete, "/", this.state.numberOfSearches), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+      }, "Running Search ", this.state.numberOfSearchesComplete, "/", this.state.numberOfSearches), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
         colSpan: "2",
         style: _objectSpread(_objectSpread({}, colStyle), {}, {
           width: '100%',
@@ -2943,38 +2948,38 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
           height: '200px',
           textAlign: 'center'
         })
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("div", {
         style: {
           width: '100%',
           textAlign: 'center',
           transform: 'scale(5)'
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11___default.a, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_WaitSpinner__WEBPACK_IMPORTED_MODULE_11___default.a, {
         style: {},
         size: "large"
-      }))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null), this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+      }))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null), this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
         colSpan: "2",
         style: _objectSpread(_objectSpread({}, colStyle), {}, {
           width: '100%',
           paddingTop: '0px',
           paddingBottom: '0px'
         })
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null, dash))), this.state.error_no_dash == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("td", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, dash))), this.state.error_no_dash == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
         colSpan: "2",
         style: _objectSpread(_objectSpread({}, colStyle), {}, {
           width: '100%',
           paddingTop: '0px',
           paddingBottom: '0px'
         })
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Message__WEBPACK_IMPORTED_MODULE_9___default.a, {
         appearance: "fill",
         type: "error"
-      }, "Cannot load dashboard with ID:", ' ', this.state.dashboardID, ".")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_15___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_15___default.a.Fragment, null)))));
+      }, "Cannot load dashboard with ID:", ' ', this.state.dashboardID, ".")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null)))));
     }
   }]);
 
   return SplunkTimeRangeSliderInput;
-}(react__WEBPACK_IMPORTED_MODULE_15___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_16___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (SplunkTimeRangeSliderInput);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/buffer/index.js */ "../../node_modules/buffer/index.js").Buffer))
@@ -3077,6 +3082,17 @@ module.exports = require("@splunk/react-ui/Button");
 /***/ (function(module, exports) {
 
 module.exports = require("@splunk/react-ui/Heading");
+
+/***/ }),
+
+/***/ "@splunk/react-ui/Link":
+/*!****************************************!*\
+  !*** external "@splunk/react-ui/Link" ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@splunk/react-ui/Link");
 
 /***/ }),
 

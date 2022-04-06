@@ -8,6 +8,7 @@ import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
 import Button from '@splunk/react-ui/Button';
 import Select from '@splunk/react-ui/Select';
 import Switch from '@splunk/react-ui/Switch';
+import Link from '@splunk/react-ui/Link';
 import Slider from '@splunk/react-ui/Slider';
 import P from '@splunk/react-ui/Paragraph';
 import Heading from '@splunk/react-ui/Heading';
@@ -45,7 +46,7 @@ if (params.get('timerangetype') === 'explicit') {
     rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
     globalTime.setStart(rangeStart);
     rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
-    globalTime.setStart(rangeEnd);
+    globalTime.setEnd(rangeEnd);
 } else if (params.get('timerangetype') === 'relative') {
     var rel = params.get('relativetime');
 
@@ -777,7 +778,11 @@ class TimelapseControls extends React.Component {
                                                 <>
                                                     <Message type="error">
                                                         Missing time type selector. Please go back
-                                                        to the start and select a time type.
+                                                        to the{' '}
+                                                        <Link to="/app/splunk-timelapse-visualizations/start">
+                                                            start
+                                                        </Link>{' '}
+                                                        and select a time type.
                                                     </Message>
                                                 </>
                                             ) : (
