@@ -73,7 +73,7 @@ class Documentation extends Component {
                                         <Link
                                             target="_blank"
                                             to={
-                                                'timelapse?theme=dark&dashboardid=timelapse_demo&rangeStart=2021-12-19%2000%3A00%3A00&rangeEnd=2022-03-28%2000%3A00%3A00&timeinterval=days'
+                                                'timelapse?theme=dark&dashboardid=timelapse_demo&timeinterval=days&timerangetype=relative&relativetime=180d'
                                             }
                                         >
                                             View a Demo Here
@@ -84,16 +84,27 @@ class Documentation extends Component {
                                     <List type="decimal">
                                         <List.Item>dashboardid (string)</List.Item>
                                         <List.Item>
-                                            rangeStart (string, format needs to be YYYY-MM-DD
-                                            HH:MM:SS)
+                                            timerangetype (string, currently accepts "explicit" and
+                                            "relative")
                                         </List.Item>
                                         <List.Item>
-                                            rangeEnd (string, format needs to be YYYY-MM-DD
-                                            HH:MM:SS)
+                                            rangeStart (string, currently only works with
+                                            timerangetype of "explicit". Format needs to be
+                                            YYYY-MM-DD HH:MM:SS)
                                         </List.Item>
                                         <List.Item>
-                                            timeinterval (string, currently accepts "days", "hours",
-                                            and "years")
+                                            rangeEnd (string, currently only works with
+                                            timerangetype of "explicit". Format needs to be
+                                            YYYY-MM-DD HH:MM:SS)
+                                        </List.Item>
+                                        <List.Item>
+                                            relativetime (string, currently only works with
+                                            timerangetype of "relative". Currently accepts 30min,
+                                            1h, 6h, 12h, 1d, 7d, 14d, 30d, 180d, 365d)
+                                        </List.Item>
+                                        <List.Item>
+                                            timeinterval (string, currently accepts "1sec", "1min",
+                                            "15min", "30min", "days", "hours", and "years")
                                         </List.Item>
                                         <List.Item>
                                             theme (string, currently accepts "light" and "dark")
@@ -111,21 +122,38 @@ class Documentation extends Component {
                                         <Link
                                             target="_blank"
                                             to={
-                                                'rangeslider?theme=dark&dashboardid=timelapse_demo&rangeStart=2021-12-19%2000%3A00%3A00&rangeEnd=2022-03-28%2000%3A00%3A00'
+                                                'rangeslider?dashboardid=timelapse_demo&timeinterval=days&theme=dark&timerangetype=relative&relativetime=180d'
                                             }
                                         >
                                             View a Demo Here
                                         </Link>
                                     </P>
+                                    <Heading level={4}>Link Parameters</Heading>
+
                                     <List type="decimal">
                                         <List.Item>dashboardid (string)</List.Item>
                                         <List.Item>
-                                            rangeStart (string, format needs to be YYYY-MM-DD
-                                            HH:MM:SS)
+                                            timerangetype (string, currently accepts "explicit" and
+                                            "relative")
                                         </List.Item>
                                         <List.Item>
-                                            rangeEnd (string, format needs to be YYYY-MM-DD
-                                            HH:MM:SS)
+                                            rangeStart (string, currently only works with
+                                            timerangetype of "explicit". Format needs to be
+                                            YYYY-MM-DD HH:MM:SS)
+                                        </List.Item>
+                                        <List.Item>
+                                            rangeEnd (string, currently only works with
+                                            timerangetype of "explicit". Format needs to be
+                                            YYYY-MM-DD HH:MM:SS)
+                                        </List.Item>
+                                        <List.Item>
+                                            relativetime (string, currently only works with
+                                            timerangetype of "relative". Currently accepts 30min,
+                                            1h, 6h, 12h, 1d, 7d, 14d, 30d, 180d, 365d)
+                                        </List.Item>
+                                        <List.Item>
+                                            timeinterval (string, currently accepts "1sec", "1min",
+                                            "15min", "30min", "days", "hours", and "years")
                                         </List.Item>
                                         <List.Item>
                                             theme (string, currently accepts "light" and "dark")
