@@ -34,6 +34,7 @@ var rangeStart = Math.round(Date.now().valueOf() / 1000);
 var rangeEnd = Math.round(Date.now().valueOf() / 1000);
 
 var error_invalid_interval = false;
+var error_no_timetype_select = false;
 
 function setRelative(startdelta) {
     rangeStart = Math.round((Date.now() - startdelta).valueOf() / 1000);
@@ -45,9 +46,7 @@ if (params.get('timerangetype') === 'explicit') {
     globalTime.setStart(rangeStart);
     rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
     globalTime.setStart(rangeEnd);
-}
-
-if (params.get('timerangetype') === 'relative') {
+} else if (params.get('timerangetype') === 'relative') {
     var rel = params.get('relativetime');
 
     if (rel == '30min') {
@@ -80,6 +79,10 @@ if (params.get('timerangetype') === 'relative') {
     if (rel == '365d') {
         setRelative(1000 * 60 * 60 * 24 * 365);
     }
+} else {
+    setRelative(1000 * 60 * 60 * 24);
+
+    error_no_timetype_select = true;
 }
 
 const timeinterval = params.get('timeinterval');
@@ -220,7 +223,7 @@ class TimelapseControls extends React.Component {
             error_ds_no__time: [],
             error_no_dash: false,
             error_invalid_interval: error_invalid_interval,
-
+            error_no_timetype_select: error_no_timetype_select,
             warn_inputs_exist: [],
             openPanelId: 2,
             openInputsPanelId: 2,
@@ -682,7 +685,6 @@ class TimelapseControls extends React.Component {
                                                 <Select.Option value="20" label="20x" />
                                                 <Select.Option value="100" label="100x" />
                                                 <Select.Option value="200" label="200x" />
-                                                <Select.Option value="400" label="400x" />
                                             </Select>
                                             <Heading level={3}>Dashboard Information</Heading>
                                             {this.state.error_ds_no__time.length > 0 ? (
@@ -771,12 +773,24 @@ class TimelapseControls extends React.Component {
                                             ) : (
                                                 <></>
                                             )}
+                                            {this.state.error_no_timetype_select ? (
+                                                <>
+                                                    <Message type="error">
+                                                        Missing time type selector. Please go back
+                                                        to the start and select a time type.
+                                                    </Message>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
                                     </SidePanel>
-                                    {this.state.error_ds_no__time.length > 0 ||
-                                    this.state.error_no_dash ||
-                                    this.state.error_invalid_interval ||
-                                    this.state.warn_inputs_exist.length > 0 ? (
+                                    {(this.state.error_ds_no__time.length > 0 ||
+                                        this.state.error_no_dash ||
+                                        this.state.error_no_timetype_select ||
+                                        this.state.error_invalid_interval ||
+                                        this.state.warn_inputs_exist.length > 0) &&
+                                    this.state.hasNotBeenFetched == false ? (
                                         <Button
                                             key="left"
                                             onClick={this.openLeftPanel}
@@ -787,7 +801,8 @@ class TimelapseControls extends React.Component {
                                                         this.state.error_ds_no__time.length +
                                                             this.state.error_no_dash +
                                                             this.state.warn_inputs_exist.length +
-                                                            error_invalid_interval
+                                                            this.state.error_no_timetype_select +
+                                                            this.state.error_invalid_interval
                                                     )}
                                                 </>
                                             }

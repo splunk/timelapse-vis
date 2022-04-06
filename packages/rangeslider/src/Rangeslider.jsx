@@ -36,6 +36,8 @@ const params = new URLSearchParams(search);
 var rangeStart = Math.round(Date.now().valueOf() / 1000);
 var rangeEnd = Math.round(Date.now().valueOf() / 1000);
 
+var error_no_timetype_select = false;
+
 function setRelative(startdelta) {
     rangeStart = Math.round((Date.now() - startdelta).valueOf() / 1000);
     rangeEnd = Math.round(Date.now().valueOf() / 1000);
@@ -44,9 +46,7 @@ function setRelative(startdelta) {
 if (params.get('timerangetype') === 'explicit') {
     rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
     rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
-}
-
-if (params.get('timerangetype') === 'relative') {
+} else if (params.get('timerangetype') === 'relative') {
     var rel = params.get('relativetime');
 
     if (rel == '30min') {
@@ -79,6 +79,10 @@ if (params.get('timerangetype') === 'relative') {
     if (rel == '365d') {
         setRelative(1000 * 60 * 60 * 24 * 365);
     }
+} else {
+    setRelative(1000 * 60 * 60 * 24);
+
+    error_no_timetype_select = true;
 }
 
 const timeinterval = params.get('timeinterval');
@@ -215,6 +219,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
             error_ds_no__time: [],
             error_no_dash: false,
             error_invalid_interval: error_invalid_interval,
+            error_no_timetype_select: error_no_timetype_select,
             warn_inputs_exist: [],
             openPanelId: 2,
             openInputsPanelId: 2,
@@ -618,16 +623,28 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                         paddingBottom: '10px',
                                     }}
                                 >
-                                    <Heading style={textStyle} level={2}>
-                                        {' '}
-                                        Selected Interval:{' '}
-                                    </Heading>
+                                    {this.state.hasNotBeenFetched == true ? (
+                                        <></>
+                                    ) : (
+                                        <>
+                                            <Heading style={textStyle} level={2}>
+                                                {' '}
+                                                Selected Interval:{' '}
+                                            </Heading>
 
-                                    <P style={textStyle}>
-                                        {format(this.state.selectedInterval[0], 'MM/dd/yyyy HH:mm')}{' '}
-                                        through{' '}
-                                        {format(this.state.selectedInterval[1], 'MM/dd/yyyy HH:mm')}{' '}
-                                    </P>
+                                            <P style={textStyle}>
+                                                {format(
+                                                    this.state.selectedInterval[0],
+                                                    'MM/dd/yyyy HH:mm'
+                                                )}{' '}
+                                                through{' '}
+                                                {format(
+                                                    this.state.selectedInterval[1],
+                                                    'MM/dd/yyyy HH:mm'
+                                                )}{' '}
+                                            </P>
+                                        </>
+                                    )}
 
                                     <SidePanel
                                         open={this.state.leftOpen}
@@ -733,12 +750,24 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                             ) : (
                                                 <></>
                                             )}
+                                            {this.state.error_no_timetype_select ? (
+                                                <>
+                                                    <Message type="error">
+                                                        Missing time type selector. Please go back
+                                                        to the start and select a time type.
+                                                    </Message>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
                                     </SidePanel>
-                                    {this.state.error_ds_no__time.length > 0 ||
-                                    this.state.error_no_dash ||
-                                    this.state.error_invalid_interval ||
-                                    this.state.warn_inputs_exist.length > 0 ? (
+                                    {(this.state.error_ds_no__time.length > 0 ||
+                                        this.state.error_no_dash ||
+                                        this.state.error_invalid_interval ||
+                                        this.state.error_no_timetype_select ||
+                                        this.state.warn_inputs_exist.length > 0) &&
+                                    this.state.hasNotBeenFetched == false ? (
                                         <Button
                                             key="left"
                                             onClick={this.openLeftPanel}
@@ -749,6 +778,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                                         this.state.error_ds_no__time.length +
                                                             this.state.error_no_dash +
                                                             this.state.error_invalid_interval +
+                                                            this.state.error_no_timetype_select +
                                                             this.state.warn_inputs_exist.length
                                                     )}
                                                 </>
@@ -758,11 +788,16 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                     ) : (
                                         <></>
                                     )}
-                                    <Button
-                                        key="left"
-                                        onClick={this.openLeftPanel}
-                                        label="Configure"
-                                    />
+
+                                    {this.state.hasNotBeenFetched == true ? (
+                                        <></>
+                                    ) : (
+                                        <Button
+                                            key="left"
+                                            onClick={this.openLeftPanel}
+                                            label="Configure"
+                                        />
+                                    )}
                                 </td>
                                 <td
                                     style={{
@@ -773,15 +808,19 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                         paddingBottom: '0px',
                                     }}
                                 >
-                                    <TimeRange
-                                        error={this.state.error}
-                                        step={step}
-                                        selectedInterval={selectedInterval}
-                                        timelineInterval={timelineInterval}
-                                        onUpdateCallback={this.errorHandler}
-                                        onChangeCallback={this.onChangeCallback}
-                                        disabledIntervals={disabledIntervals}
-                                    />
+                                    {this.state.hasNotBeenFetched == true ? (
+                                        <></>
+                                    ) : (
+                                        <TimeRange
+                                            error={this.state.error}
+                                            step={step}
+                                            selectedInterval={selectedInterval}
+                                            timelineInterval={timelineInterval}
+                                            onUpdateCallback={this.errorHandler}
+                                            onChangeCallback={this.onChangeCallback}
+                                            disabledIntervals={disabledIntervals}
+                                        />
+                                    )}
                                 </td>
                             </tr>
 
