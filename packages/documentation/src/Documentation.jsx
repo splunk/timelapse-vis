@@ -224,7 +224,9 @@ class Documentation extends Component {
                                             to view the timelapse.
                                         </List.Item>
                                         <List.Item>
-                                            Your dashboard should be shared globally.{' '}
+                                            Your dashboard and any associated knowledge objects
+                                            should be shared globally so that this app can read
+                                            them.{' '}
                                         </List.Item>
                                     </List>
                                 </strong>
