@@ -110,6 +110,47 @@ class Documentation extends Component {
                                             theme (string, currently accepts "light" and "dark")
                                         </List.Item>
                                     </List>
+
+                                    <Heading level={4}>Data Source Options</Heading>
+
+                                    <List type="decimal">
+                                        <List.Item>
+                                            <strong>timelapseMethod</strong> - This option can be
+                                            placed in your datasource options. Valid values are
+                                            "capAt", "nullAfter", and "selectLast".{' '}
+                                        </List.Item>
+
+                                        <List type="lower-alpha">
+                                            <List.Item>
+                                                capAt - see image below for how this functions. This
+                                                is one stylistic choice for visualizations like line
+                                                charts.{' '}
+                                                <img
+                                                    style={{ width: '100%' }}
+                                                    src="/static/app/splunk-timelapse-visualizations/capAt.gif"
+                                                ></img>
+                                            </List.Item>
+                                            <List.Item>
+                                                nullAfter - see image below for how this functions.
+                                                This is another stylistic choice for visualizations
+                                                like line charts.{' '}
+                                                <img
+                                                    style={{ width: '100%' }}
+                                                    src="/static/app/splunk-timelapse-visualizations/nullAfter.gif"
+                                                ></img>
+                                            </List.Item>
+                                            <List.Item>
+                                                selectLast - This is a function we implemented for
+                                                large/complex SVGs. It's highly recommend for
+                                                performance reasons. This function will also require
+                                                you to set another parameter "paths_count"
+                                                <img
+                                                    style={{ width: '100%' }}
+                                                    src="/static/app/splunk-timelapse-visualizations/selectLast.png"
+                                                ></img>
+                                            </List.Item>
+                                        </List>
+                                    </List>
                                 </ColumnLayout.Column>
                                 <ColumnLayout.Column span={6} style={colStyle}>
                                     <Heading level={3}>Rangeslider</Heading>
@@ -176,11 +217,19 @@ class Documentation extends Component {
                         <List type="decimal">
                             <List.Item>
                                 <strong>
-                                    Dashboard permissions should be set appropriately for the users
-                                    of your timelapse or rangeslider dashboard.
+                                    Dashboard permissions should be set appropriately.
+                                    <List type="decimal">
+                                        <List.Item>
+                                            Your dashboard should be accessible by the user trying
+                                            to view the timelapse.
+                                        </List.Item>
+                                        <List.Item>
+                                            Your dashboard should be shared globally.{' '}
+                                        </List.Item>
+                                    </List>
                                 </strong>
-                                &nbsp;For example, if you have a private it will not work for all
-                                users.
+                                &nbsp;For example, if you have a private dashboard it will not work
+                                for all users.
                             </List.Item>
                             <List.Item>
                                 <strong>All searches should have a valid _time field.</strong>
@@ -195,8 +244,8 @@ class Documentation extends Component {
                             </List.Item>
                             <List.Item>
                                 <strong>
-                                    All searches should return all iterations of the data that will
-                                    show-up in the timelapse or rangeslider.
+                                    All searches should return all iterations of the data that you
+                                    want to show-up in the timelapse or rangeslider.
                                 </strong>
                                 <br />
                                 For example a single value for a regular dashboard might be based on
@@ -238,6 +287,20 @@ class Documentation extends Component {
                                     </tbody>
                                 </table>
                                 <br />
+                            </List.Item>
+                            <List.Item>
+                                <strong>
+                                    <strong>Performance Tip</strong> Proceed with caution when
+                                    creating searches. If you have very dense search results, your
+                                    dashboard may not perform as well as you want.
+                                </strong>
+                                <br />
+                                For example, if you want to look at the latest values of each
+                                country on a map, broken down into 15 minute increments, over 7
+                                years - this will not perform as well as looking at the average
+                                value for an entire year for each country over 7 years. You would be
+                                scrubbing through 245280 search results for each country, versus 7
+                                search results for each country.
                             </List.Item>
                             <List.Item>
                                 <strong>

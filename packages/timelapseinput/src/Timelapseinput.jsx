@@ -402,6 +402,7 @@ class TimelapseControls extends React.Component {
                     search: query,
                     earliest_time: earliest,
                     latest_time: latest,
+                    options: { test: 'foo' },
                 })
                     .getResults({ output_mode: 'json_cols', count: 0 })
                     .first()
@@ -410,6 +411,7 @@ class TimelapseControls extends React.Component {
                 var defUpdate = this.state.def;
 
                 defUpdate.dataSources[this.state.currentds].options = {
+                    ...this.state.def.dataSources[this.state.currentds].options,
                     data: {
                         fields: results.fields,
                         columns: results.columns,
