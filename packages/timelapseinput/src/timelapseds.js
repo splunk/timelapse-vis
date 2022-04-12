@@ -9,6 +9,19 @@ function capAt(fields, columns, timeColIdx, untilRow) {
     );
 }
 
+function selectLast(fields, columns, timeColIdx, untilRow, count) {
+    console.log(
+        DataSet.fromJSONCols(
+            fields,
+            columns.map((c) => c.slice(untilRow - count, untilRow))
+        )
+    );
+    return DataSet.fromJSONCols(
+        fields,
+        columns.map((c) => c.slice(untilRow - count, untilRow))
+    );
+}
+
 function nullAfter(fields, columns, timeColIdx, untilRow) {
     return DataSet.fromJSONCols(
         fields,
@@ -26,6 +39,16 @@ export default class TimelapseDataSource extends DataSource {
         super(options, context);
         this.uri = options.uri;
         this.data = options.data;
+        if (options.hasOwnProperty('timelapseMethod')) {
+            this.timelapseMethod = options.timelapseMethod;
+        } else {
+            this.timelapseMethod = 'capAt';
+        }
+        if (options.hasOwnProperty('paths_count')) {
+            this.paths_count = options.paths_count;
+        } else {
+            this.paths_count = 1;
+        }
     }
 
     request(options) {
@@ -39,17 +62,47 @@ export default class TimelapseDataSource extends DataSource {
 
             const updateUntilTime = ([time]) => {
                 const t = globalTime._cur;
-                console.log(new Date(time));
                 let untilRow = parsedTimes.findIndex((v) => v > t);
-                console.log(untilRow);
+
                 if (untilRow < 0) {
                     untilRow = Infinity;
                 }
-                const fn = capAt;
-                observer.next({
-                    data: fn(this.data.fields, this.data.columns, timeFieldIdx, untilRow),
-                    meta: {},
-                });
+
+                if (this.timelapseMethod == 'selectLast') {
+                    console.log('Found Select At');
+                    observer.next({
+                        data: selectLast(
+                            this.data.fields,
+                            this.data.columns,
+                            timeFieldIdx,
+                            untilRow,
+                            this.paths_count
+                        ),
+                        meta: {},
+                    });
+                } else if (this.timelapseMethod == 'capAt') {
+                    console.log('Found Cap At');
+                    observer.next({
+                        data: capAt(this.data.fields, this.data.columns, timeFieldIdx, untilRow),
+                        meta: {},
+                    });
+                } else if (this.timelapseMethod == 'nullAfter') {
+                    console.log('Found Null After');
+                    observer.next({
+                        data: nullAfter(
+                            this.data.fields,
+                            this.data.columns,
+                            timeFieldIdx,
+                            untilRow
+                        ),
+                        meta: {},
+                    });
+                } else {
+                    observer.next({
+                        data: capAt(this.data.fields, this.data.columns, timeFieldIdx, untilRow),
+                        meta: {},
+                    });
+                }
             };
 
             onabortCallbacks.push(globalTime.subscribeToTimeSpan(updateUntilTime));

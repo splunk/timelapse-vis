@@ -100,7 +100,6 @@ class GlobalTime {
 
     timeSpanAt(idx) {
         if (idx != null) {
-            console.log(this._times.length);
             idx = Math.max(0, Math.min(this._times.length - 1, Math.floor(idx)));
             const start = this._times[idx];
             if (start != null) {
@@ -137,9 +136,6 @@ class GlobalTime {
     }
 
     setTime(time) {
-        console.log(time);
-        console.log(new Date(time));
-
         if (time !== this._cur) {
             this._cur = time;
             this.notify();
