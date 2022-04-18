@@ -10,12 +10,6 @@ function capAt(fields, columns, timeColIdx, untilRow) {
 }
 
 function selectLast(fields, columns, timeColIdx, untilRow, count) {
-    console.log(
-        DataSet.fromJSONCols(
-            fields,
-            columns.map((c) => c.slice(untilRow - count, untilRow))
-        )
-    );
     return DataSet.fromJSONCols(
         fields,
         columns.map((c) => c.slice(untilRow - count, untilRow))
@@ -78,13 +72,13 @@ export default class TimelapseDataSource extends DataSource {
                             untilRow,
                             this.paths_count
                         ),
-                        meta: {},
+                        meta: { status: 'done', totalCount: 1 },
                     });
                 } else if (this.timelapseMethod == 'capAt') {
                     console.log('Found Cap At');
                     observer.next({
                         data: capAt(this.data.fields, this.data.columns, timeFieldIdx, untilRow),
-                        meta: {},
+                        meta: { status: 'done', totalCount: 1 },
                     });
                 } else if (this.timelapseMethod == 'nullAfter') {
                     console.log('Found Null After');
@@ -95,12 +89,12 @@ export default class TimelapseDataSource extends DataSource {
                             timeFieldIdx,
                             untilRow
                         ),
-                        meta: {},
+                        meta: { status: 'done', totalCount: 1 },
                     });
                 } else {
                     observer.next({
                         data: capAt(this.data.fields, this.data.columns, timeFieldIdx, untilRow),
-                        meta: {},
+                        meta: { status: 'done', totalCount: 1 },
                     });
                 }
             };
