@@ -276,9 +276,16 @@ class DashboardSelector extends Component {
                                     <Heading level={2}>
                                         This app will allow you to generate dashboards with custom
                                         time inputs. If you have any questions, please visit the{' '}
-                                        <Link to="/documentation">Documentation</Link>. There you
-                                        will find performance tips, as well as features that are,
-                                        and are not, supported.
+                                        <Link
+                                            to={
+                                                window.location.href.replace(/[^\/]+$/, '') +
+                                                'documentation'
+                                            }
+                                        >
+                                            documentation
+                                        </Link>
+                                        . There you will find performance tips, as well as features
+                                        that are, and are not, supported.
                                     </Heading>
                                 </ColumnLayout.Column>
                             </ColumnLayout.Row>
