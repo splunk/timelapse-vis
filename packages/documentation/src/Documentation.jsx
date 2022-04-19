@@ -73,7 +73,7 @@ class Documentation extends Component {
                                         <Link
                                             target="_blank"
                                             to={
-                                                'timelapse?theme=dark&dashboardid=timelapse_demo&timeinterval=days&timerangetype=relative&relativetime=180d'
+                                                'timelapse?theme=dark&dashboardid=timelapse_demo&timeinterval=days&timerangetype=relative&relativetime=180d&tz=GMT'
                                             }
                                         >
                                             View a Demo Here
@@ -167,7 +167,7 @@ class Documentation extends Component {
                                         <Link
                                             target="_blank"
                                             to={
-                                                'rangeslider?dashboardid=timelapse_demo&timeinterval=days&theme=dark&timerangetype=relative&relativetime=180d'
+                                                'rangeslider?dashboardid=timelapse_demo&timeinterval=days&theme=dark&timerangetype=relative&relativetime=180d&tz=GMT'
                                             }
                                         >
                                             View a Demo Here
