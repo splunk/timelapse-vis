@@ -14,6 +14,7 @@
     "stylelint": "stylelint \"src/**/*.{js,jsx}\" --config stylelint.config.js"
   },
   "dependencies": {
+    "@splunk/splunk-utils": "^2.1.0",
     "css-loader": "5.2.7",
     "style-loader": "2.0.0"
   },

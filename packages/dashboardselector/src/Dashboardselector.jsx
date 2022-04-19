@@ -29,7 +29,34 @@ class DashboardSelector extends Component {
             timetype: '',
             relativetime: '',
             rangeRelativeOpen: false,
+            realname: '',
+            tz: '',
         };
+
+        const qs = (obj) =>
+            Object.entries(obj)
+                .map(([name, value]) => `${encodeURIComponent(name)}=${encodeURIComponent(value)}`)
+                .join('&');
+        var response = fetch(
+            `/splunkd/services/authentication/current-context?${qs({
+                output_mode: 'json',
+                count: 0,
+                offset: 0,
+            })}`,
+            { credentials: 'include' }
+        )
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data.entry[0]['content']);
+                this.setState({ tz: data.entry[0]['content']['tz'] });
+                this.setState({ realname: data.entry[0]['content']['realname'] });
+            })
+            .catch((e) => {
+                console.error('Error during user info retrieval/parsing', e);
+            });
+
         this.handleChangePickerType = this.handleChangePickerType.bind(this);
         this.handleTimeType = this.handleTimeType.bind(this);
         this.handleRelativeTime = this.handleRelativeTime.bind(this);
@@ -78,13 +105,13 @@ class DashboardSelector extends Component {
 
     startChange(event) {
         this.setState({
-            rangeStart: event.target.value + ' 00:00:00',
+            rangeStart: event.target.value + ' 00:00:00 ' + this.state.tz,
         });
     }
 
     endChange(event) {
         this.setState({
-            rangeEnd: event.target.value + ' 00:00:00',
+            rangeEnd: event.target.value + ' 00:00:00 ' + this.state.tz,
         });
     }
 
@@ -154,7 +181,9 @@ class DashboardSelector extends Component {
             '&timerangetype=' +
             encodeURIComponent(this.state.timetype) +
             '&relativetime=' +
-            encodeURIComponent(this.state.relativetime);
+            encodeURIComponent(this.state.relativetime) +
+            '&tz=' +
+            encodeURIComponent(this.state.tz);
 
         const colStyle = {
             border: `0px solid`,
@@ -238,6 +267,14 @@ class DashboardSelector extends Component {
                 <div style={{ width: '100%' }}>
                     <StyledContainer style={{ width: '100%' }}>
                         <ColumnLayout gutter={1} style={{ width: '100%' }}>
+                            <ColumnLayout.Row>
+                                <ColumnLayout.Column style={colStyle} span={5}>
+                                    <Heading level={1}>
+                                        Welcome {this.state.realname},
+                                        <br />
+                                    </Heading>
+                                </ColumnLayout.Column>
+                            </ColumnLayout.Row>
                             <ColumnLayout.Row>
                                 <ColumnLayout.Column style={colStyle} span={5}>
                                     <Heading level={2}>

@@ -8,7 +8,6 @@ import Heading from '@splunk/react-ui/Heading';
 layout(
     <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
         <StyledContainer>
-            <Heading level={1}>Welcome to the Rangeslider and Timelapse Visualizations</Heading>
             <div style={{ width: '100%' }}>
                 <DashboardSelector />
             </div>

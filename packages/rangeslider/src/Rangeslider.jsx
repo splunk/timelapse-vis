@@ -44,6 +44,7 @@ function setRelative(startdelta) {
     rangeEnd = Math.round(Date.now().valueOf() / 1000);
 }
 
+var tz = params.get('tz');
 if (params.get('timerangetype') === 'explicit') {
     rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
     rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
@@ -205,11 +206,9 @@ class SplunkTimeRangeSliderInput extends React.Component {
             startTime: rangeStart,
             endTime: rangeEnd,
             def: {},
-
             time: rangeStart * 1000,
             def: this.props.dash.props.definition,
             playbackMultiplier: '4',
-            displayValue: 'All-Time',
             value: 1,
             hasNotBeenFetched: true,
             dataSources: {},
@@ -561,6 +560,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
     };
 
     render() {
+        console.log(this.state.selectedInterval[0]);
         const colStyle = {
             border: `0px solid black`,
             padding: 10,
@@ -634,15 +634,13 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                             </Heading>
 
                                             <P style={textStyle}>
-                                                {format(
-                                                    this.state.selectedInterval[0],
-                                                    'MM/dd/yyyy HH:mm'
-                                                )}{' '}
+                                                {new Date(
+                                                    this.state.selectedInterval[0]
+                                                ).toLocaleString('en-US', { timeZone: tz })}{' '}
                                                 through{' '}
-                                                {format(
-                                                    this.state.selectedInterval[1],
-                                                    'MM/dd/yyyy HH:mm'
-                                                )}{' '}
+                                                {new Date(
+                                                    this.state.selectedInterval[1]
+                                                ).toLocaleString('en-US', { timeZone: tz })}{' '}
                                             </P>
                                         </>
                                     )}
@@ -824,6 +822,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                             onUpdateCallback={this.errorHandler}
                                             onChangeCallback={this.onChangeCallback}
                                             disabledIntervals={disabledIntervals}
+                                            formatTick={(ms) => format(new Date(ms), ' ')}
                                         />
                                     )}
                                 </td>

@@ -109,6 +109,10 @@ class Documentation extends Component {
                                         <List.Item>
                                             theme (string, currently accepts "light" and "dark")
                                         </List.Item>
+                                        <List.Item>
+                                            tz (string) this is the tz used for displaying the time
+                                            value.
+                                        </List.Item>
                                     </List>
 
                                     <Heading level={4}>Data Source Options</Heading>
@@ -198,6 +202,10 @@ class Documentation extends Component {
                                         </List.Item>
                                         <List.Item>
                                             theme (string, currently accepts "light" and "dark")
+                                        </List.Item>
+                                        <List.Item>
+                                            tz (string) this is the tz used for displaying the time
+                                            value.
                                         </List.Item>
                                     </List>
                                 </ColumnLayout.Column>
@@ -292,9 +300,10 @@ class Documentation extends Component {
                             </List.Item>
                             <List.Item>
                                 <strong>
-                                    <strong>Performance Tip</strong> Proceed with caution when
-                                    creating searches. If you have very dense search results, your
-                                    dashboard may not perform as well as you want.
+                                    <strong>Performance Tip</strong> <br />
+                                    Proceed with caution when creating searches. If you have very
+                                    dense search results, your dashboard may not perform as well as
+                                    you want when using some visualizations
                                 </strong>
                                 <br />
                                 For example, if you want to look at the latest values of each
@@ -392,6 +401,25 @@ class Documentation extends Component {
                                 searches in your dashboard, and allow you to scrub through that
                                 cached data. As a result, we currently do not support chain
                                 searches.
+                            </List.Item>
+                            <br />
+                            <List.Item>
+                                <strong>
+                                    Ensure your searches are only returning the data you need for
+                                    your timelapse.
+                                </strong>
+                                <br />
+                                If you only want to timelapse data from March 22nd through March
+                                23rd, do not have your underlying searches searching through any
+                                more data than that. This will force the timelapse to parse through
+                                more data than it needs to, and result in performance degredation.
+                            </List.Item>
+                            <br />
+                            <List.Item>
+                                <strong>Be cognizant of your timezones.</strong>
+                                <br />
+                                Our custom time inputs are going to generate times based on the
+                                users currently selected timezone.
                             </List.Item>
                         </List>
                     </SplunkThemeProvider>

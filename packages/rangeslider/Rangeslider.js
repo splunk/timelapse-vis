@@ -2059,6 +2059,8 @@ function setRelative(startdelta) {
   rangeEnd = Math.round(Date.now().valueOf() / 1000);
 }
 
+var tz = params.get('tz');
+
 if (params.get('timerangetype') === 'explicit') {
   rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
   rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
@@ -2664,7 +2666,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
       hasNotBeenFetched: true,
       startTime: rangeStart,
       endTime: rangeEnd
-    }, _defineProperty(_this$state, "def", {}), _defineProperty(_this$state, "time", rangeStart * 1000), _defineProperty(_this$state, "def", _this.props.dash.props.definition), _defineProperty(_this$state, "playbackMultiplier", '4'), _defineProperty(_this$state, "displayValue", 'All-Time'), _defineProperty(_this$state, "value", 1), _defineProperty(_this$state, "hasNotBeenFetched", true), _defineProperty(_this$state, "dataSources", {}), _defineProperty(_this$state, "width", 0), _defineProperty(_this$state, "height", 0), _defineProperty(_this$state, "dark", darktheme), _defineProperty(_this$state, "leftOpen", false), _defineProperty(_this$state, "error_ds_no__time", []), _defineProperty(_this$state, "error_no_dash", false), _defineProperty(_this$state, "error_invalid_interval", error_invalid_interval), _defineProperty(_this$state, "error_no_timetype_select", error_no_timetype_select), _defineProperty(_this$state, "warn_inputs_exist", []), _defineProperty(_this$state, "openPanelId", 2), _defineProperty(_this$state, "openInputsPanelId", 2), _defineProperty(_this$state, "numberOfSearches", 0), _defineProperty(_this$state, "numberOfSearchesComplete", 0), _defineProperty(_this$state, "dashboardID", params.get('dashboardid')), _this$state);
+    }, _defineProperty(_this$state, "def", {}), _defineProperty(_this$state, "time", rangeStart * 1000), _defineProperty(_this$state, "def", _this.props.dash.props.definition), _defineProperty(_this$state, "playbackMultiplier", '4'), _defineProperty(_this$state, "value", 1), _defineProperty(_this$state, "hasNotBeenFetched", true), _defineProperty(_this$state, "dataSources", {}), _defineProperty(_this$state, "width", 0), _defineProperty(_this$state, "height", 0), _defineProperty(_this$state, "dark", darktheme), _defineProperty(_this$state, "leftOpen", false), _defineProperty(_this$state, "error_ds_no__time", []), _defineProperty(_this$state, "error_no_dash", false), _defineProperty(_this$state, "error_invalid_interval", error_invalid_interval), _defineProperty(_this$state, "error_no_timetype_select", error_no_timetype_select), _defineProperty(_this$state, "warn_inputs_exist", []), _defineProperty(_this$state, "openPanelId", 2), _defineProperty(_this$state, "openInputsPanelId", 2), _defineProperty(_this$state, "numberOfSearches", 0), _defineProperty(_this$state, "numberOfSearchesComplete", 0), _defineProperty(_this$state, "dashboardID", params.get('dashboardid')), _this$state);
 
     _this.fetchDefinition();
 
@@ -2788,6 +2790,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      console.log(this.state.selectedInterval[0]);
       var colStyle = {
         border: "0px solid black",
         padding: 10,
@@ -2848,7 +2851,11 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         level: 2
       }, ' ', "Selected Interval:", ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Paragraph__WEBPACK_IMPORTED_MODULE_7___default.a, {
         style: textStyle
-      }, Object(date_fns__WEBPACK_IMPORTED_MODULE_15__["format"])(this.state.selectedInterval[0], 'MM/dd/yyyy HH:mm'), ' ', "through", ' ', Object(date_fns__WEBPACK_IMPORTED_MODULE_15__["format"])(this.state.selectedInterval[1], 'MM/dd/yyyy HH:mm'), ' ')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default.a, {
+      }, new Date(this.state.selectedInterval[0]).toLocaleString('en-US', {
+        timeZone: tz
+      }), ' ', "through", ' ', new Date(this.state.selectedInterval[1]).toLocaleString('en-US', {
+        timeZone: tz
+      }), ' ')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_SidePanel__WEBPACK_IMPORTED_MODULE_12___default.a, {
         open: this.state.leftOpen,
         dockPosition: "left",
         onRequestClose: this.handleRequestClose,
@@ -2921,7 +2928,10 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         timelineInterval: timelineInterval,
         onUpdateCallback: this.errorHandler,
         onChangeCallback: this.onChangeCallback,
-        disabledIntervals: disabledIntervals
+        disabledIntervals: disabledIntervals,
+        formatTick: function formatTick(ms) {
+          return Object(date_fns__WEBPACK_IMPORTED_MODULE_15__["format"])(new Date(ms), ' ');
+        }
       }))), this.state.hasNotBeenFetched && this.state.error_no_dash != true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
         colSpan: "2",
         style: _objectSpread(_objectSpread({}, colStyle), {}, {
