@@ -42,6 +42,8 @@ function setRelative(startdelta) {
     rangeEnd = Math.round(Date.now().valueOf() / 1000);
 }
 
+var tz = params.get('tz');
+
 if (params.get('timerangetype') === 'explicit') {
     rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
     globalTime.setStart(rangeStart);
@@ -525,7 +527,7 @@ class TimelapseControls extends React.Component {
                 let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
                 return ye;
             } else {
-                let d = new Date(value).toLocaleString();
+                let d = new Date(value).toLocaleString('en-US', { timeZone: tz });
                 return d;
             }
         } else {
@@ -868,10 +870,10 @@ class TimelapseControls extends React.Component {
                                             defaultValue={this.state.startTime * 1000}
                                             minLabel={new Date(
                                                 this.state.startTime * 1000
-                                            ).toLocaleString()}
+                                            ).toLocaleString('en-US', { timeZone: tz })}
                                             maxLabel={new Date(
                                                 this.state.endTime * 1000
-                                            ).toLocaleString()}
+                                            ).toLocaleString('en-US', { timeZone: tz })}
                                         />
                                     )}
                                 </td>
