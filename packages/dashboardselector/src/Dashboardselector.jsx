@@ -273,12 +273,21 @@ class DashboardSelector extends Component {
                                         Welcome {this.state.realname},
                                         <br />
                                     </Heading>
+                                    <Heading level={2}>
+                                        This app will allow you to generate dashboards with custom
+                                        time inputs. If you have any questions, please visit the{' '}
+                                        <Link to="/documentation">Documentation</Link>. There you
+                                        will find performance tips, as well as features that are,
+                                        and are not, supported.
+                                    </Heading>
                                 </ColumnLayout.Column>
                             </ColumnLayout.Row>
                             <ColumnLayout.Row>
                                 <ColumnLayout.Column style={colStyle} span={5}>
                                     <Heading level={2}>
-                                        Use the following form to build your custom dashboard URL:
+                                        If you understand how to use this app, than you can get
+                                        started by using the following form to build your custom
+                                        dashboard URL:
                                     </Heading>
                                 </ColumnLayout.Column>
                             </ColumnLayout.Row>
