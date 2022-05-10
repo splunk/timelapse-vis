@@ -8,6 +8,7 @@ import P from '@splunk/react-ui/Paragraph';
 import InfoCircle from '@splunk/react-icons/InfoCircle';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
+import List from '@splunk/react-ui/List';
 
 import Link from '@splunk/react-ui/Link';
 import { SplunkThemeProvider } from '@splunk/themes';
@@ -31,6 +32,7 @@ class DashboardSelector extends Component {
             rangeRelativeOpen: false,
             realname: '',
             tz: '',
+            rangeInfoOpen: false,
         };
 
         const qs = (obj) =>
@@ -67,6 +69,9 @@ class DashboardSelector extends Component {
 
         this.handleRangeStartOpen = this.handleRangeStartOpen.bind(this);
         this.handleRangeStartClose = this.handleRangeStartClose.bind(this);
+
+        this.handleRangeInfoOpen = this.handleRangeInfoOpen.bind(this);
+        this.handleRangeInfoClose = this.handleRangeInfoClose.bind(this);
 
         this.handleRangeEndOpen = this.handleRangeEndOpen.bind(this);
         this.handleRangeEndClose = this.handleRangeEndClose.bind(this);
@@ -127,6 +132,13 @@ class DashboardSelector extends Component {
     }
     handleRangeStartClose() {
         this.setState({ rangeStartOpen: false });
+    }
+
+    handleRangeInfoOpen() {
+        this.setState({ rangeInfoOpen: true });
+    }
+    handleRangeInfoClose() {
+        this.setState({ rangeInfoOpen: false });
     }
 
     handleRangeEndOpen() {
@@ -309,6 +321,45 @@ class DashboardSelector extends Component {
                                     Select Type of Input:
                                 </ColumnLayout.Column>
                                 <ColumnLayout.Column style={colStyle}>
+                                    <Button
+                                        appearance={'pill'}
+                                        onClick={this.handleRangeInfoOpen}
+                                        label={<InfoCircle size={1.5} />}
+                                    />{' '}
+                                    <Modal
+                                        onRequestClose={this.handleRangeInfoClose}
+                                        open={this.state.rangeInfoOpen}
+                                    >
+                                        <Modal.Body>
+                                            <Heading level={2}>
+                                                The range of time for the timelapse.
+                                            </Heading>
+                                            <List>
+                                                <List.Item>Explicit</List.Item>
+                                                <List>
+                                                    <List.Item>
+                                                        Specifies exactly what the start and end
+                                                        time will be for the timelapse. Using this
+                                                        means that every time the dashboard is
+                                                        loaded, the timelapse will use the exact
+                                                        same start and end time.{' '}
+                                                    </List.Item>
+                                                </List>
+
+                                                <List.Item>Relative</List.Item>
+                                                <List>
+                                                    <List.Item>
+                                                        {' '}
+                                                        Specifies a relative start and end time for
+                                                        the timelapse. Using this will mean that
+                                                        every time the dashboard is loaded, the
+                                                        timelapse will use a time that is relative
+                                                        to the current time.{' '}
+                                                    </List.Item>
+                                                </List>
+                                            </List>
+                                        </Modal.Body>
+                                    </Modal>
                                     Select Time Range Type:
                                 </ColumnLayout.Column>
                                 {this.state.timetype === 'explicit' ? (
@@ -444,13 +495,16 @@ class DashboardSelector extends Component {
                                     <ListDashboards changehandler={this.handleDashboardIdChange} />
                                 </ColumnLayout.Column>
                                 <ColumnLayout.Column style={colStyle} span={1}>
-                                    <Select onChange={this.handleThemeSelect}>
+                                    <Select defaultValue="dark" onChange={this.handleThemeSelect}>
                                         <Select.Option value="dark" label="Dark Theme" />
                                         <Select.Option value="light" label="Light Theme" />
                                     </Select>
                                 </ColumnLayout.Column>
                                 <ColumnLayout.Column style={colStyle} span={1}>
-                                    <Select onChange={this.handleChangePickerType}>
+                                    <Select
+                                        defaultValue="timelapse"
+                                        onChange={this.handleChangePickerType}
+                                    >
                                         <Select.Option value="rangeslider" label="Range Slider" />
                                         <Select.Option value="timelapse" label="Timelapse" />
                                     </Select>

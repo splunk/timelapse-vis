@@ -69,15 +69,25 @@ class Documentation extends Component {
                                     <P>
                                         This input provides the ability to "scrub" through your
                                         data. You can playback data in forward, reverse, or even
-                                        pause your data playback.{' '}
+                                        pause your data playback. View a demo{' '}
                                         <Link
                                             target="_blank"
                                             to={
                                                 'timelapse?theme=dark&dashboardid=timelapse_demo&timeinterval=days&timerangetype=relative&relativetime=180d&tz=GMT'
                                             }
                                         >
-                                            View a Demo Here
+                                            here
+                                        </Link>{' '}
+                                        or{' '}
+                                        <Link
+                                            target="_blank"
+                                            to={
+                                                'timelapse?theme=dark&dashboardid=timelapse_security_demo&timeinterval=days&timerangetype=relative&relativetime=180d&tz=GMT'
+                                            }
+                                        >
+                                            here
                                         </Link>
+                                        .
                                     </P>
                                     <Heading level={4}>Link Parameters</Heading>
 
@@ -121,7 +131,7 @@ class Documentation extends Component {
                                         <List.Item>
                                             <strong>timelapseMethod</strong> - This option can be
                                             placed in your datasource options. Valid values are
-                                            "capAt", "nullAfter", and "selectLast".{' '}
+                                            "capAt", "nullAfter", "selectLast", and "none".{' '}
                                         </List.Item>
 
                                         <List type="lower-alpha">
@@ -151,6 +161,16 @@ class Documentation extends Component {
                                                 <img
                                                     style={{ width: '100%' }}
                                                     src="/static/app/splunk-timelapse-visualizations/selectLast.png"
+                                                ></img>
+                                            </List.Item>
+                                            <List.Item>
+                                                none - This will essentially "freeze" any panels
+                                                that the ds is attached to. For example, maybe you
+                                                want to timelapse most of the dashboard, but not
+                                                all.
+                                                <img
+                                                    style={{ width: '100%' }}
+                                                    src="/static/app/splunk-timelapse-visualizations/timelapse-none-ds.gif"
                                                 ></img>
                                             </List.Item>
                                         </List>

@@ -16,6 +16,10 @@ function selectLast(fields, columns, timeColIdx, untilRow, count) {
     );
 }
 
+function none(fields, columns, timeColIdx, untilRow, count) {
+    return DataSet.fromJSONCols(fields, columns);
+}
+
 function nullAfter(fields, columns, timeColIdx, untilRow) {
     return DataSet.fromJSONCols(
         fields,
@@ -62,8 +66,8 @@ export default class TimelapseDataSource extends DataSource {
                     untilRow = Infinity;
                 }
 
+                console.log(this);
                 if (this.timelapseMethod == 'selectLast') {
-                    console.log('Found Select At');
                     observer.next({
                         data: selectLast(
                             this.data.fields,
@@ -75,13 +79,16 @@ export default class TimelapseDataSource extends DataSource {
                         meta: { status: 'done', totalCount: 1 },
                     });
                 } else if (this.timelapseMethod == 'capAt') {
-                    console.log('Found Cap At');
                     observer.next({
                         data: capAt(this.data.fields, this.data.columns, timeFieldIdx, untilRow),
                         meta: { status: 'done', totalCount: 1 },
                     });
+                } else if (this.timelapseMethod == 'none') {
+                    observer.next({
+                        data: none(this.data.fields, this.data.columns),
+                        meta: { status: 'done', totalCount: 1 },
+                    });
                 } else if (this.timelapseMethod == 'nullAfter') {
-                    console.log('Found Null After');
                     observer.next({
                         data: nullAfter(
                             this.data.fields,
