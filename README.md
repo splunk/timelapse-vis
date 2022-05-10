@@ -52,7 +52,9 @@ For more granular control of development scripts, consider using [Lerna](https:/
 
 ## Packaging the app
 
-`tar -zcvh --exclude='local.meta' --exclude='.DS_Store' -f splunk-timelapse-visualizations.tar.gz splunk-timelapse-visualizations`
+On a Mac:
+
+`COPYFILE_DISABLE=true tar -zcvh --exclude='local/' --exclude='stage/' --exclude='local.meta' --exclude='.DS_Store' -f splunk-timelapse-visualizations.tar.gz splunk-timelapse-visualizations/`
 
 ## Code Formatting
 
