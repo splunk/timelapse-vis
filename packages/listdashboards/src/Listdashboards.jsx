@@ -48,9 +48,12 @@ export default class ListDashboards extends Component {
         const indexes = this.state.indexes;
         const itemRows = [];
 
+        var i = 0;
+
         for (let item of indexes) {
-            const row = <Select.Option value={item.title} label={item.title} />;
+            const row = <Select.Option key={i} value={item.title} label={item.title} />;
             itemRows.push(row);
+            i = i + 1;
         }
         return (
             <Select onChange={this.props.changehandler} id="dashboardid">
