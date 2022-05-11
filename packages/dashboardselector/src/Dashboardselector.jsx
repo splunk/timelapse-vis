@@ -5,6 +5,7 @@ import Select from '@splunk/react-ui/Select';
 import Heading from '@splunk/react-ui/Heading';
 import P from '@splunk/react-ui/Paragraph';
 
+import MessageBar from '@splunk/react-ui/MessageBar';
 import InfoCircle from '@splunk/react-icons/InfoCircle';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
@@ -31,8 +32,9 @@ class DashboardSelector extends Component {
             relativetime: '',
             rangeRelativeOpen: false,
             realname: '',
-            tz: '',
+            tz: 'GMT',
             rangeInfoOpen: false,
+            error_no_tz_set: false,
         };
 
         const qs = (obj) =>
@@ -51,8 +53,11 @@ class DashboardSelector extends Component {
                 return res.json();
             })
             .then((data) => {
-                console.log(data.entry[0]['content']);
-                this.setState({ tz: data.entry[0]['content']['tz'] });
+                if (data.entry[0]['content']['tz']) {
+                    this.setState({ tz: data.entry[0]['content']['tz'] });
+                } else {
+                    this.setState({ error_no_tz_set: true });
+                }
                 this.setState({ realname: data.entry[0]['content']['realname'] });
             })
             .catch((e) => {
@@ -279,6 +284,15 @@ class DashboardSelector extends Component {
                 <div style={{ width: '100%' }}>
                     <StyledContainer style={{ width: '100%' }}>
                         <ColumnLayout gutter={1} style={{ width: '100%' }}>
+                            {this.state.error_no_tz_set ? (
+                                <MessageBar type="warning" onRequestClose={() => {}}>
+                                    No timezone is set for the current user. Defaulting to GMT. For
+                                    best results, please set your TZ in User Preferences, and then
+                                    refresh this page.
+                                </MessageBar>
+                            ) : (
+                                <></>
+                            )}
                             <ColumnLayout.Row>
                                 <ColumnLayout.Column style={colStyle} span={5}>
                                     <Heading level={1}>
