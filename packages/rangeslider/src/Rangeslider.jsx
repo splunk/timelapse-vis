@@ -772,7 +772,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                         this.state.warn_inputs_exist.length > 0) &&
                                     this.state.hasNotBeenFetched == false ? (
                                         <Button
-                                            key="left"
+                                            key="notifications"
                                             onClick={this.openLeftPanel}
                                             label={
                                                 <>
@@ -796,7 +796,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                         <></>
                                     ) : (
                                         <Button
-                                            key="left"
+                                            key="configure"
                                             onClick={this.openLeftPanel}
                                             label="Configure"
                                         />
