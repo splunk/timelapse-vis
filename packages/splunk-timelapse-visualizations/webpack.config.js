@@ -19,6 +19,7 @@ module.exports = (env, argv) => {
         output: {
             path: path.join(__dirname, 'stage/appserver/static/pages/'),
             filename: '[name].js',
+            chunkFilename: "[name].js",
         },
         plugins: [
             new CopyWebpackPlugin([
