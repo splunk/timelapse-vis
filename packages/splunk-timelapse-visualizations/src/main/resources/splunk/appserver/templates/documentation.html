@@ -22,7 +22,8 @@
         </script>
 
         <% page_path = "/static/app/splunk-timelapse-visualizations/pages/" + page + ".js" %>
-
+        <% vendor_path = "/static/app/splunk-timelapse-visualizations/pages/vendor.js" %>
         <script src="${make_url(page_path)}"></script>
+        <script src="${make_url(vendor_path)}"></script>
     </body>
 </html>
