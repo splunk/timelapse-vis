@@ -2620,8 +2620,8 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                     for (n in definition_new.dataSources[v].options.data.columns) {
                       try {
                         definition_new.dataSources[v].options.data.columns[n] = definition_new.dataSources[v].options.data.columns[n].slice(indexes[0], indexes[indexes.length - 1]);
-                      } catch (error) {
-                        console.log('ERROR'); // expected output: ReferenceError: nonExistentFunction is not defined
+                      } catch (error) {//console.log('ERROR');
+                        // expected output: ReferenceError: nonExistentFunction is not defined
                         // Note - error messages will vary depending on browser
                       }
                     }
@@ -2718,8 +2718,8 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                 if (n != 'extend') {
                   try {
                     definition_new.dataSources[v].options.data.columns[n] = definition_new.dataSources[v].options.data.columns[n].slice(0, time);
-                  } catch (error) {
-                    console.log('ERROR'); // expected output: ReferenceError: nonExistentFunction is not defined
+                  } catch (error) {//console.log('ERROR');
+                    // expected output: ReferenceError: nonExistentFunction is not defined
                     // Note - error messages will vary depending on browser
                   }
                 }
@@ -2790,7 +2790,6 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      console.log(this.state.selectedInterval[0]);
       var colStyle = {
         border: "0px solid black",
         padding: 10,
@@ -2904,14 +2903,14 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
       }, "Missing time type selector. Please go back to the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Link__WEBPACK_IMPORTED_MODULE_13___default.a, {
         to: "/app/splunk-timelapse-visualizations/start"
       }, "start"), ' ', "and select a time type.")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null))), (this.state.error_ds_no__time.length > 0 || this.state.error_no_dash || this.state.error_invalid_interval || this.state.error_no_timetype_select || this.state.warn_inputs_exist.length > 0) && this.state.hasNotBeenFetched == false ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        key: "left",
+        key: "notifications",
         onClick: this.openLeftPanel,
         label: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_icons_Bell__WEBPACK_IMPORTED_MODULE_14___default.a, {
           size: 1.5
         }), " \xA0\xA0", String(this.state.error_ds_no__time.length + this.state.error_no_dash + this.state.error_invalid_interval + this.state.error_no_timetype_select + this.state.warn_inputs_exist.length)),
         appearance: "pill"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null), this.state.hasNotBeenFetched == true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_16___default.a.Fragment, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_react_ui_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        key: "left",
+        key: "configure",
         onClick: this.openLeftPanel,
         label: "Configure"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
@@ -2949,7 +2948,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
           textAlign: 'center',
           margin: 'auto'
         }
-      }, "Running Search ", this.state.numberOfSearchesComplete, "/", this.state.numberOfSearches), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
+      }, "Creating Rangeslider Datasource", ' ', this.state.numberOfSearchesComplete, "/", this.state.numberOfSearches), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement("td", {
         colSpan: "2",
         style: _objectSpread(_objectSpread({}, colStyle), {}, {
           width: '100%',
