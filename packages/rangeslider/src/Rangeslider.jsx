@@ -443,8 +443,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                             time
                                         );
                                 } catch (error) {
-                                    console.log('ERROR');
-
+                                    //console.log('ERROR');
                                     // expected output: ReferenceError: nonExistentFunction is not defined
                                     // Note - error messages will vary depending on browser
                                 }
@@ -541,8 +540,7 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                 indexes[indexes.length - 1]
                             );
                     } catch (error) {
-                        console.log('ERROR');
-
+                        //console.log('ERROR');
                         // expected output: ReferenceError: nonExistentFunction is not defined
                         // Note - error messages will vary depending on browser
                     }
@@ -560,7 +558,6 @@ class SplunkTimeRangeSliderInput extends React.Component {
     };
 
     render() {
-        console.log(this.state.selectedInterval[0]);
         const colStyle = {
             border: `0px solid black`,
             padding: 10,
@@ -852,8 +849,9 @@ class SplunkTimeRangeSliderInput extends React.Component {
                                                     margin: 'auto',
                                                 }}
                                             >
-                                                Running Search {this.state.numberOfSearchesComplete}
-                                                /{this.state.numberOfSearches}
+                                                Creating Rangeslider Datasource{' '}
+                                                {this.state.numberOfSearchesComplete}/
+                                                {this.state.numberOfSearches}
                                             </Heading>
                                             <br />
                                         </td>

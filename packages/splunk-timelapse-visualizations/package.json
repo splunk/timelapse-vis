@@ -4,6 +4,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "NODE_ENV=production webpack --bail",
+    "build_dev": "NODE_ENV=development webpack --bail",
     "eslint": "eslint src --ext \".js,.jsx\"",
     "eslint:ci": "yarn run eslint -f junit -o test-reports/lint-results.xml",
     "eslint:fix": "eslint src --ext \".js, .jsx\" --fix",

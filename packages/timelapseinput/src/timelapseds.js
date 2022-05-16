@@ -66,7 +66,6 @@ export default class TimelapseDataSource extends DataSource {
                     untilRow = Infinity;
                 }
 
-                console.log(this);
                 if (this.timelapseMethod == 'selectLast') {
                     observer.next({
                         data: selectLast(
