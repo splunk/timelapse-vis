@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { SplunkThemeProvider } from '@splunk/themes';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import { useSplunkTheme } from '@splunk/themes';
-import LightBulb from '@splunk/react-icons/LightBulb';
+import Lightbulb from '@splunk/react-icons/Lightbulb';
 
 class Documentation extends Component {
     render() {
@@ -233,7 +233,7 @@ class Documentation extends Component {
                         </ColumnLayout>
 
                         <Heading level={4}>
-                            <LightBulb style={{ color: 'yellow' }} size={2} />
+                            <Lightbulb style={{ color: 'yellow' }} size={2} />
                             &nbsp; &nbsp; &nbsp; Tips for Creating a Timelapse or Rangeslider
                             Dashboard
                         </Heading>

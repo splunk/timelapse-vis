@@ -18,7 +18,7 @@ import Bell from '@splunk/react-icons/Bell';
 
 import { format } from 'date-fns';
 import React from 'react';
-import TimeRange from 'react-timeline-range-slider';
+import TimeRange from '@marenaud/react-timeline-range-slider';
 import { SplunkThemeProvider } from '@splunk/themes';
 import SearchJob from '@splunk/search-job';
 
