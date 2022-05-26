@@ -315,6 +315,9 @@ class TimelapseControls extends React.Component {
                 if (viz.type === 'viz.img') {
                     viz.options.src = await downloadImage(viz.options.src, 'images');
                 }
+                if (viz.type === 'splunk.image') {
+                    viz.options.src = await downloadImage(viz.options.src, 'images');
+                }
                 if (viz.type === 'splunk.choropleth.svg') {
                     viz.options.svg = await downloadImage(viz.options.svg, 'images');
                 }
