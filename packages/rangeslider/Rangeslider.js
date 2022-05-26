@@ -2346,7 +2346,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
             case 7:
               if (!(_i < _Object$values.length)) {
-                _context.next = 40;
+                _context.next = 44;
                 break;
               }
 
@@ -2390,19 +2390,19 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
               viz.options.src = _context.sent;
 
             case 23:
-              if (!(viz.type === 'splunk.choropleth.svg')) {
+              if (!(viz.type === 'splunk.image')) {
                 _context.next = 27;
                 break;
               }
 
               _context.next = 26;
-              return downloadImage(viz.options.svg, 'images');
+              return downloadImage(viz.options.src, 'images');
 
             case 26:
-              viz.options.svg = _context.sent;
+              viz.options.src = _context.sent;
 
             case 27:
-              if (!(viz.type === 'viz.choropleth.svg')) {
+              if (!(viz.type === 'splunk.choropleth.svg')) {
                 _context.next = 31;
                 break;
               }
@@ -2414,41 +2414,53 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
               viz.options.svg = _context.sent;
 
             case 31:
-              _context.next = 37;
+              if (!(viz.type === 'viz.choropleth.svg')) {
+                _context.next = 35;
+                break;
+              }
+
+              _context.next = 34;
+              return downloadImage(viz.options.svg, 'images');
+
+            case 34:
+              viz.options.svg = _context.sent;
+
+            case 35:
+              _context.next = 41;
               break;
 
-            case 33:
-              _context.prev = 33;
+            case 37:
+              _context.prev = 37;
               _context.t0 = _context["catch"](10);
               console.log('Failed to load image with src: ' + src);
               console.log(_context.t0);
 
-            case 37:
+            case 41:
               _i++;
               _context.next = 7;
               break;
 
-            case 40:
+            case 44:
               if (!def.layout.options.backgroundImage) {
-                _context.next = 50;
+                _context.next = 54;
                 break;
               }
 
-              _context.prev = 41;
-              _context.next = 44;
+              _context.prev = 45;
+              _context.next = 48;
               return downloadImage(def.layout.options.backgroundImage.src, 'images');
 
-            case 44:
+            case 48:
               def.layout.options.backgroundImage.src = _context.sent;
-              _context.next = 50;
+              _context.next = 54;
               break;
 
-            case 47:
-              _context.prev = 47;
-              _context.t1 = _context["catch"](41);
+            case 51:
+              _context.prev = 51;
+              _context.t1 = _context["catch"](45);
               console.log(_context.t1);
 
-            case 50:
+            case 54:
               _this.setState({
                 def: def
               });
@@ -2475,9 +2487,9 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
               _context.t2 = regeneratorRuntime.keys(definition.dataSources);
 
-            case 56:
+            case 60:
               if ((_context.t3 = _context.t2()).done) {
-                _context.next = 77;
+                _context.next = 81;
                 break;
               }
 
@@ -2489,7 +2501,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
 
 
               if (!(definition.dataSources[_this.state.currentds].type == 'ds.search')) {
-                _context.next = 75;
+                _context.next = 79;
                 break;
               }
 
@@ -2520,7 +2532,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                 latest = 'now';
               }
 
-              _context.next = 70;
+              _context.next = 74;
               return _splunk_search_job__WEBPACK_IMPORTED_MODULE_19___default.a.create({
                 search: query,
                 earliest_time: earliest,
@@ -2530,7 +2542,7 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                 count: 0
               }).first().toPromise();
 
-            case 70:
+            case 74:
               results = _context.sent;
               defUpdate = _this.state.def;
               defUpdate.dataSources[_this.state.currentds].options = {
@@ -2552,11 +2564,11 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                 def: defUpdate
               });
 
-            case 75:
-              _context.next = 56;
+            case 79:
+              _context.next = 60;
               break;
 
-            case 77:
+            case 81:
               _this.setState({
                 defOrig: _this.state.def
               });
@@ -2565,12 +2577,12 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
                 hasNotBeenFetched: false
               });
 
-            case 79:
+            case 83:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[10, 33], [41, 47]]);
+      }, _callee, null, [[10, 37], [45, 51]]);
     })));
 
     _defineProperty(_assertThisInitialized(_this), "errorHandler", function (_ref2) {
@@ -2801,7 +2813,8 @@ var SplunkTimeRangeSliderInput = /*#__PURE__*/function (_React$Component) {
         textAlign: 'center'
       };
       var dash = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_dashboard_context__WEBPACK_IMPORTED_MODULE_0__["DashboardContextProvider"], {
-        geoRegistry: geoRegistry
+        geoRegistry: geoRegistry,
+        metricsCollectors: null
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_16___default.a.createElement(_splunk_dashboard_core__WEBPACK_IMPORTED_MODULE_3___default.a, {
         width: "100%",
         height: "calc(100vh - 78px)",
