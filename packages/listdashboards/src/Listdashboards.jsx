@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import Select from '@splunk/react-ui/Select';
+import PropTypes from 'prop-types'
 
 export default class ListDashboards extends Component {
+    static propTypes = {
+        changehandler: PropTypes.string.isRequired,
+    }
+
     constructor(props) {
         super(props);
         this.state = { indexes: [] };
         this.fetchIndexes();
     }
-
+    
     onCheck = (itemId) => {
-        const indexes = this.state.indexes;
+        const {indexes} = this.state;
         const item = indexes.find((currentItem) => currentItem.id === itemId);
         item.done = !item.done;
         this.setState({ indexes });
@@ -45,19 +50,12 @@ export default class ListDashboards extends Component {
     }
 
     render() {
-        const indexes = this.state.indexes;
-        const itemRows = [];
-
-        var i = 0;
-
-        for (let item of indexes) {
-            const row = <Select.Option key={i} value={item.title} label={item.title} />;
-            itemRows.push(row);
-            i = i + 1;
-        }
+        const {indexes} = this.state;
         return (
             <Select onChange={this.props.changehandler} id="dashboardid">
-                {itemRows}
+                {indexes.map(([key,item]) => (
+                    <Select.Option key={key} value={item.title} label={item.title} />
+                ))}
             </Select>
         );
     }

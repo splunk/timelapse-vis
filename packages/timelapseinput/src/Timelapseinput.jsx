@@ -1,4 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
+/* eslint-disable camelcase */
+import React from 'react';
 import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
@@ -16,7 +17,6 @@ import Message from '@splunk/react-ui/Message';
 import Accordion from '@splunk/react-ui/Accordion';
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 import SidePanel from '@splunk/react-ui/SidePanel';
-import TimelapseDataSource from './timelapseds';
 
 import TriangleRight from '@splunk/react-icons/TriangleRight';
 import TriangleLeft from '@splunk/react-icons/TriangleLeft';
@@ -26,23 +26,24 @@ import Bell from '@splunk/react-icons/Bell';
 import { SplunkThemeProvider } from '@splunk/themes';
 
 import SearchJob from '@splunk/search-job';
+import TimelapseDataSource from './timelapseds';
 import { globalTime } from './timecontext';
 
-var search = window.location.search;
+const {search} = window.location;
 const params = new URLSearchParams(search);
 
-var rangeStart = Math.round(Date.now().valueOf() / 1000);
-var rangeEnd = Math.round(Date.now().valueOf() / 1000);
+let rangeStart = Math.round(Date.now().valueOf() / 1000);
+let rangeEnd = Math.round(Date.now().valueOf() / 1000);
 
-var error_invalid_interval = false;
-var error_no_timetype_select = false;
+let error_invalid_interval = false;
+let error_no_timetype_select = false;
 
 function setRelative(startdelta) {
     rangeStart = Math.round((Date.now() - startdelta).valueOf() / 1000);
     rangeEnd = Math.round(Date.now().valueOf() / 1000);
 }
 
-var tz = params.get('tz');
+const tz = params.get('tz');
 
 if (params.get('timerangetype') === 'explicit') {
     rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
@@ -50,36 +51,36 @@ if (params.get('timerangetype') === 'explicit') {
     rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
     globalTime.setEnd(rangeEnd);
 } else if (params.get('timerangetype') === 'relative') {
-    var rel = params.get('relativetime');
+    const rel = params.get('relativetime');
 
-    if (rel == '30min') {
+    if (rel === '30min') {
         setRelative(1000 * 60 * 30);
     }
-    if (rel == '1h') {
+    if (rel === '1h') {
         setRelative(1000 * 60 * 60);
     }
-    if (rel == '6h') {
+    if (rel === '6h') {
         setRelative(1000 * 60 * 60 * 6);
     }
-    if (rel == '12h') {
+    if (rel === '12h') {
         setRelative(1000 * 60 * 60 * 12);
     }
-    if (rel == '1d') {
+    if (rel === '1d') {
         setRelative(1000 * 60 * 60 * 24);
     }
-    if (rel == '7d') {
+    if (rel === '7d') {
         setRelative(1000 * 60 * 60 * 24 * 7);
     }
-    if (rel == '14d') {
+    if (rel === '14d') {
         setRelative(1000 * 60 * 60 * 24 * 14);
     }
-    if (rel == '30d') {
+    if (rel === '30d') {
         setRelative(1000 * 60 * 60 * 24 * 30);
     }
-    if (rel == '180d') {
+    if (rel === '180d') {
         setRelative(1000 * 60 * 60 * 24 * 180);
     }
-    if (rel == '365d') {
+    if (rel === '365d') {
         setRelative(1000 * 60 * 60 * 24 * 365);
     }
 } else {
@@ -92,32 +93,33 @@ const timeinterval = params.get('timeinterval');
 
 let step = 1000 * 60 * 60 * 24;
 
-if (timeinterval == '1sec') {
+if (timeinterval === '1sec') {
     step = 1000;
     globalTime.setSpan(step);
-} else if (timeinterval == '1min') {
+} else if (timeinterval === '1min') {
     step = 1000 * 60;
     globalTime.setSpan(step);
-} else if (timeinterval == '15min') {
+} else if (timeinterval === '15min') {
     step = 1000 * 15 * 60;
     globalTime.setSpan(step);
-} else if (timeinterval == '30min') {
+} else if (timeinterval === '30min') {
     step = 1000 * 30 * 60;
     globalTime.setSpan(step);
-} else if (timeinterval == 'days') {
+} else if (timeinterval === 'days') {
     step = 1000 * 60 * 60 * 24;
     globalTime.setSpan(step);
-} else if (timeinterval == 'hours') {
+} else if (timeinterval === 'hours') {
     step = 1000 * 60 * 60;
     globalTime.setSpan(step);
-} else if (timeinterval == 'years') {
+} else if (timeinterval === 'years') {
     step = 1000 * 60 * 60 * 24 * 365;
     globalTime.setSpan(step);
 } else {
+    // eslint-disable-next-line camelcase
     error_invalid_interval = true;
 }
 
-var seenImages = {};
+const seenImages = {};
 
 const geoRegistry = GeoRegistry.create();
 geoRegistry.addDefaultProvider(new GeoJsonProvider());
@@ -147,8 +149,7 @@ async function getImage(assetType, id) {
     )
         .then((res) => res.json())
         .then((data) => {
-            const body = data;
-            return body;
+            return data;
         });
 
     return body;
@@ -177,7 +178,7 @@ async function downloadImage(src, assetType) {
     }
 
     if (type === 'splunk-enterprise-kvstore') {
-        var imgData = { dataURI: 'null' };
+        let imgData = { dataURI: 'null' };
         try {
             imgData = await getImage(assetType, id).then((blob) => {
                 return blob;
@@ -187,8 +188,8 @@ async function downloadImage(src, assetType) {
             console.log('Cannot find image');
         }
 
-        if (imgData.dataURI == 'null') {
-            imgData.dataURI == src;
+        if (imgData.dataURI === 'null') {
+            imgData.dataURI = src;
         } else {
             const [mimeType, data] = parseDataUri(imgData.dataURI);
         }
@@ -198,11 +199,28 @@ async function downloadImage(src, assetType) {
 }
 
 class TimelapseControls extends React.Component {
+
+    static convertValueToLabel(value) {
+        if (value !== 1) {
+            if (timeinterval === 'years') {
+                const d = new Date(value);
+                const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+                return ye;
+            } 
+            const d = new Date(value).toLocaleString('en-US', { timeZone: tz });
+            return d;
+            
+        } 
+        console.log('Failed to Convert');
+        return ' ';
+        
+    }
+
     constructor(props) {
         super(props);
 
-        var darktheme = false;
-        if (params.get('theme') == 'dark') {
+        let darktheme = false;
+        if (params.get('theme') === 'dark') {
             darktheme = true;
         }
         this.state = {
@@ -236,8 +254,8 @@ class TimelapseControls extends React.Component {
         };
         this.fetchDefinition();
 
-        var min = this.state.startTime * 1000;
-        var max = this.state.endTime * 1000;
+        const min = this.state.startTime * 1000;
+        const max = this.state.endTime * 1000;
 
         const length = (max - min) / step + 1;
         const arr = Array.from({ length }, (_, i) => min + i * step);
@@ -267,15 +285,87 @@ class TimelapseControls extends React.Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
     }
+    
 
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
+
+    onPlayCallback(event) {
+        clearInterval(this.timer);
+        this.state.isReversing = false;
+        this.state.isPlaying = false;
+
+        this.state.isPlaying = true;
+
+        /** set interval to run frequncy times every second */
+        this.timer = setInterval(() => {
+            /** increment the time by the step value */
+            if (this.state.time.valueOf() + this.state.step >= this.state.endTime * 1000) {
+                this.setState({
+                    time: this.state.startTime * 1000,
+                });
+                globalTime.setTime(this.state.startTime * 1000);
+
+                this.updateLabel(this.state.startTime * 1000);
+            } else {
+                this.setState({
+                    time: this.state.time.valueOf() + this.state.step,
+                });
+                globalTime.setTime(this.state.time.valueOf() + this.state.step);
+
+                this.updateLabel(this.state.time.valueOf() + this.state.step);
+            }
+            this.updateDataSources();
+            //this.state.time = (this.state.time + this.state.step)
+        }, 10000 / this.state.playbackMultiplier);
+        //this.state.time = this.state.time + this.state.step
+    }
+    
+
+    onReverseCallback() {
+        clearInterval(this.timer);
+        this.state.isReversing = false;
+        this.state.isPlaying = false;
+
+        this.state.isReversing = true;
+
+        /** set interval to run frequncy times every second */
+        this.timer = setInterval(() => {
+            /** increment the time by the step value */
+            if (this.state.time.valueOf() - this.state.step <= this.state.startTime * 1000) {
+                this.setState({
+                    time: this.state.endTime * 1000,
+                });
+                globalTime.setTime(this.state.endTime * 1000);
+
+                this.updateLabel(this.state.endTime * 1000);
+            } else {
+                this.setState({
+                    time: this.state.time.valueOf() - this.state.step,
+                });
+                globalTime.setTime(this.state.time.valueOf() - this.state.step);
+
+                this.updateLabel(this.state.time.valueOf() - this.state.step);
+            }
+            this.updateDataSources();
+
+            // this.state.time = (this.state.time + this.state.step)
+        }, 10000 / this.state.playbackMultiplier);
+        // this.state.time = this.state.time + this.state.step
+    }
+
+    onStopCallback() {
+        this.setState({
+            isPlaying: false,
+        });
+        this.setState({
+            isReversing: false,
+        });
+        clearInterval(this.timer);
     }
 
     fetchDefinition = async () => {
-        var search = window.location.search;
+        const {search} = window.location;
         const params = new URLSearchParams(search);
-        var dashboardid = params.get('dashboardid');
+        const dashboardid = params.get('dashboardid');
 
         const def = await fetch(
             `/splunkd/servicesNS/-/-/data/ui/views/${dashboardid}?output_mode=json`,
@@ -285,26 +375,26 @@ class TimelapseControls extends React.Component {
         )
             .then((res) => res.json())
             .then((data) => {
-                var xml = new DOMParser().parseFromString(
+                const xml = new DOMParser().parseFromString(
                     data.entry[0].content['eai:data'],
                     'application/xml'
                 );
-                var def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
+                const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
 
                 return def;
             })
 
             .catch((e) => {
-                //If there is an error, and demo==true, apply the demo dashboard.
+                // If there is an error, and demo==true, apply the demo dashboard.
 
                 this.setState({ error_no_dash: true });
                 console.error('Error during definition retrieval/parsing', e);
             });
-        //Let's process the dashboard before we put it in place
-        //First let's get images
+        // Let's process the dashboard before we put it in place
+        // First let's get images
 
         for (const viz of Object.values(def.visualizations || {})) {
-            var src = '';
+            const src = '';
             try {
                 if (viz.type === 'viz.singlevalueicon') {
                     viz.options.icon = await downloadImage(viz.options.icon, 'icons');
@@ -339,16 +429,16 @@ class TimelapseControls extends React.Component {
         }
 
         this.setState({ def });
-        var definition = this.state.def;
-        var results = '';
+        let definition = this.state.def;
+        let results = '';
 
-        for (var input in definition.inputs) {
+        for (const input in definition.inputs) {
             this.setState({ warn_inputs_exist: [...this.state.warn_inputs_exist, input] });
         }
 
-        //Start to Loop through Searches
-        for (var datasource in definition.dataSources) {
-            //Handle a ds.search
+        // Start to Loop through Searches
+        for (const datasource in definition.dataSources) {
+            // Handle a ds.search
             if (definition.dataSources[datasource].type == 'ds.search') {
                 this.setState({
                     numberOfSearches: this.state.numberOfSearches + 1,
@@ -356,25 +446,25 @@ class TimelapseControls extends React.Component {
             }
         }
 
-        //Start to Loop through Searches
-        for (var datasource in definition.dataSources) {
+        // Start to Loop through Searches
+        for (const datasource in definition.dataSources) {
             this.setState({ currentds: datasource });
 
-            //Handle a ds.search
+            // Handle a ds.search
             if (definition.dataSources[this.state.currentds].type == 'ds.search') {
                 this.setState({
                     numberOfSearchesComplete: this.state.numberOfSearchesComplete + 1,
                 });
                 definition.dataSources[this.state.currentds].type = 'ds.timelapse';
 
-                var earliest = '';
-                var latest = '';
-                var query = '';
+                let earliest = '';
+                let latest = '';
+                let query = '';
 
-                var results = '';
+                let results = '';
                 query = definition.dataSources[this.state.currentds].options.query;
 
-                //If there are query parameters in the dataSource
+                // If there are query parameters in the dataSource
                 if (definition.dataSources[this.state.currentds].options.queryParameters) {
                     if (
                         definition.dataSources[this.state.currentds].options.queryParameters
@@ -392,10 +482,10 @@ class TimelapseControls extends React.Component {
                                 .latest;
                     }
                 }
-                //If there are NO query parameters in the dataSource
+                // If there are NO query parameters in the dataSource
                 else {
-                    //Check the defaults of the definition
-                    //else just return -24h as the default
+                    // Check the defaults of the definition
+                    // else just return -24h as the default
                     earliest = '-24h@h';
                     latest = 'now';
                 }
@@ -410,7 +500,7 @@ class TimelapseControls extends React.Component {
                     .first()
                     .toPromise();
 
-                var defUpdate = this.state.def;
+                const defUpdate = this.state.def;
 
                 defUpdate.dataSources[this.state.currentds].options = {
                     ...this.state.def.dataSources[this.state.currentds].options,
@@ -434,107 +524,12 @@ class TimelapseControls extends React.Component {
         this.setState({ hasNotBeenFetched: false });
     };
 
-    //This is used to resaturate the datasource
-    updateDataSources() {
-        var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
-        this.setState({
-            def: definition_new,
-        });
-    }
-    onPlayCallback(event) {
-        clearInterval(this.timer);
-        this.state.isReversing = false;
-        this.state.isPlaying = false;
-
-        this.state.isPlaying = true;
-
-        /** set interval to run frequncy times every second */
-        this.timer = setInterval(() => {
-            /** increment the time by the step value */
-            if (this.state.time.valueOf() + this.state.step >= this.state.endTime * 1000) {
-                this.setState({
-                    time: this.state.startTime * 1000,
-                });
-                globalTime.setTime(this.state.startTime * 1000);
-
-                this.updateLabel(this.state.startTime * 1000);
-            } else {
-                this.setState({
-                    time: this.state.time.valueOf() + this.state.step,
-                });
-                globalTime.setTime(this.state.time.valueOf() + this.state.step);
-
-                this.updateLabel(this.state.time.valueOf() + this.state.step);
-            }
-            this.updateDataSources();
-            //this.state.time = (this.state.time + this.state.step)
-        }, 10000 / this.state.playbackMultiplier);
-        //this.state.time = this.state.time + this.state.step
-    }
-
-    onReverseCallback(event) {
-        clearInterval(this.timer);
-        this.state.isReversing = false;
-        this.state.isPlaying = false;
-
-        this.state.isReversing = true;
-
-        /** set interval to run frequncy times every second */
-        this.timer = setInterval(() => {
-            /** increment the time by the step value */
-            if (this.state.time.valueOf() - this.state.step <= this.state.startTime * 1000) {
-                this.setState({
-                    time: this.state.endTime * 1000,
-                });
-                globalTime.setTime(this.state.endTime * 1000);
-
-                this.updateLabel(this.state.endTime * 1000);
-            } else {
-                this.setState({
-                    time: this.state.time.valueOf() - this.state.step,
-                });
-                globalTime.setTime(this.state.time.valueOf() - this.state.step);
-
-                this.updateLabel(this.state.time.valueOf() - this.state.step);
-            }
-            this.updateDataSources();
-
-            //this.state.time = (this.state.time + this.state.step)
-        }, 10000 / this.state.playbackMultiplier);
-        //this.state.time = this.state.time + this.state.step
-    }
-
-    onStopCallback(event) {
-        this.setState({
-            isPlaying: false,
-        });
-        this.setState({
-            isReversing: false,
-        });
-        clearInterval(this.timer);
-    }
-
     handleSpeedPicker(event, { value }) {
         this.setState({
             playbackMultiplier: value,
         });
     }
 
-    static convertValueToLabel(value) {
-        if (value != 1) {
-            if (timeinterval == 'years') {
-                let d = new Date(value);
-                let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-                return ye;
-            } else {
-                let d = new Date(value).toLocaleString('en-US', { timeZone: tz });
-                return d;
-            }
-        } else {
-            console.log('Failed to Convert');
-            return ' ';
-        }
-    }
 
     handleSliderChange(event, { value }) {
         this.updateLabel(value);
@@ -548,7 +543,8 @@ class TimelapseControls extends React.Component {
             value,
         });
     }
-    handleDarkModeClick(event) {
+
+    handleDarkModeClick() {
         this.setState({ dark: !this.state.dark });
     }
 
@@ -563,6 +559,7 @@ class TimelapseControls extends React.Component {
             setTopOpen(true);
         }
     }
+    
     openLeftPanel() {
         this.handleRequestOpen('leftOpen');
     }
@@ -577,6 +574,18 @@ class TimelapseControls extends React.Component {
 
     handleInputsPanelChange(e, { panelId: panelValue }) {
         this.setState({ openInputsPanelId: panelValue });
+    }
+
+    // This is used to resaturate the datasource
+    updateDataSources() {
+        const definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
+        this.setState({
+            def: definition_new,
+        });
+    }
+
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
     render() {
@@ -651,7 +660,7 @@ class TimelapseControls extends React.Component {
                                         paddingBottom: '10px',
                                     }}
                                 >
-                                    {this.state.hasNotBeenFetched == true ? (
+                                    {this.state.hasNotBeenFetched === true ? (
                                         <></>
                                     ) : (
                                         <Heading style={textStyle} level={2}>
@@ -672,7 +681,7 @@ class TimelapseControls extends React.Component {
                                                 value="darkMode"
                                                 onClick={this.handleDarkModeClick}
                                                 selected={this.state.dark}
-                                                appearance={'toggle'}
+                                                appearance="toggle"
                                             >
                                                 Dark Mode
                                             </Switch>{' '}
@@ -702,11 +711,11 @@ class TimelapseControls extends React.Component {
                                                             panelId={1}
                                                             title={
                                                                 <Message type="error">
-                                                                    {String(
+                                                                    {`${String(
                                                                         this.state.error_ds_no__time
                                                                             .length
-                                                                    ) +
-                                                                        ' Searches missing a _time field'}
+                                                                    ) 
+                                                                        } Searches missing a _time field`}
                                                                 </Message>
                                                             }
                                                         >
@@ -740,11 +749,11 @@ class TimelapseControls extends React.Component {
                                                             panelId={1}
                                                             title={
                                                                 <Message type="warning">
-                                                                    {String(
+                                                                    {`${String(
                                                                         this.state.warn_inputs_exist
                                                                             .length
-                                                                    ) +
-                                                                        ' Inputs Exist Which May Not Work with Timelapse'}
+                                                                    ) 
+                                                                        } Inputs Exist Which May Not Work with Timelapse`}
                                                                 </Message>
                                                             }
                                                         >
@@ -799,7 +808,7 @@ class TimelapseControls extends React.Component {
                                         this.state.error_no_timetype_select ||
                                         this.state.error_invalid_interval ||
                                         this.state.warn_inputs_exist.length > 0) &&
-                                    this.state.hasNotBeenFetched == false ? (
+                                    this.state.hasNotBeenFetched === false ? (
                                         <Button
                                             key="notifications"
                                             onClick={this.openLeftPanel}
@@ -821,7 +830,7 @@ class TimelapseControls extends React.Component {
                                         <></>
                                     )}
 
-                                    {this.state.hasNotBeenFetched == true ? (
+                                    {this.state.hasNotBeenFetched === true ? (
                                         <></>
                                     ) : (
                                         <>
@@ -857,7 +866,7 @@ class TimelapseControls extends React.Component {
                                         paddingBottom: '0px',
                                     }}
                                 >
-                                    {this.state.hasNotBeenFetched == true ? (
+                                    {this.state.hasNotBeenFetched === true ? (
                                         <></>
                                     ) : (
                                         <Slider
@@ -879,7 +888,7 @@ class TimelapseControls extends React.Component {
                                 </td>
                             </tr>
 
-                            {this.state.hasNotBeenFetched && this.state.error_no_dash != true ? (
+                            {this.state.hasNotBeenFetched && this.state.error_no_dash !== true ? (
                                 <>
                                     <tr>
                                         <td
@@ -938,7 +947,7 @@ class TimelapseControls extends React.Component {
                                 <></>
                             )}
 
-                            {this.state.hasNotBeenFetched == true ? (
+                            {this.state.hasNotBeenFetched === true ? (
                                 <></>
                             ) : (
                                 <tr>
@@ -956,7 +965,7 @@ class TimelapseControls extends React.Component {
                                 </tr>
                             )}
 
-                            {this.state.error_no_dash == true ? (
+                            {this.state.error_no_dash === true ? (
                                 <tr>
                                     <td
                                         colSpan="2"
