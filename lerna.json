@@ -1,8 +1,11 @@
 {
   "lerna": "2.0.0",
   "commands": {
+    "run": {
+      "ignore": ["*.csv"]
+    }
     "publish": {
-      "ignore": ["*.md"]
+      "ignore": ["*.md", "*.csv"]
     }
   },
   "npmClient": "yarn",
