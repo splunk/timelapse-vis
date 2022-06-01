@@ -3,7 +3,7 @@
   "commands": {
     "run": {
       "ignore": ["*.csv"]
-    }
+    },
     "publish": {
       "ignore": ["*.md", "*.csv"]
     }
