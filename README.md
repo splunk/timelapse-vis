@@ -27,8 +27,9 @@ managing and publishing multiple packages in the same repository.
 ## Getting Started
 
 1. Clone the repo.
-2. Install yarn (>= 1.2) if you haven't already: `npm install --global yarn`.
-3. Run the setup task: `yarn run setup`.
+2. Ensure you are using Node 14. 
+3. Install yarn (>= 1.2) if you haven't already: `npm install --global yarn`.
+4. Run the setup task: `yarn run setup`.
 
 After this step, the following tasks will be available:
 
