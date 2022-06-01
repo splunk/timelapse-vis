@@ -1,11 +1,11 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React from 'react';
 import layout from '@splunk/react-page';
-import DashboardCore, { themes as dashboardCoreThemes } from '@splunk/dashboard-core';
-import EnterprisePreset, { themes as presetThemes } from '@splunk/dashboard-presets/EnterprisePreset';
+import DashboardCore from '@splunk/dashboard-core';
+import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 import "./style.css";
-import SplunkTimeRangeSliderInput from '@splunk/rangesliderinput';
+import SplunkTimeRangeSliderInput from '@splunk/timelapse-visual';
 
-var dash = <DashboardCore
+const dash = <DashboardCore
     width="100%"
     height="calc(100vh - 78px)"
     preset={EnterprisePreset}

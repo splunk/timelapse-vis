@@ -3,192 +3,161 @@
 1 silly flags   _: [ 'run' ],
 1 silly flags   'reject-cycles': false,
 1 silly flags   rejectCycles: false,
+1 silly flags   stream: true,
 1 silly flags   script: 'build',
 1 silly flags   args: []
 1 silly flags }
-2 verbose rootPath /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis
+2 verbose rootPath /Users/gbirjovanu/timelapse-vis
 3 info version 2.11.0
-4 silly existsSync /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/VERSION
+4 silly existsSync /Users/gbirjovanu/timelapse-vis/VERSION
 5 silly initialize attempt
 6 silly initialize success
 7 silly execute attempt
-8 silly runScriptInDir build [] rangeslider
-9 silly getExecOpts {
-9 silly getExecOpts   cwd: '/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/rangeslider'
-9 silly getExecOpts }
-10 silly runScriptInDir build [] timelapseinput
+8 silly runScriptInPackageStreaming [ 'build', [], '@splunk/timelapse-visual' ]
+9 silly getExecOpts { cwd: '/Users/gbirjovanu/timelapse-vis/packages/timelapse-visual' }
+10 silly runScriptInPackageStreaming [ 'build', [], '@splunk/splunk-timelapse-visualizations' ]
 11 silly getExecOpts {
-11 silly getExecOpts   cwd: '/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/timelapseinput'
+11 silly getExecOpts   cwd: '/Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations'
 11 silly getExecOpts }
-12 silly runScriptInDir build [] splunk-timelapse-visualizations
-13 silly getExecOpts {
-13 silly getExecOpts   cwd: '/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations'
-13 silly getExecOpts }
-14 error build Errored while running script in '@splunk/splunk-timelapse-visualizations'
-15 error execute callback with error
-16 error Error: Command failed: yarn run build
-16 error ModuleNotFoundError: Module not found: Error: Can't resolve '@splunk/rangeslider' in '/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/pages/start'
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/webpack/lib/Compilation.js:925:10
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/webpack/lib/NormalModuleFactory.js:401:22
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/webpack/lib/NormalModuleFactory.js:130:21
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/webpack/lib/NormalModuleFactory.js:224:22
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/neo-async/async.js:2830:7
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/neo-async/async.js:6877:13
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/webpack/lib/NormalModuleFactory.js:214:25
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:213:14
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:13:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/UnsafeCachePlugin.js:44:7
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:13:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:25:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:67:43
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:41:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/ModuleKindPlugin.js:30:40
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:13:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:13:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/forEachBail.js:30:14
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:13:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/UnsafeCachePlugin.js:44:7
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:13:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:14:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:14:1)
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/enhanced-resolve/lib/RootPlugin.js:37:38
-16 error     at _next42 (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:6:1)
-16 error     at eval (eval at create (/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:29:1)
-16 error resolve '@splunk/rangeslider' in '/Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/pages/start'
-16 error   Parsed request is a module
-16 error   using description file: /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/package.json (relative path: ./src/main/webapp/pages/start)
-16 error     Field 'browser' doesn't contain a valid alias configuration
-16 error     resolve as module
-16 error       /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/pages/start/node_modules doesn't exist or is not a directory
-16 error       /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/pages/node_modules doesn't exist or is not a directory
-16 error       /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/node_modules doesn't exist or is not a directory
-16 error       /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/node_modules doesn't exist or is not a directory
-16 error       /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/src/node_modules doesn't exist or is not a directory
-16 error       /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/node_modules doesn't exist or is not a directory
-16 error       /Users/roconnor/Desktop/gitclones/new_timelapse_vis/node_modules doesn't exist or is not a directory
-16 error       /Users/roconnor/Desktop/node_modules doesn't exist or is not a directory
-16 error       /Users/node_modules doesn't exist or is not a directory
-16 error       /node_modules doesn't exist or is not a directory
-16 error       looking for modules in /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules
-16 error         using description file: /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/package.json (relative path: ./node_modules)
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error       looking for modules in /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules
-16 error         using description file: /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/package.json (relative path: ./node_modules)
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error       looking for modules in /Users/roconnor/node_modules
-16 error         No description file found
-16 error         Field 'browser' doesn't contain a valid alias configuration
-16 error           using description file: /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/package.json (relative path: ./node_modules/@splunk/rangeslider)
-16 error             no extension
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error           using description file: /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/package.json (relative path: ./node_modules/@splunk/rangeslider)
-16 error             no extension
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error       looking for modules in /Users/roconnor/Desktop/gitclones/node_modules
-16 error         No description file found
-16 error         Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/rangeslider doesn't exist
-16 error             .wasm
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/@splunk/rangeslider doesn't exist
-16 error             .wasm
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/rangeslider.wasm doesn't exist
-16 error             .mjs
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/@splunk/rangeslider.wasm doesn't exist
-16 error             .mjs
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error         No description file found
-16 error         no extension
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/rangeslider.mjs doesn't exist
-16 error             .js
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/@splunk/rangeslider.mjs doesn't exist
-16 error             .js
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/node_modules/@splunk/rangeslider doesn't exist
-16 error         .wasm
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/rangeslider.js doesn't exist
-16 error             .jsx
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/@splunk/rangeslider.js doesn't exist
-16 error             .jsx
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error         No description file found
-16 error         no extension
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/node_modules/@splunk/rangeslider.wasm doesn't exist
-16 error         .mjs
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/rangeslider.jsx doesn't exist
-16 error             .ts
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/@splunk/rangeslider.jsx doesn't exist
-16 error             .ts
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/Desktop/gitclones/node_modules/@splunk/rangeslider doesn't exist
-16 error         .wasm
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/node_modules/@splunk/rangeslider.mjs doesn't exist
-16 error         .js
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/rangeslider.ts doesn't exist
-16 error             .tsx
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/@splunk/rangeslider.ts doesn't exist
-16 error             .tsx
-16 error               Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/Desktop/gitclones/node_modules/@splunk/rangeslider.wasm doesn't exist
-16 error         .mjs
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/node_modules/@splunk/rangeslider.js doesn't exist
-16 error         .jsx
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/rangeslider.tsx doesn't exist
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/@splunk/rangeslider.tsx doesn't exist
-16 error           /Users/roconnor/Desktop/gitclones/node_modules/@splunk/rangeslider.mjs doesn't exist
-16 error         .js
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/node_modules/@splunk/rangeslider.jsx doesn't exist
-16 error         .ts
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error             as directory
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/rangeslider doesn't exist
-16 error             as directory
-16 error               /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/@splunk/rangeslider doesn't exist
-16 error           /Users/roconnor/Desktop/gitclones/node_modules/@splunk/rangeslider.js doesn't exist
-16 error         .jsx
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/node_modules/@splunk/rangeslider.ts doesn't exist
-16 error         .tsx
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/Desktop/gitclones/node_modules/@splunk/rangeslider.jsx doesn't exist
-16 error         .ts
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/node_modules/@splunk/rangeslider.tsx doesn't exist
-16 error         as directory
-16 error           /Users/roconnor/node_modules/@splunk/rangeslider doesn't exist
-16 error           /Users/roconnor/Desktop/gitclones/node_modules/@splunk/rangeslider.ts doesn't exist
-16 error         .tsx
-16 error           Field 'browser' doesn't contain a valid alias configuration
-16 error           /Users/roconnor/Desktop/gitclones/node_modules/@splunk/rangeslider.tsx doesn't exist
-16 error         as directory
-16 error           /Users/roconnor/Desktop/gitclones/node_modules/@splunk/rangeslider doesn't exist
-16 error error Command failed with exit code 1.
-16 error $ NODE_ENV=production webpack --bail
-16 error info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-16 error
-16 error     at /Users/roconnor/Desktop/gitclones/new_timelapse_vis/timelapse-vis/node_modules/lerna/node_modules/execa/index.js:236:11
+12 error execute callback with error
+13 error Error: Command failed: yarn run build
+13 error ModuleNotFoundError: Module not found: Error: Can't resolve '@splunk/timelapse-visual' in '/Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/pages/documentation'
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/webpack/lib/Compilation.js:925:10
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/webpack/lib/NormalModuleFactory.js:401:22
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/webpack/lib/NormalModuleFactory.js:130:21
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/webpack/lib/NormalModuleFactory.js:224:22
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/neo-async/async.js:2830:7
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/neo-async/async.js:6877:13
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/webpack/lib/NormalModuleFactory.js:214:25
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:213:14
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:15:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/UnsafeCachePlugin.js:44:7
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:15:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:27:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:67:43
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:43:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/ModuleKindPlugin.js:30:40
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:15:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:15:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/forEachBail.js:30:14
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:15:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/UnsafeCachePlugin.js:44:7
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:15:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:27:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:67:43
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/Resolver.js:285:5
+13 error     at eval (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:16:1)
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/enhanced-resolve/lib/RootPlugin.js:37:38
+13 error     at _next42 (eval at create (/Users/gbirjovanu/timelapse-vis/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:8:1)
+13 error resolve '@splunk/timelapse-visual' in '/Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/pages/documentation'
+13 error   Parsed request is a module
+13 error   using description file: /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/package.json (relative path: ./src/main/webapp/pages/documentation)
+13 error     Field 'browser' doesn't contain a valid alias configuration
+13 error     resolve as module
+13 error       /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/pages/documentation/node_modules doesn't exist or is not a directory
+13 error       /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/pages/node_modules doesn't exist or is not a directory
+13 error       /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/webapp/node_modules doesn't exist or is not a directory
+13 error       /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/src/main/node_modules doesn't exist or is not a directory
+13 error       /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/src/node_modules doesn't exist or is not a directory
+13 error       /Users/gbirjovanu/timelapse-vis/packages/node_modules doesn't exist or is not a directory
+13 error       /Users/gbirjovanu/node_modules doesn't exist or is not a directory
+13 error       /Users/node_modules doesn't exist or is not a directory
+13 error       /node_modules doesn't exist or is not a directory
+13 error       looking for modules in /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules
+13 error         using description file: /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/package.json (relative path: ./node_modules)
+13 error           Field 'browser' doesn't contain a valid alias configuration
+13 error       looking for modules in /Users/gbirjovanu/timelapse-vis/node_modules
+13 error         using description file: /Users/gbirjovanu/timelapse-vis/package.json (relative path: ./node_modules)
+13 error           Field 'browser' doesn't contain a valid alias configuration
+13 error           using description file: /Users/gbirjovanu/timelapse-vis/node_modules/@splunk/timelapse-visual/package.json (relative path: .)
+13 error             no extension
+13 error               Field 'browser' doesn't contain a valid alias configuration
+13 error               resolved symlink to /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual
+13 error                 using description file: /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/package.json (relative path: .)
+13 error                   no extension
+13 error                     Field 'browser' doesn't contain a valid alias configuration
+13 error           using description file: /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/package.json (relative path: ./node_modules/@splunk/timelapse-visual)
+13 error             no extension
+13 error               Field 'browser' doesn't contain a valid alias configuration
+13 error                     /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual is not a file
+13 error                   .wasm
+13 error                     Field 'browser' doesn't contain a valid alias configuration
+13 error               /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/timelapse-visual doesn't exist
+13 error             .wasm
+13 error               Field 'browser' doesn't contain a valid alias configuration
+13 error                     /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual.wasm doesn't exist
+13 error                   .mjs
+13 error                     Field 'browser' doesn't contain a valid alias configuration
+13 error               /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/timelapse-visual.wasm doesn't exist
+13 error             .mjs
+13 error               Field 'browser' doesn't contain a valid alias configuration
+13 error                     /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual.mjs doesn't exist
+13 error                   .js
+13 error                     Field 'browser' doesn't contain a valid alias configuration
+13 error               /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/timelapse-visual.mjs doesn't exist
+13 error             .js
+13 error               Field 'browser' doesn't contain a valid alias configuration
+13 error                     /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual.js doesn't exist
+13 error                   .jsx
+13 error                     Field 'browser' doesn't contain a valid alias configuration
+13 error               /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/timelapse-visual.js doesn't exist
+13 error             .jsx
+13 error               Field 'browser' doesn't contain a valid alias configuration
+13 error                     /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual.jsx doesn't exist
+13 error                   .ts
+13 error                     Field 'browser' doesn't contain a valid alias configuration
+13 error               /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/timelapse-visual.jsx doesn't exist
+13 error             .ts
+13 error               Field 'browser' doesn't contain a valid alias configuration
+13 error                     /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual.ts doesn't exist
+13 error                   .tsx
+13 error                     Field 'browser' doesn't contain a valid alias configuration
+13 error               /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/timelapse-visual.ts doesn't exist
+13 error             .tsx
+13 error               Field 'browser' doesn't contain a valid alias configuration
+13 error                     /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual.tsx doesn't exist
+13 error               /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/timelapse-visual.tsx doesn't exist
+13 error             as directory
+13 error               /Users/gbirjovanu/timelapse-vis/packages/splunk-timelapse-visualizations/node_modules/@splunk/timelapse-visual doesn't exist
+13 error                   as directory
+13 error                     existing directory
+13 error                       use ./timelapse-visual.js from main in package.json
+13 error                         using description file: /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/package.json (relative path: .)
+13 error                           Field 'browser' doesn't contain a valid alias configuration
+13 error                           using description file: /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/package.json (relative path: ./timelapse-visual.js)
+13 error                             no extension
+13 error                               Field 'browser' doesn't contain a valid alias configuration
+13 error                               /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/timelapse-visual.js doesn't exist
+13 error                             .wasm
+13 error                               Field 'browser' doesn't contain a valid alias configuration
+13 error                               /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/timelapse-visual.js.wasm doesn't exist
+13 error                             .mjs
+13 error                               Field 'browser' doesn't contain a valid alias configuration
+13 error                               /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/timelapse-visual.js.mjs doesn't exist
+13 error                             .js
+13 error                               Field 'browser' doesn't contain a valid alias configuration
+13 error                               /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/timelapse-visual.js.js doesn't exist
+13 error                             .jsx
+13 error                               Field 'browser' doesn't contain a valid alias configuration
+13 error                               /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/timelapse-visual.js.jsx doesn't exist
+13 error                             .ts
+13 error                               Field 'browser' doesn't contain a valid alias configuration
+13 error                               /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/timelapse-visual.js.ts doesn't exist
+13 error                             .tsx
+13 error                               Field 'browser' doesn't contain a valid alias configuration
+13 error                               /Users/gbirjovanu/timelapse-vis/packages/timelapse-visual/timelapse-visual.js.tsx doesn't exist
+13 error                error Command failed with exit code 1.
+13 error
+13 error $ NODE_ENV=production webpack --bail
+13 error info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+13 error
+13 error     at /Users/gbirjovanu/timelapse-vis/node_modules/lerna/node_modules/execa/index.js:236:11

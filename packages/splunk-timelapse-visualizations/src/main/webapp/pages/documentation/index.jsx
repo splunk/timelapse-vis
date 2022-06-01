@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import layout from '@splunk/react-page';
 import { SplunkThemeProvider } from '@splunk/themes';
 import Heading from '@splunk/react-ui/Heading';
-import Documentation from '@splunk/documentation';
+import Documentation from '@splunk/timelapse-visual';
 import { StyledContainer } from './StartStyles';
 
 layout(

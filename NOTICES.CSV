@@ -164,7 +164,7 @@
 "@splunk/dashboard-ui@23.1.0","UNKNOWN",""
 "@splunk/dashboard-utils@23.1.0","UNKNOWN",""
 "@splunk/dashboard-visualizations@23.3.0","UNKNOWN",""
-"@splunk/dashboardselector@0.0.1","UNKNOWN",""
+"@splunk/timelapse-visual@0.0.1","UNKNOWN",""
 "@splunk/datasource-utils@23.1.0","UNKNOWN",""
 "@splunk/datasources@23.1.0","UNKNOWN",""
 "@splunk/documentation@0.0.1","UNKNOWN",""
