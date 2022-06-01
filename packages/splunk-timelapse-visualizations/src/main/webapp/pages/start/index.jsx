@@ -2,8 +2,7 @@ import DashboardSelector from '@splunk/dashboardselector';
 import layout from '@splunk/react-page';
 import { SplunkThemeProvider } from '@splunk/themes';
 import React from 'react';
-import { StyledContainer, StyledGreeting } from './StartStyles';
-import Heading from '@splunk/react-ui/Heading';
+import { StyledContainer } from './StartStyles';
 
 layout(
     <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
