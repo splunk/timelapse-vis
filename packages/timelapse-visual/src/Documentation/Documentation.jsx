@@ -172,7 +172,7 @@ export const Documentation  = () => {
                                     </List>
                                 </List>
                             </ColumnLayout.Column>
-                            <ColumnLayout.Column span={6} style={colStyle}>
+                            <ColumnLayout.Column span={6} >
                                 <Heading level={3}>Rangeslider</Heading>
                                 <hr />
 

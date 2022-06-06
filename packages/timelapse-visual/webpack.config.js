@@ -13,5 +13,6 @@ module.exports = webpackMerge(baseComponentConfig, {
     },
     output: {
         path: path.join(__dirname),
+        filename: '[name].js'
     },
 });

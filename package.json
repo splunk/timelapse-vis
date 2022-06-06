@@ -7,6 +7,7 @@
     "format": "git ls-files | grep -E \"\\.(jsx?|css)$\" | xargs prettier --write",
     "format:verify": "git ls-files | grep -E \"\\.(jsx?|css)$\" | xargs prettier --list-different",
     "lint": "lerna run lint --no-sort",
+    "package": "mv packages/splunk-timelapse-visualizations/stage splunk-timelapse-visualizations && COPYFILE_DISABLE=true tar -zcvh --exclude='local/' --exclude='local.meta' --exclude='.DS_Store' -f splunk-timelapse-visualizations.tar.gz splunk-timelapse-visualizations/ && rm -rf splunk-timelapse-visualizations",
     "setup": "yarn && lerna run build",
     "start": "lerna run start --stream --no-sort --concurrency 100",
     "test": "lerna run test --stream --no-sort"

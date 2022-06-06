@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<view template="splunk-timelapse-visualizations:/templates/start.html" type="html">
-	<label>Start</label>
-</view>

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<view template="splunk-timelapse-visualizations:/templates/dashboardselector.html" type="html">
+	<label>Dashboard Selector</label>
+</view>

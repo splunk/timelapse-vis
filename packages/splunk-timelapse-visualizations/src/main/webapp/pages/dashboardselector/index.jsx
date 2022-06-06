@@ -1,4 +1,4 @@
-import DashboardSelector from '@splunk/timelapse-visual';
+import DashboardSelector from '@splunk/timelapse-visual/DashboardSelector';
 import layout from '@splunk/react-page';
 import { SplunkThemeProvider } from '@splunk/themes';
 import React from 'react';

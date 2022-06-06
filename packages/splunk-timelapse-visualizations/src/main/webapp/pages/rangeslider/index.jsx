@@ -3,7 +3,7 @@ import layout from '@splunk/react-page';
 import DashboardCore from '@splunk/dashboard-core';
 import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 import "./style.css";
-import SplunkTimeRangeSliderInput from '@splunk/timelapse-visual';
+import SplunkTimeRangeSliderInput from '@splunk/timelapse-visual/RangeSlider';
 
 const dash = <DashboardCore
     width="100%"

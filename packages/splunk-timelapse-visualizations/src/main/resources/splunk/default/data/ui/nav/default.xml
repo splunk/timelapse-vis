@@ -1,5 +1,5 @@
 <nav>
-    <view name="start" default="true"/>
+    <view name="dashboardselector" default="true"/>
     <view name="documentation"/>
     <view name="dashboards"/>
 </nav>

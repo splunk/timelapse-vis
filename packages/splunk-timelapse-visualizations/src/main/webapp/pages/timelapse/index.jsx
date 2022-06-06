@@ -2,7 +2,7 @@ import React from "react";
 import layout from "@splunk/react-page";
 import DashboardCore from "@splunk/dashboard-core";
 import EnterprisePreset from "@splunk/dashboard-presets/EnterprisePreset";
-import TimelapseControls from "@splunk/timelapse-visual";
+import TimelapseControls from "@splunk/timelapse-visual/TimelapseControls";
 
 const dash = (
   <DashboardCore

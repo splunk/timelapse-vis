@@ -53,8 +53,8 @@ export default class ListDashboard extends Component {
         const {indexes} = this.state;
         return (
             <Select onChange={this.props.changehandler} id="dashboardid">
-                {indexes.map(([key,item]) => (
-                    <Select.Option key={key} value={item.title} label={item.title} />
+                {indexes.map((item) => (
+                    <Select.Option key={item.id} value={item.title} label={item.title} />
                 ))}
             </Select>
         );
