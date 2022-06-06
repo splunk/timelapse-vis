@@ -32,7 +32,7 @@
     "@splunk/react-icons": "3.2.0",
     "@splunk/splunk-utils": "^2.1.0",
     "@splunk/webpack-configs": "^5.0.0",
-    "@marenaud/react-timeline-range-slider": "1.41.1",
+    "@marenaud/react-timeline-range-slider": "1.4.1",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.4",
     "chai": "^3.5.0",
