@@ -1,27 +1,34 @@
 import React, { Component } from 'react';
 import Select from '@splunk/react-ui/Select';
-import PropTypes from 'prop-types'
+import { QS } from '../types/splunkTypes';
 
-export default class ListDashboard extends Component {
-    static propTypes = {
-        changehandler: PropTypes.string.isRequired,
-    }
+interface ListDashboardProps {
+    changeHandler: (_event: unknown, { value }: { value: any; }) => void;
+}
 
-    constructor(props) {
+
+interface ListDashboardState {
+    indexes: unknown;
+}
+
+export default class ListDashboard extends Component<ListDashboardProps, ListDashboardState> {
+
+    constructor(props: ListDashboardProps) {
         super(props);
         this.state = { indexes: [] };
         this.fetchIndexes();
     }
-    
+
     onCheck = (itemId) => {
-        const {indexes} = this.state;
+        console.log("itemId", itemId);
+        const { indexes } = this.state;
         const item = indexes.find((currentItem) => currentItem.id === itemId);
         item.done = !item.done;
         this.setState({ indexes });
     };
 
     fetchIndexes() {
-        const qs = (obj) =>
+        const qs = (obj: QS) =>
             Object.entries(obj)
                 .map(([name, value]) => `${encodeURIComponent(name)}=${encodeURIComponent(value)}`)
                 .join('&');
@@ -49,10 +56,15 @@ export default class ListDashboard extends Component {
             });
     }
 
-    render() {
-        const {indexes} = this.state;
+    render(): JSX.Element {
+        const { indexes } = this.state;
+        console.log("what are indexes", indexes);
+        const { changeHandler } = this.props;
+        console.log("list dash", this.props);
+
+
         return (
-            <Select onChange={this.props.changehandler} id="dashboardid">
+            <Select onChange={changeHandler} id="dashboardid">
                 {indexes.map((item) => (
                     <Select.Option key={item.id} value={item.title} label={item.title} />
                 ))}

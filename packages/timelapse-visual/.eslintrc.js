@@ -1,3 +1,12 @@
 module.exports = {
-    extends: '@splunk/eslint-config/browser-prettier',
+  extends: [
+    "react-app",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+  ],
+  settings: {
+    react: {
+      version: "detect",
+    },
+  }
 };

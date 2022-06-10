@@ -1,15 +1,19 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-unused-vars */
 import DataSource from '@splunk/datasources/DataSource';
 import DataSet from '@splunk/datasource-utils/DataSet';
 import { globalTime } from './timecontext';
 
-function capAt(fields, columns, timeColIdx, untilRow) {
+function capAt(fields, columns, _timeColIdx, untilRow) {
     return DataSet.fromJSONCols(
         fields,
         columns.map((c) => c.slice(0, untilRow))
     );
 }
 
-function selectLast(fields, columns, timeColIdx, untilRow, count) {
+function selectLast(fields, columns, _timeColIdx, untilRow, count) {
     return DataSet.fromJSONCols(
         fields,
         columns.map((c) => c.slice(untilRow - count, untilRow))
@@ -66,7 +70,7 @@ export default class TimelapseDataSource extends DataSource {
                     untilRow = Infinity;
                 }
 
-                if (this.timelapseMethod == 'selectLast') {
+                if (this.timelapseMethod === 'selectLast') {
                     observer.next({
                         data: selectLast(
                             this.data.fields,
@@ -77,17 +81,17 @@ export default class TimelapseDataSource extends DataSource {
                         ),
                         meta: { status: 'done', totalCount: 1 },
                     });
-                } else if (this.timelapseMethod == 'capAt') {
+                } else if (this.timelapseMethod === 'capAt') {
                     observer.next({
                         data: capAt(this.data.fields, this.data.columns, timeFieldIdx, untilRow),
                         meta: { status: 'done', totalCount: 1 },
                     });
-                } else if (this.timelapseMethod == 'none') {
+                } else if (this.timelapseMethod === 'none') {
                     observer.next({
                         data: none(this.data.fields, this.data.columns),
                         meta: { status: 'done', totalCount: 1 },
                     });
-                } else if (this.timelapseMethod == 'nullAfter') {
+                } else if (this.timelapseMethod === 'nullAfter') {
                     observer.next({
                         data: nullAfter(
                             this.data.fields,
@@ -112,6 +116,7 @@ export default class TimelapseDataSource extends DataSource {
                     try {
                         cb();
                     } catch (e) {
+                        // eslint-disable-next-line no-console
                         console.error('Abort callback failed', e);
                     }
                 }
