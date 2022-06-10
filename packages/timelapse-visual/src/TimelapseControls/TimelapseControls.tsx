@@ -232,7 +232,7 @@ async function downloadImage(src, assetType) {
   throw new Error(`Unexpected image type: ${type}`);
 }
 
-export default class TimelapseControls extends React.Component<unknown, TimelapseControlsState> {
+export default class TimelapseControls extends React.Component<{ name: string }, TimelapseControlsState> {
   static convertValueToLabel(value) {
     if (value !== 1) {
       if (timeinterval === "years") {
@@ -468,8 +468,8 @@ export default class TimelapseControls extends React.Component<unknown, Timelaps
     }
 
     this.setState({ def });
-    let definition = this.state.def;
-    let results = "";
+    const definition = this.state.def;
+    const results = "";
 
     for (const input in definition.inputs) {
       this.setState({
@@ -569,7 +569,7 @@ export default class TimelapseControls extends React.Component<unknown, Timelaps
 
     this.setState({ defOrig: this.state.def });
     this.setState({ hasNotBeenFetched: false });
-  };
+  }
 
   handleSpeedPicker(event, { value }) {
     this.setState({

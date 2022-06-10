@@ -22,10 +22,10 @@ import TimeRange from '@marenaud/react-timeline-range-slider';
 import { SplunkThemeProvider } from '@splunk/themes';
 import SearchJob from '@splunk/search-job';
 
-//Initialize Variables as empty
-var selectedInterval = [];
-var disabledIntervals = [];
-var timelineInterval = [];
+//Initialize letiables as empty
+let selectedInterval = [];
+const disabledIntervals = [];
+let timelineInterval = [];
 
 const geoRegistry = GeoRegistry.create();
 geoRegistry.addDefaultProvider(new GeoJsonProvider());
@@ -57,27 +57,27 @@ interface RangeSliderState {
     dashboardID: any;
 }
 //Get the Time Ranges from the URL Params
-var search = window.location.search;
+const search = window.location.search;
 const params = new URLSearchParams(search);
 
-var rangeStart = Math.round(Date.now().valueOf() / 1000);
-var rangeEnd = Math.round(Date.now().valueOf() / 1000);
+let rangeStart = Math.round(Date.now().valueOf() / 1000);
+let rangeEnd = Math.round(Date.now().valueOf() / 1000);
 console.log("rangeStart rangeEnd", rangeStart, rangeEnd);
 
-var error_no_timetype_select = false;
+let error_no_timetype_select = false;
 
 function setRelative(startDelta) {
     rangeStart = Math.round((Date.now() - startDelta).valueOf() / 1000);
     rangeEnd = Math.round(Date.now().valueOf() / 1000);
 }
 
-var tz = params.get('tz');
+let tz = params.get('tz');
 console.log("what is tz", tz);
 if (params.get('timerangetype') === 'explicit') {
     rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
     rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
 } else if (params.get('timerangetype') === 'relative') {
-    var rel = params.get('relativetime');
+    let rel = params.get('relativetime');
 
     if (rel == '30min') {
         setRelative(1000 * 60 * 30);
@@ -116,7 +116,7 @@ if (params.get('timerangetype') === 'explicit') {
 }
 
 const timeinterval = params.get('timeinterval');
-var error_invalid_interval = false;
+let error_invalid_interval = false;
 let step = 1000 * 60 * 60 * 24;
 
 if (timeinterval == '1sec') {
@@ -196,7 +196,7 @@ async function downloadImage(src, assetType) {
     }
 
     if (type === 'splunk-enterprise-kvstore') {
-        var imgData = { dataURI: 'null' };
+        let imgData = { dataURI: 'null' };
         try {
             imgData = await getImage(assetType, id).then((blob) => {
                 return blob;
@@ -221,7 +221,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
     constructor(props) {
         super(props);
 
-        var darktheme = false;
+        let darktheme = false;
         if (params.get('theme') == 'dark') {
             darktheme = true;
         }
@@ -283,9 +283,9 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
     }
 
     fetchDefinition = async () => {
-        var search = window.location.search;
+        let search = window.location.search;
         const params = new URLSearchParams(search);
-        var dashboardid = params.get('dashboardid');
+        const dashboardid = params.get('dashboardid');
 
         const def = await fetch(
             `/splunkd/servicesNS/-/-/data/ui/views/${dashboardid}?output_mode=json`,
@@ -295,11 +295,11 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
         )
             .then((res) => res.json())
             .then((data) => {
-                var xml = new DOMParser().parseFromString(
+                const xml = new DOMParser().parseFromString(
                     data.entry[0].content['eai:data'],
                     'application/xml'
                 );
-                var def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
+                const def = JSON.parse(xml.getElementsByTagName('definition')[0].textContent);
 
                 return def;
             })
@@ -314,7 +314,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
         //First let's get images
 
         for (const viz of Object.values(def.visualizations || {})) {
-            var src = '';
+            let src = '';
             try {
                 if (viz.type === 'viz.singlevalueicon') {
                     viz.options.icon = await downloadImage(viz.options.icon, 'icons');
@@ -352,15 +352,15 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
         }
 
         this.setState({ def });
-        var definition = this.state.def;
-        var results = '';
+        let definition = this.state.def;
+        let results = '';
 
-        for (var input in definition.inputs) {
+        for (let input in definition.inputs) {
             this.setState({ warn_inputs_exist: [...this.state.warn_inputs_exist, input] });
         }
 
         //Start to Loop through Searches
-        for (var datasource in definition.dataSources) {
+        for (let datasource in definition.dataSources) {
             //Handle a ds.search
             if (definition.dataSources[datasource].type == 'ds.search') {
                 this.setState({
@@ -370,7 +370,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
         }
 
         //Start to Loop through Searches
-        for (var datasource in definition.dataSources) {
+        for (let datasource in definition.dataSources) {
             this.setState({ currentds: datasource });
 
             //Handle a ds.search
@@ -380,11 +380,11 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
                 });
                 definition.dataSources[this.state.currentds].type = 'ds.test';
 
-                var earliest = '';
-                var latest = '';
-                var query = '';
+                let earliest = '';
+                let latest = '';
+                let query = '';
 
-                var results = '';
+                let results = '';
                 query = definition.dataSources[this.state.currentds].options.query;
 
                 //If there are query parameters in the dataSource
@@ -422,7 +422,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
                     .first()
                     .toPromise();
 
-                var defUpdate = this.state.def;
+                let defUpdate = this.state.def;
 
                 defUpdate.dataSources[this.state.currentds].options = {
                     data: {
@@ -448,16 +448,16 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
     updateDataSources() {
         hackDisableProgressiveRender();
 
-        var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
-        var selectedTime = new Date(this.state.time);
+        let definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
+        let selectedTime = new Date(this.state.time);
 
-        for (var v in definition_new.dataSources) {
+        for (let v in definition_new.dataSources) {
             if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
                 //Iterate through the time column, whereever it exists
-                for (var time in definition_new.dataSources[v].options.data.columns[
+                for (let time in definition_new.dataSources[v].options.data.columns[
                     definition_new.dataSources[v].options.data.fields.indexOf('_time')
                 ]) {
-                    var currTime = new Date(
+                    let currTime = new Date(
                         definition_new.dataSources[v].options.data.columns[
                         definition_new.dataSources[v].options.data.fields.indexOf('_time')
                         ][time]
@@ -465,7 +465,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
 
                     //If the currentTime is less than selected
                     if (currTime > selectedTime) {
-                        for (var n in definition_new.dataSources[v].options.data.columns) {
+                        for (let n in definition_new.dataSources[v].options.data.columns) {
                             if (n != 'extend') {
                                 try {
                                     definition_new.dataSources[v].options.data.columns[n] =
@@ -476,7 +476,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
                                 } catch (error) {
                                     //console.log('ERROR');
                                     // expected output: ReferenceError: nonExistentFunction is not defined
-                                    // Note - error messages will vary depending on browser
+                                    // Note - error messages will lety depending on browser
                                 }
                             }
                         }
@@ -526,7 +526,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
 
     //Function for handling range slider changes
     onChangeCallback = async (selectedInterval) => {
-        //Update the selectedInterval variable with the new start and end times
+        //Update the selectedInterval letiable with the new start and end times
         selectedInterval.map((d, i) => {
             if (i == 0) {
                 this.start_range = d;
@@ -537,16 +537,16 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
         });
 
         //For each dataSource in the dashboard, append a where clause to limit the start/end time
-        var definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
+        let definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
 
-        for (var v in definition_new.dataSources) {
-            var indexes = [];
+        for (let v in definition_new.dataSources) {
+            let indexes = [];
             if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
                 //Iterate through the time column, whereever it exists
-                for (var time in definition_new.dataSources[v].options.data.columns[
+                for (let time in definition_new.dataSources[v].options.data.columns[
                     definition_new.dataSources[v].options.data.fields.indexOf('_time')
                 ]) {
-                    var currTime = new Date(
+                    let currTime = new Date(
                         definition_new.dataSources[v].options.data.columns[
                         definition_new.dataSources[v].options.data.fields.indexOf('_time')
                         ][time]
@@ -555,7 +555,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
                     //If the currentTime is less than selected
 
                     if (currTime > this.start_range && currTime < this.end_range) {
-                        for (var n in definition_new.dataSources[v].options.data.columns) {
+                        for (let n in definition_new.dataSources[v].options.data.columns) {
                             if (n != 'extend') {
                                 indexes.push(time);
                             }
@@ -563,7 +563,7 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
                     }
                 }
 
-                for (var n in definition_new.dataSources[v].options.data.columns) {
+                for (let n in definition_new.dataSources[v].options.data.columns) {
                     try {
                         definition_new.dataSources[v].options.data.columns[n] =
                             definition_new.dataSources[v].options.data.columns[n].slice(
@@ -573,13 +573,13 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
                     } catch (error) {
                         //console.log('ERROR');
                         // expected output: ReferenceError: nonExistentFunction is not defined
-                        // Note - error messages will vary depending on browser
+                        // Note - error messages will lety depending on browser
                     }
                 }
             }
         }
 
-        //Set the state variable of selectedInterval with the new values
+        //Set the state letiable of selectedInterval with the new values
         this.setState({ selectedInterval });
         this.setState({
             def: definition_new,
