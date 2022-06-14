@@ -34,6 +34,7 @@
     "@splunk/react-icons": "3.2.0",
     "@splunk/react-ui": "4.4.1",
     "@splunk/splunk-utils": "^2.1.0",
+    "@splunk/stylelint-config": "^4.0.0",
     "@splunk/ui-utils": "^1.4.0",
     "@splunk/webpack-configs": "^5.0.0",
     "@types/jest": "^28.1.1",

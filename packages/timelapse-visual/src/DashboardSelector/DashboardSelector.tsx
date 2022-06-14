@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react';
 import Select from '@splunk/react-ui/Select';
 import Heading from '@splunk/react-ui/Heading';
@@ -62,6 +63,7 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
             Object.entries(obj)
                 .map(([name, value]) => `${encodeURIComponent(name)}=${encodeURIComponent(value)}`)
                 .join('&');
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const response = fetch(
             `/splunkd/services/authentication/current-context?${qs({
                 output_mode: 'json',

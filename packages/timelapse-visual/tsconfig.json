@@ -2,7 +2,7 @@
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/demo.js"],
   "compilerOptions": {
-    "module": "es2015",
+    "module": "esnext",
     "lib": ["dom", "esnext"],
     "importHelpers": true,
     "rootDir": ".",

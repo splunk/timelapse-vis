@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react';
 import Select from '@splunk/react-ui/Select';
 import { QS } from '../types/splunkTypes';
@@ -8,7 +9,7 @@ interface ListDashboardProps {
 
 
 interface ListDashboardState {
-    indexes: unknown;
+    indexes: any;
 }
 
 export default class ListDashboard extends Component<ListDashboardProps, ListDashboardState> {
