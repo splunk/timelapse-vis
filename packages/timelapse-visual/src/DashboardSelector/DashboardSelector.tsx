@@ -304,7 +304,7 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
                     <StyledContainer style={{ width: '100%' }}>
                         <ColumnLayout gutter={1} style={{ width: '100%' }}>
                             {this.state.error_no_tz_set ? (
-                                <MessageBar type="warning" onRequestClose={null}>
+                                <MessageBar type="warning" onRequestClose={()=>null}>
                                     No timezone is set for the current user. Defaulting to GMT. For
                                     best results, please set your TZ in User Preferences, and then
                                     refresh this page.

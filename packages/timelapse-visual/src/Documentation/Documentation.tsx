@@ -27,12 +27,12 @@ export const Documentation = () => {
 
                 <P>
                     That URL will be sharable to anyone in your Splunk environment who has
-                    permissions to both the app, and the corresponding dashboard.{' '}
+                    permissions to both the app, and the corresponding dashboard.
                 </P>
 
                 <Heading>What does this app do?</Heading>
                 <P>
-                    We provide you with multiple different types of visualizations inputs.{' '}
+                    We provide you with multiple different types of visualizations inputs.
                 </P>
                 <List type="decimal">
                     <List.Item>Rangeslider</List.Item>
@@ -40,7 +40,7 @@ export const Documentation = () => {
                 </List>
                 <P>
                     Each of the inputs have their own react page which will load the input,
-                    followed by the dashboard you select. Each input is documented below.{' '}
+                    followed by the dashboard you select. Each input is documented below.
                 </P>
 
                 <Heading>Input Documentation</Heading>
@@ -48,7 +48,7 @@ export const Documentation = () => {
                     Though we&apos;ve provided the <Link to="start">Start</Link> page for users
                     to build a URL. We understand users may have a need to customize their
                     URL or generate them in other ways. As a result, we are providing
-                    detailed documentation of each input below.{' '}
+                    detailed documentation of each input below.
                 </P>
 
                 <ColumnLayout gutter={8}>

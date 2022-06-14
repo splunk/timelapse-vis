@@ -2,10 +2,10 @@
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/demo.js"],
   "compilerOptions": {
-    "module": "esnext",
+    "module": "es2015",
     "lib": ["dom", "esnext"],
     "importHelpers": true,
-    "rootDir": "./src",
+    "rootDir": ".",
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -18,6 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "noImplicitAny": false,
-    "allowJs": true
+    "allowJs": true,
+    "allowSyntheticDefaultImports" : true
   }
 }
