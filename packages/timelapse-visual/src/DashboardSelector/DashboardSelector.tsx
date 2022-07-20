@@ -210,7 +210,6 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
     }
 
     render(): JSX.Element {
-        console.log("dashboard selector", this.props);
         const url =
             `${window.location.href.replace(/[^/]+$/, '') +
             this.state.pickerType
@@ -297,8 +296,6 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
                 Select Time Interval:
             </ColumnLayout.Column>
         );
-
-        console.log(this.props);
 
         return (
             <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">

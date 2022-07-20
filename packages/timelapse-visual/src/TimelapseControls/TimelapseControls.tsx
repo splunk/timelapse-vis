@@ -75,7 +75,6 @@ function setRelative(startdelta) {
 }
 
 const tz = params.get("tz");
-console.log("what is tz", tz);
 
 if (params.get("timerangetype") === "explicit") {
   rangeStart = Math.round(
@@ -635,7 +634,6 @@ export default class TimelapseControls extends React.Component<{ name: string },
   }
 
   render() {
-    console.log("timelapse controls", this.props);
     const colStyle: React.CSSProperties = {
       border: `0px solid black`,
       padding: 10,
@@ -663,7 +661,6 @@ export default class TimelapseControls extends React.Component<{ name: string },
         />
       </DashboardContextProvider>
     );
-    console.log("timelapse control", this.props);
 
     return (
       <div

@@ -62,7 +62,6 @@ const params = new URLSearchParams(search);
 
 let rangeStart = Math.round(Date.now().valueOf() / 1000);
 let rangeEnd = Math.round(Date.now().valueOf() / 1000);
-console.log("rangeStart rangeEnd", rangeStart, rangeEnd);
 
 let error_no_timetype_select = false;
 
@@ -72,7 +71,6 @@ function setRelative(startDelta) {
 }
 
 let tz = params.get('tz');
-console.log("what is tz", tz);
 if (params.get('timerangetype') === 'explicit') {
     rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
     rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
@@ -589,7 +587,6 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
     };
 
     render() {
-        console.log("range slider", this.props);
         const colStyle = {
             border: `0px solid black`,
             padding: 10,
@@ -610,7 +607,6 @@ class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> 
             </DashboardContextProvider>
         );
 
-        console.log("range slider", this.props);
         return (
             <div
                 style={

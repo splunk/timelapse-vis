@@ -21,7 +21,6 @@ export default class ListDashboard extends Component<ListDashboardProps, ListDas
     }
 
     onCheck = (itemId) => {
-        console.log("itemId", itemId);
         const { indexes } = this.state;
         const item = indexes.find((currentItem) => currentItem.id === itemId);
         item.done = !item.done;
@@ -29,7 +28,7 @@ export default class ListDashboard extends Component<ListDashboardProps, ListDas
     };
 
     fetchIndexes() {
-        const qs = (obj: QS) =>
+        const qs = (obj) =>
             Object.entries(obj)
                 .map(([name, value]) => `${encodeURIComponent(name)}=${encodeURIComponent(value)}`)
                 .join('&');
@@ -39,18 +38,20 @@ export default class ListDashboard extends Component<ListDashboardProps, ListDas
                 output_mode: 'json',
                 count: 0,
                 offset: 0,
-                search: `(isDashboard=1 AND isVisible=1 AND (version=2))`,
+                search: `(isDashboard=1 AND isVisible=1 AND version=2)`,
             })}`,
             { credentials: 'include' }
         )
-            .then((res) => res.json())
+            .then((res) => {
+                return res.json();
+            })
             .then((data) => {
                 const indexes = data.entry.map((entry, index) => ({
                     id: index,
                     title: entry.name,
                     done: false,
                 }));
-                this.setState({ indexes });
+                this.setState({ indexes: indexes });
             })
             .catch((e) => {
                 console.error('Error during index retrieval/parsing', e);
@@ -59,10 +60,7 @@ export default class ListDashboard extends Component<ListDashboardProps, ListDas
 
     render(): JSX.Element {
         const { indexes } = this.state;
-        console.log("what are indexes", indexes);
         const { changeHandler } = this.props;
-        console.log("list dash", this.props);
-
 
         return (
             <Select onChange={changeHandler} id="dashboardid">
