@@ -14,7 +14,7 @@ import Modal from '@splunk/react-ui/Modal';
 import ListDashboards from '../ListDashboard/ListDashboard';
 import { StyledContainer } from './DashboardSelectorStyles';
 
-interface DashboardSelectorState {
+export interface DashboardSelectorState {
     pickerType: string;
     dashboardId: string;
     rangeStart: string;

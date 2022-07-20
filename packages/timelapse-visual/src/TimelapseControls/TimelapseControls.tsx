@@ -39,7 +39,7 @@ interface TimelapseControlsState {
   endTime: any;
   time: number;
   def: any;
-  playbackMultiplier: string;
+  playbackMultiplier: number;
   displayValue: string;
   value: number;
   hasNotBeenFetched: boolean;
@@ -58,6 +58,7 @@ interface TimelapseControlsState {
   numberOfSearches: number;
   numberOfSearchesComplete: number;
   dashboardID: any;
+  currentds: string;
 }
 
 const { search } = window.location;
@@ -263,7 +264,7 @@ export default class TimelapseControls extends React.Component<{ name: string },
       endTime: rangeEnd,
       time: rangeStart * 1000,
       def: this.props.dash.props.definition,
-      playbackMultiplier: "4",
+      playbackMultiplier: 4,
       displayValue: "Press Play to Start Timelapse",
       value: 1,
       hasNotBeenFetched: true,
@@ -282,6 +283,7 @@ export default class TimelapseControls extends React.Component<{ name: string },
       numberOfSearches: 0,
       numberOfSearchesComplete: 0,
       dashboardID: params.get("dashboardid"),
+      currentds: undefined,
     };
     this.fetchDefinition();
 

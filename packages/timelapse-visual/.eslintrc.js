@@ -8,7 +8,12 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
   ],
   env: {
-    node:true
+    node: true,
   },
-  ignorePatterns: ["timelapseds.ts", "TimelapseControls.tsx", "RangeSlider.tsx"],
+  ignorePatterns: [
+    "timelapseds.ts",
+    "TimelapseControls.tsx",
+    "RangeSlider.tsx",
+    "webpack.config.js",
+  ],
 };

@@ -2,7 +2,7 @@
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/demo.js"],
   "compilerOptions": {
-    "module": "esnext",
+    "module": "commonjs",
     "lib": ["dom", "esnext"],
     "importHelpers": true,
     "rootDir": ".",
@@ -19,6 +19,6 @@
     "noEmit": true,
     "noImplicitAny": false,
     "allowJs": true,
-    "allowSyntheticDefaultImports" : true
+    "allowSyntheticDefaultImports": true
   }
 }
