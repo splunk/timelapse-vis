@@ -1,86 +1,110 @@
-/* eslint-disable camelcase */
-import React from 'react';
-import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
-import DashboardCore from '@splunk/dashboard-core';
 import { DashboardContextProvider } from '@splunk/dashboard-context';
-import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
 import GeoJsonProvider from '@splunk/dashboard-context/GeoJsonProvider';
+import GeoRegistry from '@splunk/dashboard-context/GeoRegistry';
+import DashboardCore from '@splunk/dashboard-core';
+import EnterprisePreset from '@splunk/dashboard-presets/EnterprisePreset';
 
 import Button from '@splunk/react-ui/Button';
-import Select from '@splunk/react-ui/Select';
 import Switch from '@splunk/react-ui/Switch';
-import Link from '@splunk/react-ui/Link';
-import Slider from '@splunk/react-ui/Slider';
 import P from '@splunk/react-ui/Paragraph';
 import Heading from '@splunk/react-ui/Heading';
 import Message from '@splunk/react-ui/Message';
 import Accordion from '@splunk/react-ui/Accordion';
 import WaitSpinner from '@splunk/react-ui/WaitSpinner';
 import SidePanel from '@splunk/react-ui/SidePanel';
+import Link from '@splunk/react-ui/Link';
 
-import TriangleRight from '@splunk/react-icons/TriangleRight';
-import TriangleLeft from '@splunk/react-icons/TriangleLeft';
-import Pause from '@splunk/react-icons/Pause';
 import Bell from '@splunk/react-icons/Bell';
 
+import { format } from 'date-fns';
+import React from 'react';
+import TimeRange from '@marenaud/react-timeline-range-slider';
 import { SplunkThemeProvider } from '@splunk/themes';
-
 import SearchJob from '@splunk/search-job';
-import TimelapseDataSource from './timelapseds';
-import { globalTime } from './timecontext';
 
-const {search} = window.location;
+//Initialize letiables as empty
+let selectedInterval = [];
+const disabledIntervals = [];
+let timelineInterval = [];
+
+const geoRegistry = GeoRegistry.create();
+geoRegistry.addDefaultProvider(new GeoJsonProvider());
+
+interface RangeSliderState {
+    error: boolean,
+    selectedInterval: unknown;
+    hasNotBeenFetched: boolean;
+    startTime: any;
+    endTime: any;
+    time: number;
+    def: any;
+    playbackMultiplier: string;
+    value: number;
+    dataSources: any;
+    width: number;
+    height: number;
+    dark: any;
+    leftOpen: boolean;
+    error_ds_no__time: Array<any>;
+    error_no_dash: boolean;
+    error_invalid_interval: any;
+    error_no_timetype_select: any;
+    warn_inputs_exist: Array<unknown>;
+    openPanelId: number;
+    openInputsPanelId: number;
+    numberOfSearches: number;
+    numberOfSearchesComplete: number;
+    dashboardID: any;
+}
+//Get the Time Ranges from the URL Params
+const search = window.location.search;
 const params = new URLSearchParams(search);
 
 let rangeStart = Math.round(Date.now().valueOf() / 1000);
 let rangeEnd = Math.round(Date.now().valueOf() / 1000);
 
-let error_invalid_interval = false;
 let error_no_timetype_select = false;
 
-function setRelative(startdelta) {
-    rangeStart = Math.round((Date.now() - startdelta).valueOf() / 1000);
+function setRelative(startDelta) {
+    rangeStart = Math.round((Date.now() - startDelta).valueOf() / 1000);
     rangeEnd = Math.round(Date.now().valueOf() / 1000);
 }
 
-const tz = params.get('tz');
-
+let tz = params.get('tz');
 if (params.get('timerangetype') === 'explicit') {
     rangeStart = Math.round(Date.parse(params.get('rangeStart')).valueOf() / 1000);
-    globalTime.setStart(rangeStart);
     rangeEnd = Math.round(Date.parse(params.get('rangeEnd')).valueOf() / 1000);
-    globalTime.setEnd(rangeEnd);
 } else if (params.get('timerangetype') === 'relative') {
-    const rel = params.get('relativetime');
+    let rel = params.get('relativetime');
 
-    if (rel === '30min') {
+    if (rel == '30min') {
         setRelative(1000 * 60 * 30);
     }
-    if (rel === '1h') {
+    if (rel == '1h') {
         setRelative(1000 * 60 * 60);
     }
-    if (rel === '6h') {
+    if (rel == '6h') {
         setRelative(1000 * 60 * 60 * 6);
     }
-    if (rel === '12h') {
+    if (rel == '12h') {
         setRelative(1000 * 60 * 60 * 12);
     }
-    if (rel === '1d') {
+    if (rel == '1d') {
         setRelative(1000 * 60 * 60 * 24);
     }
-    if (rel === '7d') {
+    if (rel == '7d') {
         setRelative(1000 * 60 * 60 * 24 * 7);
     }
-    if (rel === '14d') {
+    if (rel == '14d') {
         setRelative(1000 * 60 * 60 * 24 * 14);
     }
-    if (rel === '30d') {
+    if (rel == '30d') {
         setRelative(1000 * 60 * 60 * 24 * 30);
     }
-    if (rel === '180d') {
+    if (rel == '180d') {
         setRelative(1000 * 60 * 60 * 24 * 180);
     }
-    if (rel === '365d') {
+    if (rel == '365d') {
         setRelative(1000 * 60 * 60 * 24 * 365);
     }
 } else {
@@ -90,39 +114,30 @@ if (params.get('timerangetype') === 'explicit') {
 }
 
 const timeinterval = params.get('timeinterval');
-
+let error_invalid_interval = false;
 let step = 1000 * 60 * 60 * 24;
 
-if (timeinterval === '1sec') {
+if (timeinterval == '1sec') {
     step = 1000;
-    globalTime.setSpan(step);
-} else if (timeinterval === '1min') {
+} else if (timeinterval == '1min') {
     step = 1000 * 60;
-    globalTime.setSpan(step);
-} else if (timeinterval === '15min') {
+} else if (timeinterval == '15min') {
     step = 1000 * 15 * 60;
-    globalTime.setSpan(step);
-} else if (timeinterval === '30min') {
+} else if (timeinterval == '30min') {
     step = 1000 * 30 * 60;
-    globalTime.setSpan(step);
-} else if (timeinterval === 'days') {
+} else if (timeinterval == 'days') {
     step = 1000 * 60 * 60 * 24;
-    globalTime.setSpan(step);
-} else if (timeinterval === 'hours') {
+} else if (timeinterval == 'hours') {
     step = 1000 * 60 * 60;
-    globalTime.setSpan(step);
-} else if (timeinterval === 'years') {
+} else if (timeinterval == 'years') {
     step = 1000 * 60 * 60 * 24 * 365;
-    globalTime.setSpan(step);
 } else {
-    // eslint-disable-next-line camelcase
     error_invalid_interval = true;
 }
 
+timelineInterval = [rangeStart * 1000, rangeEnd * 1000];
+selectedInterval = timelineInterval;
 const seenImages = {};
-
-const geoRegistry = GeoRegistry.create();
-geoRegistry.addDefaultProvider(new GeoJsonProvider());
 
 function parseDataUri(dataUri) {
     if (!dataUri.startsWith('data:')) {
@@ -149,7 +164,8 @@ async function getImage(assetType, id) {
     )
         .then((res) => res.json())
         .then((data) => {
-            return data;
+            const body = data;
+            return body;
         });
 
     return body;
@@ -188,8 +204,8 @@ async function downloadImage(src, assetType) {
             console.log('Cannot find image');
         }
 
-        if (imgData.dataURI === 'null') {
-            imgData.dataURI = src;
+        if (imgData.dataURI == 'null') {
+            imgData.dataURI == src;
         } else {
             const [mimeType, data] = parseDataUri(imgData.dataURI);
         }
@@ -198,42 +214,27 @@ async function downloadImage(src, assetType) {
     throw new Error(`Unexpected image type: ${type}`);
 }
 
-class TimelapseControls extends React.Component {
-
-    static convertValueToLabel(value) {
-        if (value !== 1) {
-            if (timeinterval === 'years') {
-                const d = new Date(value);
-                const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-                return ye;
-            } 
-            const d = new Date(value).toLocaleString('en-US', { timeZone: tz });
-            return d;
-            
-        } 
-        console.log('Failed to Convert');
-        return ' ';
-        
-    }
-
+//SplunkTimeRangeSlider Class
+class SplunkTimeRangeSliderInput extends React.Component<any, RangeSliderState> {
     constructor(props) {
         super(props);
 
         let darktheme = false;
-        if (params.get('theme') === 'dark') {
+        if (params.get('theme') == 'dark') {
             darktheme = true;
         }
+
         this.state = {
-            isPlaying: false,
-            isReversing: false,
-            frequency: 24,
-            step: step,
+            error: false,
+            selectedInterval,
+            def: this.props.dash.props.definition,
+            hasNotBeenFetched: true,
             startTime: rangeStart,
             endTime: rangeEnd,
+            def: {},
             time: rangeStart * 1000,
             def: this.props.dash.props.definition,
             playbackMultiplier: '4',
-            displayValue: 'Press Play to Start Timelapse',
             value: 1,
             hasNotBeenFetched: true,
             dataSources: {},
@@ -254,19 +255,8 @@ class TimelapseControls extends React.Component {
         };
         this.fetchDefinition();
 
-        const min = this.state.startTime * 1000;
-        const max = this.state.endTime * 1000;
-
-        const length = (max - min) / step + 1;
-        const arr = Array.from({ length }, (_, i) => min + i * step);
-        globalTime.setTimes(arr);
-
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        this.onStopCallback = this.onStopCallback.bind(this);
-        this.onPlayCallback = this.onPlayCallback.bind(this);
-        this.onReverseCallback = this.onReverseCallback.bind(this);
-        this.handleSpeedPicker = this.handleSpeedPicker.bind(this);
-        this.handleSliderChange = this.handleSliderChange.bind(this);
+
         this.updateDataSources = this.updateDataSources.bind(this);
         this.handleDarkModeClick = this.handleDarkModeClick.bind(this);
         this.openLeftPanel = this.openLeftPanel.bind(this);
@@ -285,85 +275,13 @@ class TimelapseControls extends React.Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
     }
-    
 
-
-    onPlayCallback(event) {
-        clearInterval(this.timer);
-        this.state.isReversing = false;
-        this.state.isPlaying = false;
-
-        this.state.isPlaying = true;
-
-        /** set interval to run frequncy times every second */
-        this.timer = setInterval(() => {
-            /** increment the time by the step value */
-            if (this.state.time.valueOf() + this.state.step >= this.state.endTime * 1000) {
-                this.setState({
-                    time: this.state.startTime * 1000,
-                });
-                globalTime.setTime(this.state.startTime * 1000);
-
-                this.updateLabel(this.state.startTime * 1000);
-            } else {
-                this.setState({
-                    time: this.state.time.valueOf() + this.state.step,
-                });
-                globalTime.setTime(this.state.time.valueOf() + this.state.step);
-
-                this.updateLabel(this.state.time.valueOf() + this.state.step);
-            }
-            this.updateDataSources();
-            //this.state.time = (this.state.time + this.state.step)
-        }, 10000 / this.state.playbackMultiplier);
-        //this.state.time = this.state.time + this.state.step
-    }
-    
-
-    onReverseCallback() {
-        clearInterval(this.timer);
-        this.state.isReversing = false;
-        this.state.isPlaying = false;
-
-        this.state.isReversing = true;
-
-        /** set interval to run frequncy times every second */
-        this.timer = setInterval(() => {
-            /** increment the time by the step value */
-            if (this.state.time.valueOf() - this.state.step <= this.state.startTime * 1000) {
-                this.setState({
-                    time: this.state.endTime * 1000,
-                });
-                globalTime.setTime(this.state.endTime * 1000);
-
-                this.updateLabel(this.state.endTime * 1000);
-            } else {
-                this.setState({
-                    time: this.state.time.valueOf() - this.state.step,
-                });
-                globalTime.setTime(this.state.time.valueOf() - this.state.step);
-
-                this.updateLabel(this.state.time.valueOf() - this.state.step);
-            }
-            this.updateDataSources();
-
-            // this.state.time = (this.state.time + this.state.step)
-        }, 10000 / this.state.playbackMultiplier);
-        // this.state.time = this.state.time + this.state.step
-    }
-
-    onStopCallback() {
-        this.setState({
-            isPlaying: false,
-        });
-        this.setState({
-            isReversing: false,
-        });
-        clearInterval(this.timer);
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
     fetchDefinition = async () => {
-        const {search} = window.location;
+        let search = window.location.search;
         const params = new URLSearchParams(search);
         const dashboardid = params.get('dashboardid');
 
@@ -385,16 +303,16 @@ class TimelapseControls extends React.Component {
             })
 
             .catch((e) => {
-                // If there is an error, and demo==true, apply the demo dashboard.
+                //If there is an error, and demo==true, apply the demo dashboard.
 
                 this.setState({ error_no_dash: true });
                 console.error('Error during definition retrieval/parsing', e);
             });
-        // Let's process the dashboard before we put it in place
-        // First let's get images
+        //Let's process the dashboard before we put it in place
+        //First let's get images
 
         for (const viz of Object.values(def.visualizations || {})) {
-            const src = '';
+            let src = '';
             try {
                 if (viz.type === 'viz.singlevalueicon') {
                     viz.options.icon = await downloadImage(viz.options.icon, 'icons');
@@ -435,13 +353,13 @@ class TimelapseControls extends React.Component {
         let definition = this.state.def;
         let results = '';
 
-        for (const input in definition.inputs) {
+        for (let input in definition.inputs) {
             this.setState({ warn_inputs_exist: [...this.state.warn_inputs_exist, input] });
         }
 
-        // Start to Loop through Searches
-        for (const datasource in definition.dataSources) {
-            // Handle a ds.search
+        //Start to Loop through Searches
+        for (let datasource in definition.dataSources) {
+            //Handle a ds.search
             if (definition.dataSources[datasource].type == 'ds.search') {
                 this.setState({
                     numberOfSearches: this.state.numberOfSearches + 1,
@@ -449,16 +367,16 @@ class TimelapseControls extends React.Component {
             }
         }
 
-        // Start to Loop through Searches
-        for (const datasource in definition.dataSources) {
+        //Start to Loop through Searches
+        for (let datasource in definition.dataSources) {
             this.setState({ currentds: datasource });
 
-            // Handle a ds.search
+            //Handle a ds.search
             if (definition.dataSources[this.state.currentds].type == 'ds.search') {
                 this.setState({
                     numberOfSearchesComplete: this.state.numberOfSearchesComplete + 1,
                 });
-                definition.dataSources[this.state.currentds].type = 'ds.timelapse';
+                definition.dataSources[this.state.currentds].type = 'ds.test';
 
                 let earliest = '';
                 let latest = '';
@@ -467,7 +385,7 @@ class TimelapseControls extends React.Component {
                 let results = '';
                 query = definition.dataSources[this.state.currentds].options.query;
 
-                // If there are query parameters in the dataSource
+                //If there are query parameters in the dataSource
                 if (definition.dataSources[this.state.currentds].options.queryParameters) {
                     if (
                         definition.dataSources[this.state.currentds].options.queryParameters
@@ -485,10 +403,10 @@ class TimelapseControls extends React.Component {
                                 .latest;
                     }
                 }
-                // If there are NO query parameters in the dataSource
+                //If there are NO query parameters in the dataSource
                 else {
-                    // Check the defaults of the definition
-                    // else just return -24h as the default
+                    //Check the defaults of the definition
+                    //else just return -24h as the default
                     earliest = '-24h@h';
                     latest = 'now';
                 }
@@ -497,16 +415,14 @@ class TimelapseControls extends React.Component {
                     search: query,
                     earliest_time: earliest,
                     latest_time: latest,
-                    options: { test: 'foo' },
                 })
                     .getResults({ output_mode: 'json_cols', count: 0 })
                     .first()
                     .toPromise();
 
-                const defUpdate = this.state.def;
+                let defUpdate = this.state.def;
 
                 defUpdate.dataSources[this.state.currentds].options = {
-                    ...this.state.def.dataSources[this.state.currentds].options,
                     data: {
                         fields: results.fields,
                         columns: results.columns,
@@ -527,27 +443,53 @@ class TimelapseControls extends React.Component {
         this.setState({ hasNotBeenFetched: false });
     };
 
-    handleSpeedPicker(event, { value }) {
+    updateDataSources() {
+        hackDisableProgressiveRender();
+
+        let definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
+        let selectedTime = new Date(this.state.time);
+
+        for (let v in definition_new.dataSources) {
+            if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
+                //Iterate through the time column, whereever it exists
+                for (let time in definition_new.dataSources[v].options.data.columns[
+                    definition_new.dataSources[v].options.data.fields.indexOf('_time')
+                ]) {
+                    let currTime = new Date(
+                        definition_new.dataSources[v].options.data.columns[
+                        definition_new.dataSources[v].options.data.fields.indexOf('_time')
+                        ][time]
+                    );
+
+                    //If the currentTime is less than selected
+                    if (currTime > selectedTime) {
+                        for (let n in definition_new.dataSources[v].options.data.columns) {
+                            if (n != 'extend') {
+                                try {
+                                    definition_new.dataSources[v].options.data.columns[n] =
+                                        definition_new.dataSources[v].options.data.columns[n].slice(
+                                            0,
+                                            time
+                                        );
+                                } catch (error) {
+                                    //console.log('ERROR');
+                                    // expected output: ReferenceError: nonExistentFunction is not defined
+                                    // Note - error messages will lety depending on browser
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
         this.setState({
-            playbackMultiplier: value,
+            def: definition_new,
         });
     }
 
-
-    handleSliderChange(event, { value }) {
-        this.updateLabel(value);
-        this.setState({ time: value }, () => this.updateDataSources());
-        globalTime.setTime(value);
-    }
-
-    updateLabel(value) {
-        this.setState({
-            displayValue: TimelapseControls.convertValueToLabel(value),
-            value,
-        });
-    }
-
-    handleDarkModeClick() {
+    handleDarkModeClick(event) {
         this.setState({ dark: !this.state.dark });
     }
 
@@ -562,7 +504,6 @@ class TimelapseControls extends React.Component {
             setTopOpen(true);
         }
     }
-    
     openLeftPanel() {
         this.handleRequestOpen('leftOpen');
     }
@@ -579,17 +520,71 @@ class TimelapseControls extends React.Component {
         this.setState({ openInputsPanelId: panelValue });
     }
 
-    // This is used to resaturate the datasource
-    updateDataSources() {
-        const definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
+    errorHandler = ({ error }) => this.setState({ error });
+
+    //Function for handling range slider changes
+    onChangeCallback = async (selectedInterval) => {
+        //Update the selectedInterval letiable with the new start and end times
+        selectedInterval.map((d, i) => {
+            if (i == 0) {
+                this.start_range = d;
+            }
+            if (i == 1) {
+                this.end_range = d;
+            }
+        });
+
+        //For each dataSource in the dashboard, append a where clause to limit the start/end time
+        let definition_new = JSON.parse(JSON.stringify(this.state.defOrig));
+
+        for (let v in definition_new.dataSources) {
+            let indexes = [];
+            if (definition_new.dataSources[v].options.data.fields.indexOf('_time') >= 0) {
+                //Iterate through the time column, whereever it exists
+                for (let time in definition_new.dataSources[v].options.data.columns[
+                    definition_new.dataSources[v].options.data.fields.indexOf('_time')
+                ]) {
+                    let currTime = new Date(
+                        definition_new.dataSources[v].options.data.columns[
+                        definition_new.dataSources[v].options.data.fields.indexOf('_time')
+                        ][time]
+                    );
+
+                    //If the currentTime is less than selected
+
+                    if (currTime > this.start_range && currTime < this.end_range) {
+                        for (let n in definition_new.dataSources[v].options.data.columns) {
+                            if (n != 'extend') {
+                                indexes.push(time);
+                            }
+                        }
+                    }
+                }
+
+                for (let n in definition_new.dataSources[v].options.data.columns) {
+                    try {
+                        definition_new.dataSources[v].options.data.columns[n] =
+                            definition_new.dataSources[v].options.data.columns[n].slice(
+                                indexes[0],
+                                indexes[indexes.length - 1]
+                            );
+                    } catch (error) {
+                        //console.log('ERROR');
+                        // expected output: ReferenceError: nonExistentFunction is not defined
+                        // Note - error messages will lety depending on browser
+                    }
+                }
+            }
+        }
+
+        //Set the state letiable of selectedInterval with the new values
+        this.setState({ selectedInterval });
         this.setState({
             def: definition_new,
         });
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
-    }
+        //definition = definition_new
+        this.state.hasNotBeenFetched = false;
+    };
 
     render() {
         const colStyle = {
@@ -600,43 +595,36 @@ class TimelapseControls extends React.Component {
             textAlign: 'center',
         };
         const textStyle = { textAlign: 'center' };
-
-        const TIMELAPSE_PRESET = {
-            ...EnterprisePreset,
-            dataSources: {
-                'ds.timelapse': TimelapseDataSource,
-            },
-        };
-
         const dash = (
             <DashboardContextProvider geoRegistry={geoRegistry}>
                 <DashboardCore
-                    width={this.state.width}
+                    width="100%"
                     height="calc(100vh - 78px)"
                     definition={this.state.def}
-                    preset={TIMELAPSE_PRESET}
+                    preset={EnterprisePreset}
                     initialMode="view"
                 />
             </DashboardContextProvider>
         );
+
         return (
             <div
                 style={
                     this.state.dark
                         ? {
-                              textAlign: 'center',
-                              margin: 'auto',
-                              align: 'center',
-                              width: '100%',
-                              backgroundColor: '#171D21',
-                          }
+                            textAlign: 'center',
+                            margin: 'auto',
+                            align: 'center',
+                            width: '100%',
+                            backgroundColor: '#171D21',
+                        }
                         : {
-                              textAlign: 'center',
-                              margin: 'auto',
-                              align: 'center',
-                              width: '100%',
-                              backgroundColor: '#FFFFFF',
-                          }
+                            textAlign: 'center',
+                            margin: 'auto',
+                            align: 'center',
+                            width: '100%',
+                            backgroundColor: '#FFFFFF',
+                        }
                 }
             >
                 <SplunkThemeProvider
@@ -648,7 +636,7 @@ class TimelapseControls extends React.Component {
                         style={{
                             textAlign: 'center',
                             margin: 'auto',
-                            align: 'center',
+                            // align: 'center',
                             width: this.state.width,
                         }}
                     >
@@ -663,12 +651,25 @@ class TimelapseControls extends React.Component {
                                         paddingBottom: '10px',
                                     }}
                                 >
-                                    {this.state.hasNotBeenFetched === true ? (
+                                    {this.state.hasNotBeenFetched == true ? (
                                         <></>
                                     ) : (
-                                        <Heading style={textStyle} level={2}>
-                                            {this.state.displayValue}
-                                        </Heading>
+                                        <>
+                                            <Heading style={textStyle} level={2}>
+                                                {' '}
+                                                Selected Interval:{' '}
+                                            </Heading>
+
+                                            <P style={textStyle}>
+                                                {new Date(
+                                                    this.state.selectedInterval[0]
+                                                ).toLocaleString('en-US', { timeZone: tz })}{' '}
+                                                through{' '}
+                                                {new Date(
+                                                    this.state.selectedInterval[1]
+                                                ).toLocaleString('en-US', { timeZone: tz })}{' '}
+                                            </P>
+                                        </>
                                     )}
 
                                     <SidePanel
@@ -684,25 +685,10 @@ class TimelapseControls extends React.Component {
                                                 value="darkMode"
                                                 onClick={this.handleDarkModeClick}
                                                 selected={this.state.dark}
-                                                appearance="toggle"
+                                                appearance={'toggle'}
                                             >
                                                 Dark Mode
                                             </Switch>{' '}
-                                            <Heading level={3}>Playback Speed:</Heading>
-                                            <Select
-                                                value={this.state.playbackMultiplier}
-                                                prefixLabel="Timelapse Speed"
-                                                onChange={this.handleSpeedPicker}
-                                            >
-                                                <Select.Option value="1" label="1x" />
-                                                <Select.Option value="2" label="2x" />
-                                                <Select.Option value="3" label="3x" />
-                                                <Select.Option value="4" label="4x" />
-                                                <Select.Option value="10" label="10x" />
-                                                <Select.Option value="20" label="20x" />
-                                                <Select.Option value="100" label="100x" />
-                                                <Select.Option value="200" label="200x" />
-                                            </Select>
                                             <Heading level={3}>Dashboard Information</Heading>
                                             {this.state.error_ds_no__time.length > 0 ? (
                                                 <>
@@ -714,11 +700,11 @@ class TimelapseControls extends React.Component {
                                                             panelId={1}
                                                             title={
                                                                 <Message type="error">
-                                                                    {`${String(
+                                                                    {String(
                                                                         this.state.error_ds_no__time
                                                                             .length
-                                                                    ) 
-                                                                        } Searches missing a _time field`}
+                                                                    ) +
+                                                                        ' Searches missing a _time field'}
                                                                 </Message>
                                                             }
                                                         >
@@ -729,7 +715,7 @@ class TimelapseControls extends React.Component {
                                                                             {
                                                                                 this.state
                                                                                     .error_ds_no__time[
-                                                                                    v
+                                                                                v
                                                                                 ]
                                                                             }
                                                                         </P>
@@ -752,11 +738,11 @@ class TimelapseControls extends React.Component {
                                                             panelId={1}
                                                             title={
                                                                 <Message type="warning">
-                                                                    {`${String(
+                                                                    {String(
                                                                         this.state.warn_inputs_exist
                                                                             .length
-                                                                    ) 
-                                                                        } Inputs Exist Which May Not Work with Timelapse`}
+                                                                    ) +
+                                                                        ' Inputs Exist Which May Not Work with Timelapse'}
                                                                 </Message>
                                                             }
                                                         >
@@ -767,7 +753,7 @@ class TimelapseControls extends React.Component {
                                                                             {
                                                                                 this.state
                                                                                     .warn_inputs_exist[
-                                                                                    v
+                                                                                v
                                                                                 ]
                                                                             }
                                                                         </P>
@@ -808,10 +794,10 @@ class TimelapseControls extends React.Component {
                                     </SidePanel>
                                     {(this.state.error_ds_no__time.length > 0 ||
                                         this.state.error_no_dash ||
-                                        this.state.error_no_timetype_select ||
                                         this.state.error_invalid_interval ||
+                                        this.state.error_no_timetype_select ||
                                         this.state.warn_inputs_exist.length > 0) &&
-                                    this.state.hasNotBeenFetched === false ? (
+                                        this.state.hasNotBeenFetched == false ? (
                                         <Button
                                             key="notifications"
                                             onClick={this.openLeftPanel}
@@ -820,10 +806,10 @@ class TimelapseControls extends React.Component {
                                                     <Bell size={1.5} /> &nbsp;&nbsp;
                                                     {String(
                                                         this.state.error_ds_no__time.length +
-                                                            this.state.error_no_dash +
-                                                            this.state.warn_inputs_exist.length +
-                                                            this.state.error_no_timetype_select +
-                                                            this.state.error_invalid_interval
+                                                        this.state.error_no_dash +
+                                                        this.state.error_invalid_interval +
+                                                        this.state.error_no_timetype_select +
+                                                        this.state.warn_inputs_exist.length
                                                     )}
                                                 </>
                                             }
@@ -833,69 +819,47 @@ class TimelapseControls extends React.Component {
                                         <></>
                                     )}
 
-                                    {this.state.hasNotBeenFetched === true ? (
+                                    {this.state.hasNotBeenFetched == true ? (
                                         <></>
                                     ) : (
-                                        <>
-                                            <Button
-                                                key="configure"
-                                                onClick={this.openLeftPanel}
-                                                label="Configure"
-                                            />
-                                            <Button
-                                                label={<TriangleLeft />}
-                                                onClick={this.onReverseCallback}
-                                                appearance="primary"
-                                            />
-                                            <Button
-                                                label={<Pause />}
-                                                onClick={this.onStopCallback}
-                                                appearance="primary"
-                                            />
-                                            <Button
-                                                label={<TriangleRight />}
-                                                onClick={this.onPlayCallback}
-                                                appearance="primary"
-                                            />
-                                        </>
+                                        <Button
+                                            key="configure"
+                                            onClick={this.openLeftPanel}
+                                            label="Configure"
+                                        />
                                     )}
                                 </td>
                                 <td
                                     style={{
                                         ...colStyle,
-                                        width: '75%',
-                                        paddingRight: '50px',
+                                        width: '100%',
+                                        paddingRight: '0px',
                                         paddingTop: '0px',
                                         paddingBottom: '0px',
                                     }}
                                 >
-                                    {this.state.hasNotBeenFetched === true ? (
+                                    {this.state.hasNotBeenFetched == true ? (
                                         <></>
                                     ) : (
-                                        <Slider
-                                            min={this.state.startTime * 1000}
-                                            value={this.state.time}
-                                            displayValue={this.state.displayValue}
-                                            onChange={this.handleSliderChange}
-                                            max={this.state.endTime * 1000}
+                                        <TimeRange
+                                            error={this.state.error}
                                             step={step}
-                                            defaultValue={this.state.startTime * 1000}
-                                            minLabel={new Date(
-                                                this.state.startTime * 1000
-                                            ).toLocaleString('en-US', { timeZone: tz })}
-                                            maxLabel={new Date(
-                                                this.state.endTime * 1000
-                                            ).toLocaleString('en-US', { timeZone: tz })}
+                                            selectedInterval={selectedInterval}
+                                            timelineInterval={timelineInterval}
+                                            onUpdateCallback={this.errorHandler}
+                                            onChangeCallback={this.onChangeCallback}
+                                            disabledIntervals={disabledIntervals}
+                                            formatTick={(ms) => format(new Date(ms), ' ')}
                                         />
                                     )}
                                 </td>
                             </tr>
 
-                            {this.state.hasNotBeenFetched && this.state.error_no_dash !== true ? (
+                            {this.state.hasNotBeenFetched && this.state.error_no_dash != true ? (
                                 <>
                                     <tr>
                                         <td
-                                            colSpan="2"
+                                            colSpan={2}
                                             style={{
                                                 ...colStyle,
                                                 width: '100%',
@@ -915,7 +879,7 @@ class TimelapseControls extends React.Component {
                                                     margin: 'auto',
                                                 }}
                                             >
-                                                Creating Timelapse Datasource{' '}
+                                                Creating Rangeslider Datasource{' '}
                                                 {this.state.numberOfSearchesComplete}/
                                                 {this.state.numberOfSearches}
                                             </Heading>
@@ -924,7 +888,7 @@ class TimelapseControls extends React.Component {
                                     </tr>
                                     <tr>
                                         <td
-                                            colSpan="2"
+                                            colSpan={2}
                                             style={{
                                                 ...colStyle,
                                                 width: '100%',
@@ -950,12 +914,12 @@ class TimelapseControls extends React.Component {
                                 <></>
                             )}
 
-                            {this.state.hasNotBeenFetched === true ? (
+                            {this.state.hasNotBeenFetched == true ? (
                                 <></>
                             ) : (
                                 <tr>
                                     <td
-                                        colSpan="2"
+                                        colSpan={2}
                                         style={{
                                             ...colStyle,
                                             width: '100%',
@@ -968,10 +932,10 @@ class TimelapseControls extends React.Component {
                                 </tr>
                             )}
 
-                            {this.state.error_no_dash === true ? (
+                            {this.state.error_no_dash == true ? (
                                 <tr>
                                     <td
-                                        colSpan="2"
+                                        colSpan={2}
                                         style={{
                                             ...colStyle,
                                             width: '100%',
@@ -998,4 +962,4 @@ class TimelapseControls extends React.Component {
     }
 }
 
-export default TimelapseControls;
+export default SplunkTimeRangeSliderInput;

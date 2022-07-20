@@ -1,37 +1,57 @@
-/* eslint-disable react/no-access-state-in-setstate */
-/* eslint-disable dot-notation */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react';
 import Select from '@splunk/react-ui/Select';
 import Heading from '@splunk/react-ui/Heading';
 import P from '@splunk/react-ui/Paragraph';
-
 import MessageBar from '@splunk/react-ui/MessageBar';
 import InfoCircle from '@splunk/react-icons/InfoCircle';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
 import List from '@splunk/react-ui/List';
-
 import Link from '@splunk/react-ui/Link';
 import { SplunkThemeProvider } from '@splunk/themes';
 import Modal from '@splunk/react-ui/Modal';
 import ListDashboards from '../ListDashboard/ListDashboard';
 import { StyledContainer } from './DashboardSelectorStyles';
 
-class DashboardSelector extends Component {
-    constructor(props) {
+interface DashboardSelectorState {
+    pickerType: string;
+    dashboardId: string;
+    rangeStart: string;
+    rangeEnd: string;
+    timeInterval: string;
+    theme: string;
+    infoModalOpen: boolean;
+    rangeStartOpen: boolean;
+    rangeEndOpen: boolean;
+    timeType: string;
+    relativeTime: string;
+    rangeRelativeOpen: boolean;
+    realname: string;
+    tz: string;
+    rangeInfoOpen: boolean;
+    error_no_tz_set: boolean;
+}
+
+interface DashboardSelectorProps {
+    name: string;
+}
+
+class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelectorState> {
+    constructor(props: DashboardSelectorProps) {
         super(props);
         this.state = {
-            pickertype: 'rangeslider',
-            dashboardid: '',
+            pickerType: 'rangeslider',
+            dashboardId: '',
             rangeStart: '',
             rangeEnd: '',
-            timeinterval: '',
+            timeInterval: '',
             theme: '',
             infoModalOpen: false,
             rangeStartOpen: false,
             rangeEndOpen: false,
-            timetype: '',
-            relativetime: '',
+            timeType: '',
+            relativeTime: '',
             rangeRelativeOpen: false,
             realname: '',
             tz: 'GMT',
@@ -39,10 +59,11 @@ class DashboardSelector extends Component {
             error_no_tz_set: false,
         };
 
-        const qs = (obj) =>
+        const qs = (obj: { [key: string]: string | number | boolean }) =>
             Object.entries(obj)
                 .map(([name, value]) => `${encodeURIComponent(name)}=${encodeURIComponent(value)}`)
                 .join('&');
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const response = fetch(
             `/splunkd/services/authentication/current-context?${qs({
                 output_mode: 'json',
@@ -91,77 +112,77 @@ class DashboardSelector extends Component {
         this.handleTimeInterval = this.handleTimeInterval.bind(this);
     }
 
-    handleDashboardIdChange(event, { value }) {
+    handleDashboardIdChange(_event: unknown, { value }: { value: any }): void {
         this.setState({
-            dashboardid: value,
+            dashboardId: value,
         });
     }
 
-    handleThemeSelect(event, { value }) {
+    handleThemeSelect(_event: unknown, { value }: { value: any }): void {
         this.setState({
             theme: value,
         });
     }
 
-    handleChangePickerType(event, { value }) {
+    handleChangePickerType(_event: unknown, { value }: { value: any }): void {
         this.setState({
-            pickertype: value,
+            pickerType: value,
         });
     }
 
-    handleTimeInterval(event, { value }) {
+    handleTimeInterval(_event: unknown, { value }: { value: any }): void {
         this.setState({
-            timeinterval: value,
+            timeInterval: value,
         });
     }
 
-    handleIntervalInfoOpen() {
+    handleIntervalInfoOpen(): void {
         this.setState({ infoModalOpen: true });
     }
 
-    handleIntervalInfoClose() {
+    handleIntervalInfoClose(): void {
         this.setState({ infoModalOpen: false });
     }
 
-    handleRangeStartOpen() {
+    handleRangeStartOpen(): void {
         this.setState({ rangeStartOpen: true });
     }
 
-    handleRangeStartClose() {
+    handleRangeStartClose(): void {
         this.setState({ rangeStartOpen: false });
     }
 
-    handleRangeInfoOpen() {
+    handleRangeInfoOpen(): void {
         this.setState({ rangeInfoOpen: true });
     }
 
-    handleRangeInfoClose() {
+    handleRangeInfoClose(): void {
         this.setState({ rangeInfoOpen: false });
     }
 
-    handleRangeEndOpen() {
+    handleRangeEndOpen(): void {
         this.setState({ rangeEndOpen: true });
     }
 
-    handleRangeEndClose() {
+    handleRangeEndClose(): void {
         this.setState({ rangeEndOpen: false });
     }
 
-    handleRelativeRangeClose() {
+    handleRelativeRangeClose(): void {
         this.setState({ rangeRelativeOpen: false });
     }
-    
-    handleRelativeRangeOpen() {
+
+    handleRelativeRangeOpen(): void {
         this.setState({ rangeRelativeOpen: true });
     }
 
-    handleTimeType(event, { value }) {
+    handleTimeType(_event: unknown, { value }: { value: any }): void {
         this.setState({
-            timetype: value,
+            timeType: value,
         });
 
         if (value === 'explicit') {
-            this.setState({ relativetime: '' });
+            this.setState({ relativeTime: '' });
         }
 
         if (value === 'relative') {
@@ -170,46 +191,38 @@ class DashboardSelector extends Component {
         }
     }
 
-    handleRelativeTime(event, { value }) {
+    handleRelativeTime(_event: unknown, { value }: { value: any }): void {
         this.setState({
-            relativetime: value,
+            relativeTime: value,
         });
     }
 
-    endChange(event) {
+    endChange(event: any): void {
         this.setState({
-            rangeEnd: `${event.target.value  } 00:00:00 ${  this.state.tz}`,
+            rangeEnd: `${event.target.value} 00:00:00 ${this.state.tz}`,
         });
     }
 
-    startChange(event) {
+    startChange(event: any): void {
         this.setState({
-            rangeStart: `${event.target.value  } 00:00:00 ${  this.state.tz}`,
+            rangeStart: `${event.target.value} 00:00:00 ${this.state.tz}`,
         });
     }
 
-    render() {
+    render(): JSX.Element {
         const url =
             `${window.location.href.replace(/[^/]+$/, '') +
-            this.state.pickertype 
-            }?dashboardid=${ 
-            encodeURIComponent(this.state.dashboardid) 
-            }&rangeStart=${ 
-            encodeURIComponent(this.state.rangeStart) 
-            }&rangeEnd=${ 
-            encodeURIComponent(this.state.rangeEnd) 
-            }&timeinterval=${ 
-            encodeURIComponent(this.state.timeinterval) 
-            }&theme=${ 
-            encodeURIComponent(this.state.theme) 
-            }&timerangetype=${ 
-            encodeURIComponent(this.state.timetype) 
-            }&relativetime=${ 
-            encodeURIComponent(this.state.relativetime) 
-            }&tz=${ 
-            encodeURIComponent(this.state.tz)}`;
+            this.state.pickerType
+            }?dashboardid=${encodeURIComponent(this.state.dashboardId)
+            }&rangeStart=${encodeURIComponent(this.state.rangeStart)
+            }&rangeEnd=${encodeURIComponent(this.state.rangeEnd)
+            }&timeinterval=${encodeURIComponent(this.state.timeInterval)
+            }&theme=${encodeURIComponent(this.state.theme)
+            }&timerangetype=${encodeURIComponent(this.state.timeType)
+            }&relativetime=${encodeURIComponent(this.state.relativeTime)
+            }&tz=${encodeURIComponent(this.state.tz)}`;
 
-        const colStyle = {
+        const colStyle: React.CSSProperties = {
             border: `0px solid`,
             padding: 5,
             minHeight: 10,
@@ -218,14 +231,13 @@ class DashboardSelector extends Component {
             textAlign: 'center',
         };
 
-        const calColStyle = {
+        const calColStyle: React.CSSProperties = {
             border: `0px solid`,
             padding: 5,
             minHeight: 10,
             width: '100%',
             textAlign: 'center',
-
-            paddingReft: 50,
+            paddingLeft: 50,
         };
 
         const intervalPicker = (
@@ -266,18 +278,18 @@ class DashboardSelector extends Component {
                             <li>1 Second = 1 Second</li>
                         </ul>
                         <P>See #3 on the image below</P>
-                        {this.state.pickertype === 'rangeslider' ? (
+                        {this.state.pickerType === 'rangeslider' ? (
                             <img
                                 alt='rangeslider'
                                 style={{ width: '100%' }}
                                 src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
-                             />
+                            />
                         ) : (
                             <img
                                 alt='timelapse'
                                 style={{ width: '100%' }}
                                 src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                             />
+                            />
                         )}
                     </Modal.Body>
                 </Modal>
@@ -291,7 +303,7 @@ class DashboardSelector extends Component {
                     <StyledContainer style={{ width: '100%' }}>
                         <ColumnLayout gutter={1} style={{ width: '100%' }}>
                             {this.state.error_no_tz_set ? (
-                                <MessageBar type="warning" onRequestClose={() => {}}>
+                                <MessageBar type="warning" onRequestClose={()=>null}>
                                     No timezone is set for the current user. Defaulting to GMT. For
                                     best results, please set your TZ in User Preferences, and then
                                     refresh this page.
@@ -310,7 +322,7 @@ class DashboardSelector extends Component {
                                         time inputs. If you have any questions, please visit the{' '}
                                         <Link
                                             to={
-                                                `${window.location.href.replace(/[^/]+$/, '') 
+                                                `${window.location.href.replace(/[^/]+$/, '')
                                                 }documentation`
                                             }
                                         >
@@ -345,7 +357,7 @@ class DashboardSelector extends Component {
                                         appearance="pill"
                                         onClick={this.handleRangeInfoOpen}
                                         label={<InfoCircle size={1.5} />}
-                                    />{' '}
+                                    />
                                     <Modal
                                         onRequestClose={this.handleRangeInfoClose}
                                         open={this.state.rangeInfoOpen}
@@ -382,7 +394,7 @@ class DashboardSelector extends Component {
                                     </Modal>
                                     Select Time Range Type:
                                 </ColumnLayout.Column>
-                                {this.state.timetype === 'explicit' ? (
+                                {this.state.timeType === 'explicit' ? (
                                     <ColumnLayout.Column style={colStyle} span={1}>
                                         <>
                                             <Button
@@ -397,21 +409,21 @@ class DashboardSelector extends Component {
                                                 <Modal.Body>
                                                     <Heading level={2}>
                                                         The earliest time in the{' '}
-                                                        {this.state.pickertype}.{' '}
+                                                        {this.state.pickerType}.{' '}
                                                     </Heading>
                                                     <P>See #1 on the image below</P>
-                                                    {this.state.pickertype === 'rangeslider' ? (
+                                                    {this.state.pickerType === 'rangeslider' ? (
                                                         <img
                                                             alt='rangeslider'
                                                             style={{ width: '100%' }}
                                                             src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
-                                                         />
+                                                        />
                                                     ) : (
                                                         <img
                                                             alt='timelapse'
                                                             style={{ width: '100%' }}
                                                             src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                                                         />
+                                                        />
                                                     )}
                                                 </Modal.Body>
                                             </Modal>
@@ -422,18 +434,18 @@ class DashboardSelector extends Component {
                                     <></>
                                 )}
 
-                                {this.state.timetype === '' ? (
+                                {this.state.timeType === '' ? (
                                     <ColumnLayout.Column
                                         style={{
                                             ...colStyle,
                                         }}
                                         span={1}
-                                     />
+                                    />
                                 ) : (
                                     <></>
                                 )}
 
-                                {this.state.timetype === 'relative' ? (
+                                {this.state.timeType === 'relative' ? (
                                     <ColumnLayout.Column
                                         style={{
                                             ...colStyle,
@@ -453,21 +465,21 @@ class DashboardSelector extends Component {
                                                 <Modal.Body>
                                                     <Heading level={2}>
                                                         The earliest and the latest time in the{' '}
-                                                        {this.state.pickertype}.{' '}
+                                                        {this.state.pickerType}.{' '}
                                                     </Heading>
                                                     <P>See #1 and #2 on the image below</P>
-                                                    {this.state.pickertype === 'rangeslider' ? (
+                                                    {this.state.pickerType === 'rangeslider' ? (
                                                         <img
                                                             alt='rqngeslider'
                                                             style={{ width: '100%' }}
                                                             src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
-                                                         />
+                                                        />
                                                     ) : (
                                                         <img
                                                             alt='timelapse'
                                                             style={{ width: '100%' }}
                                                             src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                                                         />
+                                                        />
                                                     )}
                                                 </Modal.Body>
                                             </Modal>
@@ -478,7 +490,7 @@ class DashboardSelector extends Component {
                                     <></>
                                 )}
 
-                                {this.state.timetype === 'explicit' ? (
+                                {this.state.timeType === 'explicit' ? (
                                     <ColumnLayout.Column style={colStyle}>
                                         <Button
                                             appearance="pill"
@@ -491,21 +503,21 @@ class DashboardSelector extends Component {
                                         >
                                             <Modal.Body>
                                                 <Heading level={2}>
-                                                    The latest time in the {this.state.pickertype}.
+                                                    The latest time in the {this.state.pickerType}.
                                                 </Heading>
                                                 <P>See #2 on the image below</P>
-                                                {this.state.pickertype === 'rangeslider' ? (
+                                                {this.state.pickerType === 'rangeslider' ? (
                                                     <img
                                                         alt='rangeslider'
                                                         style={{ width: '100%' }}
                                                         src="/static/app/splunk-timelapse-visualizations/rangeslider.png"
-                                                     />
+                                                    />
                                                 ) : (
                                                     <img
                                                         alt='timelapse'
                                                         style={{ width: '100%' }}
                                                         src="/static/app/splunk-timelapse-visualizations/timelapse.png"
-                                                     />
+                                                    />
                                                 )}
                                             </Modal.Body>
                                         </Modal>
@@ -518,7 +530,7 @@ class DashboardSelector extends Component {
                             </ColumnLayout.Row>
                             <ColumnLayout.Row>
                                 <ColumnLayout.Column style={colStyle} span={1}>
-                                    <ListDashboards changehandler={this.handleDashboardIdChange} />
+                                    <ListDashboards changeHandler={this.handleDashboardIdChange} />
                                 </ColumnLayout.Column>
                                 <ColumnLayout.Column style={colStyle} span={1}>
                                     <Select defaultValue="dark" onChange={this.handleThemeSelect}>
@@ -541,21 +553,21 @@ class DashboardSelector extends Component {
                                         <Select.Option value="relative" label="Relative" />
                                     </Select>
                                 </ColumnLayout.Column>
-                                {this.state.timetype === 'explicit' ? (
-                                    <ColumnLayout.Column style={{ ...calColStyle }} span={1}>
+                                {this.state.timeType === 'explicit' ? (
+                                    <ColumnLayout.Column style={calColStyle} span={1}>
                                         <input
                                             type="date"
                                             id="start"
                                             name="dashboard-start"
                                             onChange={this.startChange}
-                                         />{' '}
+                                        />{' '}
                                     </ColumnLayout.Column>
                                 ) : (
                                     <></>
                                 )}
 
-                                {this.state.timetype === 'relative' ? (
-                                    <ColumnLayout.Column style={{ ...calColStyle }} span={1}>
+                                {this.state.timeType === 'relative' ? (
+                                    <ColumnLayout.Column style={calColStyle} span={1}>
                                         <Select
                                             onChange={this.handleRelativeTime}
                                             style={{ width: '200px' }}
@@ -576,20 +588,20 @@ class DashboardSelector extends Component {
                                     <></>
                                 )}
 
-                                {this.state.timetype === 'explicit' ? (
+                                {this.state.timeType === 'explicit' ? (
                                     <ColumnLayout.Column style={calColStyle} span={1}>
                                         <input
                                             type="date"
                                             id="end"
                                             name="dashboard-end"
                                             onChange={this.endChange}
-                                         />
+                                        />
                                     </ColumnLayout.Column>
                                 ) : (
                                     <></>
                                 )}
 
-                                {this.state.timetype === '' ? (
+                                {this.state.timeType === '' ? (
                                     <ColumnLayout.Column style={calColStyle} span={1}>
                                         {' '}
                                         Please select a Time Range Type...
