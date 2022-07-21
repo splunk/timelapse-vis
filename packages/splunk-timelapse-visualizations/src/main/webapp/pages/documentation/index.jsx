@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Documentation } from '@splunk/timelapse-visual/Documentation';
 
 import layout from '@splunk/react-page';
 import { SplunkThemeProvider } from '@splunk/themes';
 import Heading from '@splunk/react-ui/Heading';
-import Documentation from '@splunk/documentation';
 import { StyledContainer } from './StartStyles';
 
 layout(
@@ -18,8 +18,10 @@ layout(
     >
         <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
             <StyledContainer>
-                <Heading level={1}>Documentation</Heading>
-                <Documentation />
+                <div>
+                    <Heading level={1}>Documentation</Heading>
+                    <Documentation />
+                </div>
             </StyledContainer>
         </SplunkThemeProvider>
     </div>
