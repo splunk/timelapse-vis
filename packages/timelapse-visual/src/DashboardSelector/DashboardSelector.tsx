@@ -199,13 +199,13 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
 
     endChange(event: any): void {
         this.setState({
-            rangeEnd: `${event.target.value} 00:00:00 ${this.state.tz}`,
+            rangeEnd: `${event.target.value} 00:00:00`,
         });
     }
 
     startChange(event: any): void {
         this.setState({
-            rangeStart: `${event.target.value} 00:00:00 ${this.state.tz}`,
+            rangeStart: `${event.target.value} 00:00:00`,
         });
     }
 

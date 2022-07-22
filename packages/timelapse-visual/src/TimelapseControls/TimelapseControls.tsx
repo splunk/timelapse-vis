@@ -77,12 +77,15 @@ function setRelative(startdelta) {
 const tz = params.get("tz");
 
 if (params.get("timerangetype") === "explicit") {
+  
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   rangeStart = Math.round(
     Date.parse(params.get("rangeStart")).valueOf() / 1000
-  );
+  )
   globalTime.setStart(rangeStart);
   rangeEnd = Math.round(Date.parse(params.get("rangeEnd")).valueOf() / 1000);
   globalTime.setEnd(rangeEnd);
+
 } else if (params.get("timerangetype") === "relative") {
   const rel = params.get("relativetime");
 
@@ -670,7 +673,6 @@ export default class TimelapseControls extends React.Component<{ name: string },
         />
       </DashboardContextProvider>
     );
-
     return (
       <div
         style={
@@ -896,6 +898,7 @@ export default class TimelapseControls extends React.Component<{ name: string },
                   {this.state.hasNotBeenFetched === true ? (
                     <></>
                   ) : (
+
                     <Slider
                       min={this.state.startTime * 1000}
                       value={this.state.time}
