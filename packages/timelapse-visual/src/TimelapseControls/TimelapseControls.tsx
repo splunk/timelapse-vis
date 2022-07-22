@@ -86,6 +86,15 @@ if (params.get("timerangetype") === "explicit") {
 } else if (params.get("timerangetype") === "relative") {
   const rel = params.get("relativetime");
 
+  if (rel === "1min") {
+    setRelative(1000 * 60 * 1);
+  }
+  if (rel === "5min") {
+    setRelative(1000 * 60 * 5);
+  }
+  if (rel === "10min") {
+    setRelative(1000 * 60 * 10);
+  }
   if (rel === "30min") {
     setRelative(1000 * 60 * 30);
   }

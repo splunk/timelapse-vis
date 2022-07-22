@@ -572,6 +572,9 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
                                             onChange={this.handleRelativeTime}
                                             style={{ width: '200px' }}
                                         >
+                                            <Select.Option value="1min" label="1 Minutes" />
+                                            <Select.Option value="5min" label="5 Minutes" />
+                                            <Select.Option value="10min" label="10 Minutes" />
                                             <Select.Option value="30min" label="30 Minutes" />
                                             <Select.Option value="1h" label="1 Hour" />
                                             <Select.Option value="6h" label="6 Hours" />
