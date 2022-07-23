@@ -298,7 +298,7 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
         );
 
         return (
-            <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
+            <SplunkThemeProvider family="prisma" colorScheme="dark" density="compact">
                 <div style={{ width: '100%' }}>
                     <StyledContainer style={{ width: '100%' }}>
                         <ColumnLayout gutter={1} style={{ width: '100%' }}>
@@ -317,7 +317,7 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
                                         Welcome {this.state.realname},
                                         <br />
                                     </Heading>
-                                    <Heading level={2}>
+                                    <Heading level={3}>
                                         This app will allow you to generate dashboards with custom
                                         time inputs. If you have any questions, please visit the{' '}
                                         <Link
@@ -335,7 +335,7 @@ class DashboardSelector extends Component<DashboardSelectorProps, DashboardSelec
                             </ColumnLayout.Row>
                             <ColumnLayout.Row>
                                 <ColumnLayout.Column style={colStyle} span={5}>
-                                    <Heading level={2}>
+                                    <Heading level={3}>
                                         If you understand how to use this app, than you can get
                                         started by using the following form to build your custom
                                         dashboard URL:
