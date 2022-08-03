@@ -1,4 +1,8 @@
-export async function getDashboardDefinition(dashboardId: string) {
+import { DashboardDefinition } from "../data/dashboardDefinition";
+
+export async function getDashboardDefinition(
+  dashboardId: string
+): Promise<DashboardDefinition> {
   try {
     const definition = await fetch(
       `/splunkd/servicesNS/-/-/data/ui/views/${dashboardId}?output_mode=json`,

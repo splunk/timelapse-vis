@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { getDashboardDefinition } from "../actions/getDashboardDefinition";
+import { getDashboardDefinition } from "../../actions/getDashboardDefinition";
 import Heading from "@splunk/react-ui/Heading";
 import Select, { SelectChangeHandler } from "@splunk/react-ui/Select";
 import { intervalToStep } from "./timeUtils";
