@@ -2,7 +2,7 @@ import React from "react";
 import { assert } from 'chai';
 import Enzyme, { mount } from 'enzyme';
 import EnzymeAdapterReact16 from 'enzyme-adapter-react-16';
-import { Documentation } from '../Documentation/Documentation';
+import { Documentation } from '../components/Documentation/Documentation';
 import Heading from "@splunk/react-ui/Heading";
 
 // This sets up the enzyme adapter

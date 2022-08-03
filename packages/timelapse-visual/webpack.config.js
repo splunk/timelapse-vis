@@ -7,14 +7,14 @@ module.exports = webpackMerge(baseComponentConfig, {
   entry: {
     DashboardSelector: path.join(
       __dirname,
-      "src/DashboardSelector/DashboardSelector.tsx"
+      "src/components/DashboardSelector/DashboardSelector.tsx"
     ),
-    Documentation: path.join(__dirname, "src/Documentation/Documentation.tsx"),
-    ListDashboard: path.join(__dirname, "src/ListDashboard/ListDashboard.tsx"),
-    RangeSlider: path.join(__dirname, "src/RangeSlider/RangeSlider.tsx"),
+    Documentation: path.join(__dirname, "src/components/Documentation/Documentation.tsx"),
+    ListDashboard: path.join(__dirname, "src/components/ListDashboard/ListDashboard.tsx"),
+    RangeSlider: path.join(__dirname, "src/components/RangeSlider/RangeSlider.tsx"),
     TimelapseControls: path.join(
       __dirname,
-      "src/TimelapseControls/TimelapseControls.tsx"
+      "src/components/TimelapseControls/TimelapseControls.tsx"
     ),
   },
   output: {
