@@ -3,13 +3,19 @@ import { useState, useEffect } from 'react';
 class GlobalTime {
     _times = [];
     _subs = new Set();
-    _cur = null;
+    _cur = -1;
     _timer = null;
     _loop = true;
     _speed = 1;
     _start = 0;
     _end = 0;
     span = 0;
+
+    /**
+     * 
+     * @param from start time 
+     * @param to end time
+     */
 
     setRange(from, to) {
         const times = [];
@@ -48,20 +54,6 @@ class GlobalTime {
         return () => {
             this._subs.delete(callback);
         };
-    }
-
-    subscribeToTime(callback) {
-        let cur = this.currentTime;
-        if (cur != null) {
-            callback(cur);
-        }
-        return this.subscribe(() => {
-            const next = this.currentTime;
-            if (next?.getTime() != cur?.getTime()) {
-                callback(next);
-                cur = next;
-            }
-        });
     }
 
     subscribeToTime(callback) {

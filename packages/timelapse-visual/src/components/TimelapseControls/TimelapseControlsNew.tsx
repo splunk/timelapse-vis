@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { getDashboardDefinition } from "../../actions/getDashboardDefinition";
+import { getDashboardDefinition } from "../../apis/getDashboardDefinition";
 import Heading from "@splunk/react-ui/Heading";
 import Select, { SelectChangeHandler } from "@splunk/react-ui/Select";
 import { intervalToStep } from "./timeUtils";
 import { globalTime } from "./timecontext";
 
-export type TimelapseControlsNew = RelativeTimelapseControls | ExplicitTimelapseControls;
+export type TimelapseControlsNewProps = RelativeTimelapseControls | ExplicitTimelapseControls;
 
 interface RelativeTimelapseControls {
     timeRangeType: "relative";
@@ -47,7 +47,7 @@ const renderPlaybackSpeed = (value: number, handleSpeedPicker: SelectChangeHandl
     );
 }
 
-export function TimelapseControlsNew(props: TimelapseControlsNew) {
+export function TimelapseControlsNew(props: TimelapseControlsNewProps) {
     const [error, setError] = useState<TimelapseError>({ isError: false, errorMessage: "" });
     const [isPlaying, stopPlaying] = useState(false);
     const [isReversing, stopReversing] = useState(false);

@@ -4,7 +4,7 @@ export async function getDashboardDefinition(
   dashboardId: string
 ): Promise<DashboardDefinition> {
   try {
-    const definition = await fetch(
+    return await fetch(
       `/splunkd/servicesNS/-/-/data/ui/views/${dashboardId}?output_mode=json`,
       {
         credentials: "include",
@@ -17,10 +17,8 @@ export async function getDashboardDefinition(
           "application/xml"
         );
         const xmlElement = xml.getElementsByTagName("definition");
-        const def = JSON.parse(xmlElement[0]?.textContent || "{}");
-        return def;
+        return JSON.parse(xmlElement[0]?.textContent || "{}");
       });
-    return definition;
   } catch (e) {
     throw new Error(
       "Error during definition retrieval/parsing of XML Definition."

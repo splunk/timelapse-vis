@@ -36,8 +36,3 @@ export type DashboardDefinition = {
     "ds.search": Record<string, unknown>;
   };
 };
-
-// visualizations, where your visualization stanzas and their options are placed.
-// inputs, where you create your inputs stanzas.
-// defaults, were you set global defaults.
-// layout, where you list your inputs, change the size of your canvas, and modify your dashboards.

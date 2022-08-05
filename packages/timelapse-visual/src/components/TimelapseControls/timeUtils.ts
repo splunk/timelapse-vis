@@ -1,6 +1,6 @@
 // Converts the time interval to a step value
 export const intervalToStep = (timeInterval: string): number => {
-  let step = 1000 * 60 * 60 * 24;
+  let step = 0;
   switch (timeInterval) {
     case "1sec":
       step = 1000;
@@ -24,7 +24,7 @@ export const intervalToStep = (timeInterval: string): number => {
       step = 1000 * 60 * 60 * 24 * 365;
       break;
     default:
-      step;
+      step = 1000 * 60 * 60 * 24;
   }
   return step;
 };
