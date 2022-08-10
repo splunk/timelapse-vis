@@ -47,22 +47,24 @@ const renderPlaybackSpeed = (value: number, handleSpeedPicker: SelectChangeHandl
     );
 }
 
+
+const DEFAULT_TIMESTAMP = "Press Play to Start Timelapse";
+
 export function TimelapseControlsNew(props: TimelapseControlsNewProps) {
     const [error, setError] = useState<TimelapseError>({ isError: false, errorMessage: "" });
-    const [isPlaying, stopPlaying] = useState(false);
-    const [isReversing, stopReversing] = useState(false);
     const [step, setStep] = useState(0);
     const [dashboardDefinition, setDashboardDefinition] = useState({});
     const [rangeStart, setRangeStart] = useState(0);
     const [rangeEnd, setRangeEnd] = useState(0);
     const [playbackMultiplier, setPlaybackMultiplier] = useState(4);
+    const [currentTimestamp, setCurrentTimestamp] = useState(DEFAULT_TIMESTAMP);
+    const [isConfigOpen, setConfigOpen] = useState(false);
 
     const handleSpeedPicker: SelectChangeHandler = (_e, value) => {
         if (typeof value === "number") {
             setPlaybackMultiplier(value);
         }
     };
-
 
     useEffect(() => {
         const dashboardId = params.get('dashboardid');
@@ -117,5 +119,6 @@ export function TimelapseControlsNew(props: TimelapseControlsNewProps) {
     }, [])
     return (<div>{error ? <div>Error when parsing the URL params</div> : <div>
         {renderPlaybackSpeed(playbackMultiplier, handleSpeedPicker)}
+        {/* <SliderWithButtons /> */}
     </div>}</div>);
 }
