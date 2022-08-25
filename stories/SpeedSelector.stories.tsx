@@ -2,14 +2,27 @@ import { Meta, Story } from '@storybook/react';
 import React from 'react';
 import { SliderWithButtons } from "../packages/timelapse-visual/src/components/TimelapseControls/SliderWithButtons";
 import { SplunkThemeProvider } from "@splunk/themes";
+import { SpeedSelector } from "../packages/timelapse-visual/src/components/TimelapseControls/SpeedSelector";
+import { SelectChangeHandler } from "@splunk/react-ui/Select";
 
 const meta: Meta = {
-    title: 'Slider with Buttons',
-    component: SliderWithButtons,
+    title: 'Speed Selectors',
+    component: SpeedSelector,
 };
 export default meta;
 
-export const SliderWithButtonsDefault: Story = () => {
+export const SpeedSelectorDefault: Story = () => {
+    const [ speedValue, setSpeedValue] = React.useState(4);
+
+    const handleSpeedPicker: SelectChangeHandler = (_e, value) => {
+        if (typeof value === "number") {
+            setSpeedValue(value);
+        }
+        if (typeof value === "string") {
+            setSpeedValue(value);
+        }
+    };
+
     return (
         <div
             style={
@@ -26,20 +39,7 @@ export const SliderWithButtonsDefault: Story = () => {
                 colorScheme="dark"
                 density="compact"
             >
-                <SliderWithButtons
-                    value={110}
-                    displayValue="110"
-                    onChange={() => { }}
-                    minValue={100}
-                    maxValue={500}
-                    step={25}
-                    minLabel={new Date(
-                        20 * 1000
-                    ).toLocaleString("en-US", { timeZone: "gmt" })}
-                    maxLabel={new Date(
-                        100 * 1000
-                    ).toLocaleString("en-US", { timeZone: "gmt" })}
-                />
+                <SpeedSelector value={speedValue} handleSpeedPicker={handleSpeedPicker} />
             </SplunkThemeProvider>
         </div >
     );

@@ -1,5 +1,11 @@
 type DataSource = "ds.search" | "ds.chain" | "ds.savedSearch" | "ds.test";
 
+export interface VizOptions extends Record<string, unknown> {
+  icon: string;
+  src: string; // TODO: confirm type is string
+  svg: string; // TODO: confirm type is string
+}
+
 export type DashboardDefinition = {
   dataSources: {
     [key: string]: {
@@ -13,7 +19,7 @@ export type DashboardDefinition = {
     [key: string]: {
       type: string;
       name: string;
-      options: Record<string, unknown>;
+      options: VizOptions;
       dataSources: Record<string, unknown>;
       description: string;
     };
