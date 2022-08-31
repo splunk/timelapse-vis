@@ -10,9 +10,21 @@
     "package": "mv packages/splunk-timelapse-visualizations/stage splunk-timelapse-visualizations && COPYFILE_DISABLE=true tar -zcvh --exclude='local/' --exclude='local.meta' --exclude='.DS_Store' -f splunk-timelapse-visualizations.tar.gz splunk-timelapse-visualizations/ && rm -rf splunk-timelapse-visualizations",
     "setup": "yarn && lerna run build",
     "start": "lerna run start --stream --no-sort --concurrency 100",
-    "test": "lerna run test --stream --no-sort"
+    "test": "lerna run test --stream --no-sort",
+    "storybook": "start-storybook -p 6007",
+    "build-storybook": "build-storybook"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@storybook/addon-actions": "^6.5.10",
+    "@storybook/addon-essentials": "^6.5.10",
+    "@storybook/addon-interactions": "^6.5.10",
+    "@storybook/addon-links": "^6.5.10",
+    "@storybook/builder-webpack4": "^6.5.10",
+    "@storybook/manager-webpack4": "^6.5.10",
+    "@storybook/react": "^6.5.10",
+    "@storybook/testing-library": "^0.0.13",
+    "babel-loader": "^8.2.5",
     "lerna": "^2.9.0",
     "prettier": "^2.0.5"
   },
