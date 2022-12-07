@@ -55,7 +55,7 @@ For more granular control of development scripts, consider using [Lerna](https:/
 
 On a Mac:
 
-`COPYFILE_DISABLE=true tar -zcvh --exclude='local/' --exclude='stage/' --exclude='local.meta' --exclude='.DS_Store' -f splunk-timelapse-visualizations.tar.gz splunk-timelapse-visualizations/`
+`COPYFILE_DISABLE=true tar -zcvh --exclude='.gitignore' --exclude='.git' --exclude='local/' --exclude='stage/' --exclude='local.meta' --exclude='.DS_Store' -f splunk-timelapse-visualizations.tar.gz splunk-timelapse-visualizations/`
 
 ## Code Formatting
 
