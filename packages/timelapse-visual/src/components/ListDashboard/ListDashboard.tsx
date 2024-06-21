@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react';
 import Select from '@splunk/react-ui/Select';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { QS } from '../types/splunkTypes';
 
 interface ListDashboardProps {

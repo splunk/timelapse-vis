@@ -47,6 +47,7 @@ interface TimelapseControlsState {
   width: number;
   height: number;
   dark: any;
+  family: any;
   leftOpen: boolean;
   error_ds_no__time: Array<unknown>;
   error_no_dash: boolean;
@@ -262,9 +263,12 @@ export default class TimelapseControls extends React.Component<{ name: string },
     super(props);
 
     let darktheme = false;
+    let enterprise = true;
     if (params.get("theme") === "dark") {
       darktheme = true;
     }
+ 
+
     this.state = {
       isPlaying: false,
       isReversing: false,
@@ -282,6 +286,7 @@ export default class TimelapseControls extends React.Component<{ name: string },
       width: 0,
       height: 0,
       dark: darktheme,
+      family: enterprise,
       leftOpen: false,
       error_ds_no__time: [],
       error_no_dash: false,
@@ -311,6 +316,7 @@ export default class TimelapseControls extends React.Component<{ name: string },
     this.handleSliderChange = this.handleSliderChange.bind(this);
     this.updateDataSources = this.updateDataSources.bind(this);
     this.handleDarkModeClick = this.handleDarkModeClick.bind(this);
+    this.handleThemeFamilyClick = this.handleThemeFamilyClick.bind(this);
     this.openLeftPanel = this.openLeftPanel.bind(this);
     this.handleRequestOpen = this.handleRequestOpen.bind(this);
     this.handlePanelChange = this.handlePanelChange.bind(this);
@@ -605,6 +611,10 @@ export default class TimelapseControls extends React.Component<{ name: string },
     this.setState({ dark: !this.state.dark });
   }
 
+  handleThemeFamilyClick() {
+    this.setState({ family: !this.state.family });
+  }
+
   handleRequestOpen(dockPosition) {
     if (dockPosition === "bottomOpen") {
       setBottomOpen(true);
@@ -694,7 +704,7 @@ export default class TimelapseControls extends React.Component<{ name: string },
         }
       >
         <SplunkThemeProvider
-          family="enterprise"
+          family={this.state.family ? "enterprise" : "prisma"}
           colorScheme={this.state.dark ? "dark" : "light"}
           density="compact"
         >
@@ -741,6 +751,14 @@ export default class TimelapseControls extends React.Component<{ name: string },
                         appearance="toggle"
                       >
                         Dark Mode
+                      </Switch>{" "}
+                      <Switch
+                        value="enterprise"
+                        onClick={this.handleThemeFamilyClick}
+                        selected={this.state.family}
+                        appearance="toggle"
+                      >
+                        Enterprise Theme
                       </Switch>{" "}
                       <Heading level={3}>Playback Speed:</Heading>
                       <Select

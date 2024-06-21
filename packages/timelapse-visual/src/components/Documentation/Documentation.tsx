@@ -17,7 +17,7 @@ export const Documentation = () => {
                 backgroundColor: '#171D21',
             }}
         >
-            <SplunkThemeProvider family="enterprise" colorScheme="dark" density="compact">
+            <SplunkThemeProvider family="prisma" colorScheme="dark" density="compact">
                 <Heading>Getting started</Heading>
                 <P>
                     To get started using this app, visit the <Link to="start">Start</Link>{' '}
